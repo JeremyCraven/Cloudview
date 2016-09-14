@@ -8,13 +8,22 @@
 			<span flex=""></span>
 
 			<md-button id="signup-button"  ng-click="signup()" class="md-button" type="button" aria-label="Sign Up">
-				{{ "LOGIN.SIGNUP.SIGNUP" | translate }}
+				{{ "SIGNUP.SIGNUP" | translate }}
 			</md-button>
 		</div>
 	</md-toolbar>
 	<md-content class="md-padding" layout="column" layout-align="center center" flex="">
 		<form name="loginForm" layout="column" ng-submit="loginForm.$valid && login()">
 			<md-card style="max-width: 300px;">
+				<md-toolbar hide-xs>
+					<div class="md-toolbar-tools">
+						<h1 id="title">
+							<span>{{ "LOGIN.TITLE" | translate }}</span>
+						</h1>
+						<!-- central gap -->
+						<span flex=""></span>
+					</div>
+				</md-toolbar>
 				<md-card-content layout="column" style="padding-bottom: 0px;">
 					<md-input-container style="margin: 0px">
 						<label>{{ "GENERAL.USERNAME_EMAIL" | translate }}</label>

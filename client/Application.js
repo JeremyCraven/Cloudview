@@ -33,7 +33,7 @@ define([
 			.primaryPalette('teal')
 			.accentPalette('amber');
 			$mdThemingProvider.theme('CloudViewTheme-Dark')
-			.primaryPalette('light-blue')
+			.primaryPalette('teal')
 			.accentPalette('amber')
 			.dark();
 			$mdThemingProvider.setDefaultTheme('CloudViewTheme');
