@@ -7,9 +7,10 @@ define([
 		'$mdSidenav',
 		function FolderController($scope, $state, $mdSidenav) {
 			$scope.user = {
+				hasName:	true,
 				username:	'john.doe123',
 				name:		'John Doe',
-				accounds: [
+				accounts: [
 					{
 						type:		'Google',
 						username:	'john.doe123@googlemail.com',
@@ -17,17 +18,20 @@ define([
 					},
 					{
 						type:		'Google',
-						username:	'John.Doe@work.com'
+						username:	'John.Doe@work.com',
+						dirs: []
 					},
 					{
 						type:		'Dropbox',
-						username:	'john.doe123'
+						username:	'john.doe123',
+						dirs: []
 					}
 				]
 			};
 			$scope.folder = {
 				title: 'New Folder',
-				accound: 'Gmail', //TODO: Bacakend guy figure out datatype
+				account: 'Gmail', //TODO: Bacakend guy figure out datatype
+				path:	['party', 'suuplies'],
 				subfolders: [
 					'Sub1',
 					'sub2',
@@ -38,7 +42,6 @@ define([
 				files:	[]
 			}
 			$scope.toggleSidenav = function() {
-				debugger;
 				$mdSidenav('left').toggle();
 			};
 		}

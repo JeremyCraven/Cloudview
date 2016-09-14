@@ -1,19 +1,32 @@
 <div style="height: 100vh; width: 100vw;" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
         <md-toolbar class="md-tall">
-			<span flex=""></span>
+            <span flex=""></span>
             <div class="md-toolbar-tools">
-                <h2>My name here</h2>
-				<span flex=""></span>
+				<div layout="column" ng-if="user.hasName">
+					<h2>{{user.name}}</h2>
+					<p class="md-body-1" style="margin: 0;">{{user.username}}</p>
+				</div>
+				<h2 ng-if="!user.hasName">{{user.username}}</h2>
+                <span flex=""></span>
             </div>
         </md-toolbar>
-        <md-content class="md-padding">
+        <md-content>
             <!-- TODO: sidebar nav content -->
             <!--	TODO: list accounts -->
             <!--	TODO: place directory tree -->
-			<p>
-				 lorum ipsum
-			</p>
+            <section>
+                <md-subheader class="md-primary">Accounts</md-subheader>
+                <md-list layout-padding>
+                    <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
+                        <!--<img ng-src="{{message.face}}" class="md-avatar" alt="{{message.who}}">-->
+                        <div class="md-list-item-text">
+                            <h3>{{account.type}}</h3>
+                            <h4>{{account.username}}</h4>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </section>
         </md-content>
     </md-sidenav>
     <div layout="column" flex="">
