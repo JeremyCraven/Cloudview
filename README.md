@@ -24,3 +24,9 @@ Now run mongodb
 ```
 $ mongod
 ```
+
+# Client Dependencies
+```
+$ cd client
+$ bower install
+```
