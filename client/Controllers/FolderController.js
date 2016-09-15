@@ -61,6 +61,34 @@ define([
 					{
 						name: "File 6",
 						type: 'word'
+					},
+					{
+						name: "File 7",
+						type: 'word'
+					},
+					{
+						name: "File 8",
+						type: 'word'
+					},
+					{
+						name: "File 9",
+						type: 'word'
+					},
+					{
+						name: "File 10",
+						type: 'word'
+					},
+					{
+						name: "File 11",
+						type: 'word'
+					},
+					{
+						name: "File 12",
+						type: 'word'
+					},
+					{
+						name: "File 13",
+						type: 'word'
 					}
 				]
 			}

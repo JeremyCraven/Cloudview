@@ -1,6 +1,7 @@
 <div style="height: 100vh; width: 100vw;" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
-        <md-toolbar class="md-tall"><!-- md-theme="dark-grey"> -->
+        <md-toolbar class="md-tall">
+            <!-- md-theme="dark-grey"> -->
             <span flex=""></span>
             <div class="md-toolbar-tools">
                 <div layout="column" ng-if="user.hasName">
@@ -39,40 +40,43 @@
                 <span flex></span>
             </div>
         </md-toolbar>
-        <md-content class="md-padding" layout="column"flex="">
+        <md-content layout="column" flex="">
             <!-- TODO: stuff goes here -->
-			<section>
-                <md-subheader class="md-primary">Folders</md-subheader>
-	            <div layout="row" layout-wrap>
-					<div flex-xs="100" flex-sm="50"  flex-md="25" flex-gt-md="20" ng-repeat="sub in folder.subfolders">
-						<md-card>
-							<md-card-content layout="row" layout-align="start center" style="padding: .5rem;">
-								<img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;" />
-								<p style="margin-top: 8px; margin-bottom: 8px;">
-									{{sub}}
-								</p>
-								<span flex=""></span>
-							</md-card-content>
-						</md-card>
-					</div>
+            <section>
+                <md-subheader class="md-primary"><span style="padding-left: 8px;">Folders</span></md-subheader>
+                <div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
+                    <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
+                        <md-card>
+                            <md-card-content layout="row" layout-align="start center" style="padding: .5rem;">
+                                <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
+                                <p style="margin-top: 8px; margin-bottom: 8px;">
+                                    {{sub}}
+                                </p>
+                                <span flex=""></span>
+                            </md-card-content>
+                        </md-card>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <md-subheader class="md-primary"><span style="padding-left: 8px;">Files</span></md-subheader>
+				<div class="md-padding" style="padding-top: 0px;">
+					<md-grid-list id="files"
+						md-cols-xs="2"
+						md-cols-sm="4"
+						md-cols-md="8"
+						md-cols-lg="10"
+						md-cols-xl="20"
+						md-row-height="1:1"
+						md-gutter="12px"
+						md-gutter-gt-sm="8px" >
+						<md-grid-tile style="background-color: blue;" ng-repeat="file in folder.files">
+						    <md-grid-tile-footer>
+						        <h3>{{file.name}}</h3>
+						    </md-grid-tile-footer>
+						</md-grid-tile>
+					</md-grid-list>
 				</div>
-			</section>
-			<section flex="">
-				<md-subheader class="md-primary">Files</md-subheader>
-				<md-grid-list id="files"
-					md-cols-xs="2"
-					md-cols-sm="4"
-					md-cols-md="6"
-					md-cols-gt-md="10"
-					md-row-height="1:1"
-					md-gutter="12px"
-					md-gutter-gt-sm="8px">
-					<md-grid-tile style="background-color: blue;" ng-repeat="file in folder.files">
-					    <md-grid-tile-footer>
-					        <h3>{{file.name}}</h3>
-					    </md-grid-tile-footer>
-					</md-grid-tile>
-				</md-grid-list>
-			</section>
+            </section>
         </div>
     </div>
