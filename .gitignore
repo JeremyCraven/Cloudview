@@ -47,6 +47,7 @@ Icon
 
 # Sublime
 *.sublime-project
+*.sublime-workspace
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
