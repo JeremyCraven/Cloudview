@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 // MODELS
+var Directory = require('./models/directory');
 
 // MONGO
 //mongoose.connect('mongodb://localhost:27017/db_name');
