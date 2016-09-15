@@ -1,13 +1,13 @@
 <div style="height: 100vh; width: 100vw;" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
-        <md-toolbar class="md-tall">
+        <md-toolbar class="md-tall"><!-- md-theme="dark-grey"> -->
             <span flex=""></span>
             <div class="md-toolbar-tools">
-				<div layout="column" ng-if="user.hasName">
-					<h2>{{user.name}}</h2>
-					<p class="md-body-1" style="margin: 0;">{{user.username}}</p>
-				</div>
-				<h2 ng-if="!user.hasName">{{user.username}}</h2>
+                <div layout="column" ng-if="user.hasName">
+                    <h2>{{user.name}}</h2>
+                    <p class="md-body-1" style="margin: 0;">{{user.username}}</p>
+                </div>
+                <h2 ng-if="!user.hasName">{{user.username}}</h2>
                 <span flex=""></span>
             </div>
         </md-toolbar>
@@ -19,7 +19,7 @@
                 <md-subheader class="md-primary">Accounts</md-subheader>
                 <md-list layout-padding>
                     <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
-                        <!--<img ng-src="{{message.face}}" class="md-avatar" alt="{{message.who}}">-->
+                        <img src="Views/img/icons/ic_cloud_48px.svg" class="md-avatar" alt="cloud account" style="border-radius: 0px; fill: white;">
                         <div class="md-list-item-text">
                             <h3>{{account.type}}</h3>
                             <h4>{{account.username}}</h4>
@@ -39,9 +39,40 @@
                 <span flex></span>
             </div>
         </md-toolbar>
-        <md-content class="md-padding" layout="column" layout-align="center center" flex="">
+        <md-content class="md-padding" layout="column"flex="">
             <!-- TODO: stuff goes here -->
-
-        </md-content>
+			<section>
+                <md-subheader class="md-primary">Folders</md-subheader>
+	            <div layout="row" layout-wrap>
+					<div flex-xs="100" flex-sm="50"  flex-md="25" flex-gt-md="20" ng-repeat="sub in folder.subfolders">
+						<md-card>
+							<md-card-content layout="row" layout-align="start center" style="padding: .5rem;">
+								<img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;" />
+								<p style="margin-top: 8px; margin-bottom: 8px;">
+									{{sub}}
+								</p>
+								<span flex=""></span>
+							</md-card-content>
+						</md-card>
+					</div>
+				</div>
+			</section>
+			<section flex="">
+				<md-subheader class="md-primary">Files</md-subheader>
+				<md-grid-list id="files"
+					md-cols-xs="2"
+					md-cols-sm="4"
+					md-cols-md="6"
+					md-cols-gt-md="10"
+					md-row-height="1:1"
+					md-gutter="12px"
+					md-gutter-gt-sm="8px">
+					<md-grid-tile style="background-color: blue;" ng-repeat="file in folder.files">
+					    <md-grid-tile-footer>
+					        <h3>{{file.name}}</h3>
+					    </md-grid-tile-footer>
+					</md-grid-tile>
+				</md-grid-list>
+			</section>
+        </div>
     </div>
-</div>

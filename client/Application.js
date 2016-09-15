@@ -38,6 +38,9 @@ define([
 			.primaryPalette('teal')
 			.accentPalette('amber')
 			.dark();
+			$mdThemingProvider.theme('dark-grey')
+			.primaryPalette('blue-grey')
+			.dark();
 			$mdThemingProvider.setDefaultTheme('CloudViewTheme');
 		}
 	]).config([

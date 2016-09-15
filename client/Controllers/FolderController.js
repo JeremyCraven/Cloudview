@@ -13,18 +13,15 @@ define([
 				accounts: [
 					{
 						type:		'Google',
-						username:	'john.doe123@googlemail.com',
-						dirs: []
+						username:	'john.doe123@googlemail.com'
 					},
 					{
 						type:		'Google',
-						username:	'John.Doe@work.com',
-						dirs: []
+						username:	'John.Doe@work.com'
 					},
 					{
 						type:		'Dropbox',
-						username:	'john.doe123',
-						dirs: []
+						username:	'john.doe123'
 					}
 				]
 			};
@@ -35,11 +32,37 @@ define([
 				subfolders: [
 					'Sub1',
 					'sub2',
-					'aaaaaaabc',
-					'Canada',
-					'Evil things No.6'
+					'Sub3',
+					'Sub4',
+					'Sub5',
+					'Sub6'
 				],
-				files:	[]
+				files:	[
+					{
+						name: "File 1",
+						type: 'word'
+					},
+					{
+						name: "File 2",
+						type: 'word'
+					},
+					{
+						name: "File 3",
+						type: 'word'
+					},
+					{
+						name: "File 4",
+						type: 'word'
+					},
+					{
+						name: "File 5",
+						type: 'word'
+					},
+					{
+						name: "File 6",
+						type: 'word'
+					}
+				]
 			}
 			$scope.toggleSidenav = function() {
 				$mdSidenav('left').toggle();
