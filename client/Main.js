@@ -10,6 +10,7 @@ require.config({
 		'pascalprecht.translate':
 						'./bower_components/angular-translate/angular-translate',
 		'ui.router':	'./bower_components/angular-ui-router/release/angular-ui-router',
+		'ui.tree':		'./bower_components/angular-ui-tree/dist/angular-ui-tree',
 		'validation.match':
 						'./bower_components/angular-validation-match/dist/angular-validation-match',
 		'domReady':		'./bower_components/domready/domReady',
@@ -44,6 +45,9 @@ require.config({
 			deps: ['angular']
 		},
 		'ui.router': {
+			deps: ['angular']
+		},
+		'ui.tree': {
 			deps: ['angular']
 		},
 		'validation.match': {

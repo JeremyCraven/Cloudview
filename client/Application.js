@@ -7,6 +7,7 @@ define([
 	'ngSanitize',
 	'pascalprecht.translate',
 	'ui.router',
+	'ui.tree',
 	'validation.match',
 	//our components
     './Controllers/Index',
@@ -23,6 +24,7 @@ define([
 		'ngSanitize',
 		'pascalprecht.translate',
 		'ui.router',
+		'ui.tree',
 		'validation.match',
 		//our modules
 		'CloudView.Controllers'
