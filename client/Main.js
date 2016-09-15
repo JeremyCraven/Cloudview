@@ -13,7 +13,7 @@ require.config({
 		'ui.tree':		'./bower_components/angular-ui-tree/dist/angular-ui-tree',
 		'validation.match':
 						'./bower_components/angular-validation-match/dist/angular-validation-match',
-		'domReady':		'./bower_components/domready/domReady',
+		'domReady':		'./bower_components/domReady/domReady',
 		//our code
 		//'Controllers':	'./Controllers/Index',
 		'Directives':	'./Directive/Index',
