@@ -11,6 +11,7 @@ define([
 	'validation.match',
 	//our components
     './Controllers/Index',
+	'./Services/Index',
 	'./Localisation/BrowserLanguage',
 	'./Localisation/en',
 	'./Localisation/it'
@@ -28,6 +29,8 @@ define([
 		'validation.match',
 		//our modules
 		'CloudView.Controllers'
+		//TODO: uncomment when first service made
+		//'CloudView.Services'
 	]).config([
 		'$mdThemingProvider',
 		function($mdThemingProvider) {
