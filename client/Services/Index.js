@@ -1,3 +1,3 @@
 define([
-	//TODO:  add services when made
+	'./AccountServices'
 ], function () {});
