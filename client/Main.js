@@ -19,7 +19,7 @@ require.config({
 		'Directives':	'./Directive/Index',
 		'Filters':		'./Filters/Index',
 		'Libraries':	'./Libraries/Index',
-		'Services':		'./Services/Index'
+		//'Services':		'./Services/Index'
 
 	},
     shim: {
