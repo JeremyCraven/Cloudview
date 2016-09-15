@@ -39,10 +39,14 @@ bower_components
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
+
+# Sublime
+*.sublime-project
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100

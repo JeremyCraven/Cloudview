@@ -1,15 +1,27 @@
+// Load required packages
 var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+
+// MODELS
+
+// MONGO
+//mongoose.connect('mongodb://localhost:27017/db_name');
+
+// Create the app
 var app = express();
 
-app.get('/', function (req, res) {
-   res.send('Hello World');
-})
+// App use
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/client'));
 
-var server = app.listen(8081, function () {
+// Register all our routes
+app.use('/', require('./router'));
 
-  var host = server.address().address
-  var port = server.address().port
+// Get the port
+var port = process.env.PORT || 8081;
 
-  console.log("Example app listening at http://%s:%s", host, port)
-
-})
+// Start the server
+app.listen(port, () => {
+    console.log(`Server listening on port: ${port}`);
+});
