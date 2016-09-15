@@ -1,0 +1,26 @@
+{
+  "name": "cloudview",
+  "version": "1.0.0",
+  "description": "- Install [node](http://lmgtfy.com/?q=install+node.js) and [express](http://lmgtfy.com/?q=install+express) - Run ``node server.js`` - Visit ``http://localhost:8081/``",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rwisniewski1101/CloudView.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rwisniewski1101/CloudView/issues"
+  },
+  "homepage": "https://github.com/rwisniewski1101/CloudView#readme"
+}
