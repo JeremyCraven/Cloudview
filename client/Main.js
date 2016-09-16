@@ -15,11 +15,11 @@ require.config({
 						'./bower_components/angular-validation-match/dist/angular-validation-match',
 		'domReady':		'./bower_components/domReady/domReady',
 		//our code
-		//'Controllers':	'./Controllers/Index',
-		'Directives':	'./Directive/Index',
-		'Filters':		'./Filters/Index',
-		'Libraries':	'./Libraries/Index',
-		//'Services':		'./Services/Index'
+		'Controllers':	'./Controllers',
+		'Directives':	'./Directive',
+		'Filters':		'./Filters',
+		'Libraries':	'./Libraries',
+		'Services':		'./Services'
 
 	},
     shim: {

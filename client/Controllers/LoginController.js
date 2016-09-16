@@ -4,8 +4,8 @@ define([
 	return module.controller('CloudView.Controllers.Login', [
 		'$scope',
 		'$state',
-		'CloudView.Services'
-		function LoginController($scope, $state, CloudView.Services) {
+		'CloudView.Services.AccountServices',
+		function LoginController($scope, $state, AccountServices) {
 			$scope.username = '';
 			$scope.password = '';
 
@@ -17,16 +17,16 @@ define([
 			$scope.loading = false;
 
 			$scope.login = function() {
-				var credentials = { 
+				var credentials = {
 					username: $scope.username,
-					password: $scope.password 
+					password: $scope.password
 				};
-				CloudView.Services.AccountServices.login(credentials)
+				AccountServices.login(credentials)
 					.then(
 						function(result) {
 							var data = result.data;
 							// do something with data
-						}, 
+						},
 						function(result) {
 							var error = result.data;
 							// do something with error

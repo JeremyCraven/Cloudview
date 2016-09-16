@@ -10,8 +10,8 @@ define([
 	'ui.tree',
 	'validation.match',
 	//our components
-    './Controllers/Index',
-	'./Services/Index',
+    'Controllers/Index',
+	'Services/Index',
 	'./Localisation/BrowserLanguage',
 	'./Localisation/en',
 	'./Localisation/it'
