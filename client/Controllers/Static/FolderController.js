@@ -13,15 +13,30 @@ define([
 				accounts: [
 					{
 						type:		'Google',
-						username:	'john.doe123@googlemail.com'
+						username:	'john.doe123@googlemail.com',
+						active: true,
+						space: {
+							used:	1024,
+							available:	15*1024*1024*1024
+						}
 					},
 					{
 						type:		'Google',
-						username:	'John.Doe@work.com'
+						username:	'John.Doe@work.com',
+						active:		false,
+						space: {
+							used: 960*1024*1024,
+							available: 5*1024*1024*1024
+						}
 					},
 					{
 						type:		'Dropbox',
-						username:	'john.doe123'
+						username:	'john.doe123',
+						active:		false,
+						space: {
+							used: 14.5*1024*1024*1024,
+							available: 15*1024*1024*1024
+						}
 					}
 				]
 			};
@@ -29,68 +44,18 @@ define([
 				title: 'New Folder',
 				account: 'Gmail', //TODO: Bacakend guy figure out datatype
 				path:	['party', 'suuplies'],
-				subfolders: [
-					'Sub1',
-					'sub2',
-					'Sub3',
-					'Sub4',
-					'Sub5',
-					'Sub6'
-				],
-				files:	[
-					{
-						name: "File 1",
-						type: 'word'
-					},
-					{
-						name: "File 2",
-						type: 'word'
-					},
-					{
-						name: "File 3",
-						type: 'word'
-					},
-					{
-						name: "File 4",
-						type: 'word'
-					},
-					{
-						name: "File 5",
-						type: 'word'
-					},
-					{
-						name: "File 6",
-						type: 'word'
-					},
-					{
-						name: "File 7",
-						type: 'word'
-					},
-					{
-						name: "File 8",
-						type: 'word'
-					},
-					{
-						name: "File 9",
-						type: 'word'
-					},
-					{
-						name: "File 10",
-						type: 'word'
-					},
-					{
-						name: "File 11",
-						type: 'word'
-					},
-					{
-						name: "File 12",
-						type: 'word'
-					},
-					{
-						name: "File 13",
-						type: 'word'
-					}
-				]
+				subfolders: [],
+				files:	[]
+			}
+			for(var i = 0; i<13; i++) {
+				$scope.folder.subfolders.push('Folder ' + (i+1));
+			}
+			for(var i = 0; i<100; i++) {
+				$scope.folder.files.push({
+					name: 'File  ' + (i+1),
+					type: 'word',
+					account: i % $scope.user.accounts.length
+				});
 			}
 			$scope.toggleSidenav = function() {
 				$mdSidenav('left').toggle();

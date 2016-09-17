@@ -1,3 +1,23 @@
+<!-- TODO: finish codes -->
+<style>
+	.account-0 {background-color: #0088FF;} /* C64 14 LightBlue */
+	.account-1 {background-color: #AAFF66;} /* C64 13 LightGreen */
+	.account-2 {background-color: #FF7777;} /* C64 10 LightRed */
+	.account-3 {background-color: #EEEE77;} /* C64 07 Yellow */
+</style>
+<style>
+	.folder_item {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		width: 100%;
+		display: block;
+	}
+	.folder_file figcaption {
+		width: 100%;
+		display: flex;
+	}
+</style>
 <div style="height: 100vh; width: 100vw;" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
         <md-toolbar class="md-tall">
@@ -47,12 +67,14 @@
                 <div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
                     <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
                         <md-card>
-                            <md-card-content layout="row" layout-align="start center" style="padding: .5rem;">
+							<md-tooltip md-delay="1000">
+								{{sub}}
+							</md-tooltip>
+                            <md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
                                 <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
-                                <p style="margin-top: 8px; margin-bottom: 8px;">
+                                <p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
                                     {{sub}}
                                 </p>
-                                <span flex=""></span>
                             </md-card-content>
                         </md-card>
                     </div>
@@ -70,9 +92,12 @@
 						md-row-height="1:1"
 						md-gutter="12px"
 						md-gutter-gt-sm="8px" >
-						<md-grid-tile style="background-color: blue;" ng-repeat="file in folder.files">
-						    <md-grid-tile-footer>
-						        <h3>{{file.name}}</h3>
+						<md-grid-tile ng-repeat="file in folder.files" class="account-{{file.account}}">
+						    <md-grid-tile-footer class="folder_file">
+								<md-tooltip md-delay="1000">
+									{{file.name}}
+								</md-tooltip>
+						        <h3 style="margin: 16px;" class="folder_item">{{file.name}}</h3>
 						    </md-grid-tile-footer>
 						</md-grid-tile>
 					</md-grid-list>
