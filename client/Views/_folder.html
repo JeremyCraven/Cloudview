@@ -17,7 +17,20 @@
 		width: 100%;
 		display: flex;
 	}
+	.cloud_ic {
+		fill: none;
+	}
+	.cloud_ic_0 {
+		stroke: #0088FF;
+	}
+	.cloud_ic_1{
+		stroke: #AAFF66;
+	}
+	.cloud_ic_2 {
+		stroke: #FF7777;
+	}
 </style>
+<script src="./img/icons/ic_cloud_48.svg" id="cloud_ico.svg"></script>
 <div style="height: 100vh; width: 100vw;" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
         <md-toolbar class="md-tall">
@@ -40,7 +53,7 @@
                 <md-subheader class="md-primary">Accounts</md-subheader>
                 <md-list layout-padding>
                     <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
-                        <img src="Views/img/icons/ic_cloud_48px.svg" class="md-avatar" alt="cloud account" style="border-radius: 0px; fill: white;">
+                        <div ng-include="'./Views/img/icons/ic_cloud_48px.svg'" class="md-avatar cloud_ic cloud_ic_{{$index}}" alt="cloud account" style="border-radius: 0px; fill: white;"></div>
                         <div class="md-list-item-text">
                             <h3>{{account.type}}</h3>
                             <h4>{{account.username}}</h4>

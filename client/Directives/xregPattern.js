@@ -1,7 +1,7 @@
 define([
     './Module',
     'xregexp'
-], function(module) {
+], function(module, XRegExp) {
     'use strict';
     return module.directive('xregPattern', function patternTest($parse) {
         return {

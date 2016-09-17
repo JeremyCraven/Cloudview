@@ -25,6 +25,7 @@
     "domReady": "requirejs-domready#^2.0.1",
     "angular-aria": "^1.5.8",
     "angular-ui-tree": "^2.22.0",
-    "xregexp": "^3.1.1"
+    "xregexp": "^3.1.1",
+    "underscore": "^1.8.3"
   }
 }
