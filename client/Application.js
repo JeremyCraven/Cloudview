@@ -12,6 +12,7 @@ define([
 	//our components
     'Controllers/Index',
 	'Directives/Index',
+	'Filters/Index',
 	'Services/Index',
 	'./Localisation/BrowserLanguage',
 	'./Localisation/en',
@@ -31,6 +32,7 @@ define([
 		//our modules
 		'CloudView.Controllers',
 		'CloudView.Directives',
+		'CloudView.Filters',
 		'CloudView.Services'
 	]).config([
 		'$mdThemingProvider',

@@ -17,17 +17,14 @@
 		width: 100%;
 		display: flex;
 	}
-	.cloud_ic {
-		fill: none;
+	.cloud_ic_0 svg path{
+		fill: #0088FF;
 	}
-	.cloud_ic_0 {
-		stroke: #0088FF;
+	.cloud_ic_1 svg path{
+		fill: #AAFF66;
 	}
-	.cloud_ic_1{
-		stroke: #AAFF66;
-	}
-	.cloud_ic_2 {
-		stroke: #FF7777;
+	.cloud_ic_2 svg path{
+		fill: #FF7777;
 	}
 </style>
 <script src="./img/icons/ic_cloud_48.svg" id="cloud_ico.svg"></script>
@@ -52,13 +49,19 @@
             <section>
                 <md-subheader class="md-primary">Accounts</md-subheader>
                 <md-list layout-padding>
-                    <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
-                        <div ng-include="'./Views/img/icons/ic_cloud_48px.svg'" class="md-avatar cloud_ic cloud_ic_{{$index}}" alt="cloud account" style="border-radius: 0px; fill: white;"></div>
-                        <div class="md-list-item-text">
-                            <h3>{{account.type}}</h3>
-                            <h4>{{account.username}}</h4>
-                        </div>
-                    </md-list-item>
+					<div ng-repeat="account in user.accounts" ng-model="account" ng-click="user.account_toggle($index)">
+						<md-list-item class="md-2-line">
+							<!-- TODO: Click change state event -->
+	                        <div class="md-avatar cloud_ic cloud_ic_{{$index}}" style="border-radius: 0px;">
+								<ng-include ng-if="account.active" src="'./Views/img/icons/ic_cloud_done_48px.svg'"></ng-include>
+								<ng-include  ng-if="!account.active" src="'./Views/img/icons/ic_cloud_off_48px.svg'"></ng-include>
+							</div>
+	                        <div class="md-list-item-text">
+	                            <h3>{{account.type}}</h3>
+	                            <h4>{{account.username}}</h4>
+	                        </div>
+	                    </md-list-item>
+					</div>
                 </md-list>
             </section>
         </md-content>
@@ -105,7 +108,7 @@
 						md-row-height="1:1"
 						md-gutter="12px"
 						md-gutter-gt-sm="8px" >
-						<md-grid-tile ng-repeat="file in folder.files" class="account-{{file.account}}">
+						<md-grid-tile ng-repeat="file in folder.files | selectedAccounts: user.accounts" class="account-{{file.account}}">
 						    <md-grid-tile-footer class="folder_file">
 								<md-tooltip md-delay="1000">
 									{{file.name}}

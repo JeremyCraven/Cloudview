@@ -60,6 +60,9 @@ define([
 			$scope.toggleSidenav = function() {
 				$mdSidenav('left').toggle();
 			};
+			$scope.user.account_toggle = function(index) {
+				$scope.user.accounts[index].active ^= true;
+			}
 		}
 	]);
 });
