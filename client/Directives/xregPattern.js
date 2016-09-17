@@ -1,23 +1,19 @@
-// Copyright 2015 Richard Wisniewski
-(function() {
+define([
+	'./Module',
+	'xregexp'
+], function(module) {
 	'use strict';
-
-	angular.module('validation.xregex', []);
-
-	angular.module('validation.xregex').directive('xregPattern', patternTest);
-
-	function patternTest ($parse) {
+	return module.directive('xregPattern', function patternTest ($parse) {
 		return {
 		    require: '?ngModel',
 		    restrict: 'A',
 		    link: function(scope, elem, attrs, ctrl) {
-
+				var regex = XRegExp(attrs.xregPattern)
 				ctrl.$validators.xregPattern = function(){
-					var regex = XRegExp(attrs.xregPattern)
 					var value = regex.test(ctrl.$viewValue) === true;
 					return value;
 				};
 			}
 		};
-	}
-})();
+	});
+});

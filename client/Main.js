@@ -14,9 +14,10 @@ require.config({
 		'validation.match':
 						'./bower_components/angular-validation-match/dist/angular-validation-match',
 		'domReady':		'./bower_components/domReady/domReady',
+		'xregexp':		'./bower_components/xregexp/xregexp-all',
 		//our code
 		'Controllers':	'./Controllers',
-		'Directives':	'./Directive',
+		'Directives':	'./Directives',
 		'Filters':		'./Filters',
 		'Libraries':	'./Libraries',
 		'Services':		'./Services'
@@ -54,5 +55,5 @@ require.config({
 			deps: ['angular']
 		}
     },
-    deps: ['./Bootstrap']
+    deps: ['xregexp', './Bootstrap']
 });
