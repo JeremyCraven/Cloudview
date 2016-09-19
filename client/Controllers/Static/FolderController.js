@@ -23,7 +23,7 @@ define([
 					{
 						type:		'Google',
 						username:	'John.Doe@work.com',
-						active:		false,
+						active:		true,
 						space: {
 							used: 960*1024*1024,
 							available: 5*1024*1024*1024
@@ -61,7 +61,7 @@ define([
 				$mdSidenav('left').toggle();
 			};
 			$scope.user.account_toggle = function(index) {
-				$scope.user.accounts[index].active ^= true;
+				$scope.user.accounts[index].active = !$scope.user.accounts[index].active;
 			}
 		}
 	]);

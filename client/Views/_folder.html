@@ -78,46 +78,60 @@
         </md-toolbar>
         <md-content layout="column" flex="">
             <!-- TODO: stuff goes here -->
-            <section>
-                <md-subheader class="md-primary"><span style="padding-left: 8px;">Folders</span></md-subheader>
-                <div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
-                    <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
-                        <md-card>
-							<md-tooltip md-delay="1000">
-								{{sub}}
-							</md-tooltip>
-                            <md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
-                                <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
-                                <p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
-                                    {{sub}}
-                                </p>
-                            </md-card-content>
-                        </md-card>
-                    </div>
-                </div>
-            </section>
-            <section ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length">
-                <md-subheader class="md-primary"><span style="padding-left: 8px;">Files</span></md-subheader>
-				<div class="md-padding" style="padding-top: 0px;">
-					<md-grid-list id="files"
-						md-cols-xs="2"
-						md-cols-sm="4"
-						md-cols-md="8"
-						md-cols-lg="10"
-						md-cols-xl="20"
-						md-row-height="1:1"
-						md-gutter="12px"
-						md-gutter-gt-sm="8px" >
-						<md-grid-tile ng-repeat="file in filteredFiles" class="account-{{file.account}}">
-						    <md-grid-tile-footer class="folder_file">
-								<md-tooltip md-delay="1000">
-									{{file.name}}
-								</md-tooltip>
-						        <h3 style="margin: 16px;" class="folder_item">{{file.name}}</h3>
-						    </md-grid-tile-footer>
-						</md-grid-tile>
-					</md-grid-list>
+			<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length">
+				<div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || folder.subFolders.length">
+					<section ng-show="folder.subfolders.length">
+		                <md-subheader class="md-primary"><span style="padding-left: 8px;">Folders</span></md-subheader>
+		                <div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
+		                    <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
+		                        <md-card>
+									<md-tooltip md-delay="1000">
+										{{sub}}
+									</md-tooltip>
+		                            <md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
+		                                <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
+		                                <p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
+		                                    {{sub}}
+		                                </p>
+		                            </md-card-content>
+		                        </md-card>
+		                    </div>
+		                </div>
+		            </section>
+		            <section ng-show="filteredFiles.length">
+		                <md-subheader class="md-primary"><span style="padding-left: 8px;">Files</span></md-subheader>
+						<div class="md-padding" style="padding-top: 0px;">
+							<md-grid-list id="files"
+								md-cols-xs="2"
+								md-cols-sm="4"
+								md-cols-md="8"
+								md-cols-lg="10"
+								md-cols-xl="20"
+								md-row-height="1:1"
+								md-gutter="12px"
+								md-gutter-gt-sm="8px" >
+								<md-grid-tile ng-repeat="file in filteredFiles" class="account-{{file.account}}">
+								    <md-grid-tile-footer class="folder_file">
+										<md-tooltip md-delay="1000">
+											{{file.name}}
+										</md-tooltip>
+								        <h3 style="margin: 16px;" class="folder_item">{{file.name}}</h3>
+								    </md-grid-tile-footer>
+								</md-grid-tile>
+							</md-grid-list>
+						</div>
+		            </section>
 				</div>
-            </section>
-        </div>
+				<div ng-hide="filteredFiles.length || folder.subfolders.length" layout="column" layout-align="center center" flex>
+					<h1 class="md-body-1">This folder is empty.	</h1>
+				</div>
+			</div>
+			<div ng-hide="activeAccounts.length" layout="column" layout-align="center center" flex>
+				<h1 class="md-body-1">There are no active accounts. </h1>
+				<p ng-repeat="ac in acctiveAccounts">
+					{{ac.username}} | {{ac.active}}
+				</p>
+			</div>
+        </md-content>
     </div>
+</div>
