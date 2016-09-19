@@ -26,6 +26,7 @@
     "angular-aria": "^1.5.8",
     "angular-ui-tree": "^2.22.0",
     "xregexp": "^3.1.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "viewport-units-buggyfill": "^0.6.0"
   }
 }

@@ -14,6 +14,8 @@ require.config({
         'domReady': './bower_components/domReady/domReady',
         'underscore': './bower_components/underscore/underscore',
         'xregexp': './bower_components/xregexp/xregexp-all',
+		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
+		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
         //our code
         'Controllers': './Controllers',
         'Directives': './Directives',

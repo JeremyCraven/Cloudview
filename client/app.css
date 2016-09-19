@@ -1,0 +1,6 @@
+md-content {
+	height: 100vh;
+	width: 100vw;
+
+	content: 'viewport-units-buggyfill; height: 100vh; width: 100vw;';
+}
