@@ -28,7 +28,7 @@
 	}
 </style>
 <script src="./img/icons/ic_cloud_48.svg" id="cloud_ico.svg"></script>
-<div style="height: 100vh; width: 100vw;" layout="row">
+<div style="height: 100vh; width: 100vw; max-width: 100%" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
         <md-toolbar class="md-tall">
             <!-- md-theme="dark-grey"> -->
@@ -72,7 +72,13 @@
                 <md-button class="md-icon-button" aria-label="Navigation" ng-click="toggleSidenav()" hide-gt-md>
                     <md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
                 </md-button>
-                <h2>CloudView</h2>
+                <div layout="row" layout-align="start center" ng-init="pathSpace = ($mdMedia('gt-md') ? 3 : 2)">
+					<h1>CloudView&emsp;:</h1>
+					<h1 ng-if="folder.path.length > pathSpace">&hellip;</h1>
+					<h1 ng-repeat="f in folder.path | parentFolder: pathSpace ">
+						<a>&emsp;{{f}}&emsp;</a>&gt;
+					</h1>
+				</div>
                 <span flex></span>
             </div>
         </md-toolbar>
