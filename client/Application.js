@@ -44,9 +44,9 @@ define([
                 .primaryPalette('teal')
                 .accentPalette('amber')
                 .dark();
-            $mdThemingProvider.theme('dark-grey')
+            $mdThemingProvider.theme('grey')
                 .primaryPalette('blue-grey')
-                .dark();
+				.accentPalette('grey');
             $mdThemingProvider.enableBrowserColor({
                 theme: 'CloudViewTheme'
             });

@@ -1,63 +1,3 @@
-<!-- TODO: finish codes -->
-<style>
-    .account-0 {
-        background-color: #0088FF;
-    }
-    /* C64 14 LightBlue */
-    .account-1 {
-        background-color: #AAFF66;
-    }
-    /* C64 13 LightGreen */
-    .account-2 {
-        background-color: #FF7777;
-    }
-    /* C64 10 LightRed */
-    .account-3 {
-        background-color: #EEEE77;
-    }
-    /* C64 07 Yellow */
-
-</style>
-<style>
-    .folder_item {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 100%;
-        display: block;
-    }
-    .folder_file figcaption {
-        width: 100%;
-        display: flex;
-    }
-    .cloud_ic_0 svg path {
-        fill: #0088FF;
-    }
-    .cloud_ic_1 svg path {
-        fill: #AAFF66;
-    }
-    .cloud_ic_2 svg path {
-        fill: #FF7777;
-    }
-    md-checkbox.md-checked#account-check-0 .md-icon {
-        background-color: #0088FF;
-    }
-	md-checkbox.md-checked#account-check-1 .md-icon {
-        background-color: #AAFF66;
-    }
-	md-checkbox.md-checked#account-check-2 .md-icon {
-        background-color: #FF7777;
-    }
-	md-checkbox#account-check-0 .md-icon {
-        border-color: #0088FF;
-    }
-	md-checkbox#account-check-1 .md-icon {
-        border-color: #AAFF66;
-    }
-	md-checkbox#account-check-2 .md-icon {
-        border-color: #FF7777;
-    }
-</style>
 <div id="body-div" layout="row">
     <md-sidenav class="md-sidenav-left" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
         <md-toolbar class="md-tall">
@@ -78,7 +18,7 @@
             <!--	TODO: place directory tree -->
             <section>
                 <md-subheader class="md-primary">Accounts</md-subheader>
-                <md-list layout-padding>
+                <md-list md-theme="grey" style="padding-top: 0px;">
                     <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
                         <!-- TODO: Click change state event -->
                         <!--<div class="md-avatar cloud_ic cloud_ic_{{$index}}" style="border-radius: 0px;">

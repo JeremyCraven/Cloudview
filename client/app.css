@@ -4,3 +4,57 @@
 
 	content: 'viewport-units-buggyfill; height: 100vh; width: 100vw;';
 }
+.account-0 {
+	background-color: #0088FF;
+}
+/* C64 14 LightBlue */
+.account-1 {
+	background-color: #AAFF66;
+}
+/* C64 13 LightGreen */
+.account-2 {
+	background-color: #FF7777;
+}
+/* C64 10 LightRed */
+.account-3 {
+	background-color: #EEEE77;
+}
+/* C64 07 Yellow */
+.folder_item {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
+	display: block;
+}
+.folder_file figcaption {
+	width: 100%;
+	display: flex;
+}
+.cloud_ic_0 svg path {
+	fill: #0088FF;
+}
+.cloud_ic_1 svg path {
+	fill: #AAFF66;
+}
+.cloud_ic_2 svg path {
+	fill: #FF7777;
+}
+md-checkbox.md-checked#account-check-0 .md-icon {
+	background-color: #0088FF;
+}
+md-checkbox.md-checked#account-check-1 .md-icon {
+	background-color: #AAFF66;
+}
+md-checkbox.md-checked#account-check-2 .md-icon {
+	background-color: #FF7777;
+}
+md-checkbox#account-check-0 .md-icon {
+	border-color: #0088FF;
+}
+md-checkbox#account-check-1 .md-icon {
+	border-color: #AAFF66;
+}
+md-checkbox#account-check-2 .md-icon {
+	border-color: #FF7777;
+}
