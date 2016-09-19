@@ -66,28 +66,24 @@
         </md-content>
     </md-sidenav>
     <div layout="column" flex="">
-        <div>
-			<md-toolbar>
-	            <div class="md-toolbar-tools">
+		<md-toolbar class="md-tall">
+            <div layout="column" layout-fill layout-align="start start">
+				<div layout="row" class="md-toolbar-tools">
 					<md-button class="md-icon-button" aria-label="Navigation" ng-click="toggleSidenav()" hide-gt-md>
 	                    <md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
 	                </md-button>
 					<h1>CloudView</h1>
 					<span flex></span>
-	            </div>
-	        </md-toolbar>
-		</div>
-		<div>
-			<md-toolbar class="md-primary md-hue-50">
-				<div class="md-toolbar-tools" style="overflow-x: auto;">
-					<h1 style="white-space: nowrap;">My files &emsp;</h1>
+				</div>
+				<span flex></span>
+				<div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
+					<h1 style="white-space: nowrap;">My files &emsp;&gt;</h1>
 					<h1 ng-repeat="f in folder.path | parentFolder: 3" style="white-space: nowrap;">
-						&gt;
-						<a>&emsp;{{f}}&emsp;</a>
+						<a ng-click="gotoFolder(f.pid)">&emsp;{{f.name}}&emsp;<span ng-if="!$last">&gt;</span></a>
 					</h1>
 				</div>
-			</md-toolbar>
-		</div>
+            </div>
+        </md-toolbar>
         <md-content layout="column" flex="">
             <!-- TODO: stuff goes here -->
 			<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length">
