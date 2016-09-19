@@ -43,7 +43,7 @@ define([
 			$scope.folder = {
 				title: 'New Folder',
 				account: 'Gmail', //TODO: Bacakend guy figure out datatype
-				path:	['party', 'suuplies'],
+				path:	['Party', 'Suplies'],
 				subfolders: [],
 				files:	[]
 			}
