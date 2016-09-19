@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </section>
-            <section>
+            <section ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length">
                 <md-subheader class="md-primary"><span style="padding-left: 8px;">Files</span></md-subheader>
 				<div class="md-padding" style="padding-top: 0px;">
 					<md-grid-list id="files"
@@ -108,7 +108,7 @@
 						md-row-height="1:1"
 						md-gutter="12px"
 						md-gutter-gt-sm="8px" >
-						<md-grid-tile ng-repeat="file in folder.files | selectedAccounts: user.accounts" class="account-{{file.account}}">
+						<md-grid-tile ng-repeat="file in filteredFiles" class="account-{{file.account}}">
 						    <md-grid-tile-footer class="folder_file">
 								<md-tooltip md-delay="1000">
 									{{file.name}}

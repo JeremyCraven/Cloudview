@@ -1,4 +1,4 @@
-define
+define([
     './Module'
 ], function(module) {
     return module.filter('parentFolder', function() {
