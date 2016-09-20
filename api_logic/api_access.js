@@ -18,11 +18,17 @@ access.login_google = function(storeAuth) {
   });
 }
 // page token is so you can get the next page
-access.get_google_files = function(auth, pageToken, res) {
+// null folder for root, null pagetoken for first page
+access.get_google_files = function(auth, folder, pageToken, res) {
   var service = google.drive('v3');
+  var query = "'root' in parents and trashed = false";
+  if (folder != null) {
+    query = "'"+folder+"'" + " in parents and trashed = false"
+  }
   var req = {
     auth: auth,
-    fields: 'nextPageToken, files(id,name,parents)'
+    q: query,
+    fields: 'nextPageToken, files(mimeType,id,name,parents)'
   }
   if (pageToken != null) {
     req.pageToken = pageToken

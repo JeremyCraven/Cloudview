@@ -27,7 +27,8 @@ router.route('/get_google_files').get((req, res) => {
 	function result(obj) {
 		res.json(obj)
 	}
-	api_access.get_google_files(savedAuth, null, result)
+	var folder = req.query.folderId;
+	api_access.get_google_files(savedAuth, folder, null, result)
 });
 
 module.exports = router;
