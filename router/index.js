@@ -12,16 +12,23 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
-router.route('/get_google_files').get((req, res) => {
+var savedAuth = null
+
+router.route('/authorize_google').get((req, res) => {
 	function saveAuth(auth) {
-		var savedAuth = auth;
-		function result(str) {
-			res.send(str)
-		}
-		api_access.get_google_files(savedAuth, result)
+		savedAuth = auth;
+		res.send("saved auth");
 	}
 
 	api_access.login_google(saveAuth);
+});
+
+router.route('/get_google_files').get((req, res) => {
+	function result(obj) {
+		res.json(obj)
+	}
+	var folder = req.query.folderId;
+	api_access.get_google_files(savedAuth, folder, null, result)
 });
 
 module.exports = router;

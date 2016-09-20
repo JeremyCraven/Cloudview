@@ -5,11 +5,13 @@ define([
 		'$http',
 		function($http) {
 			var service = {};
+
+			var path = 'http://localhost:8081/api/';
 			
 			service.login = function(credentials) {
 				return $http({
 					method: 'POST',
-					url: ENDPOINT_URI + 'login',
+					url: path + 'login',
 					data: credentials
 				});
 			}
@@ -17,7 +19,7 @@ define([
 			service.signup = function(userAccount) {
 				return $http({
 					method: 'POST',
-					url: ENDPOINT_URI + 'signup',
+					url: path + 'signup',
 					data: userAccount
 				})
 			}

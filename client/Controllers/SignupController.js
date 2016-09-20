@@ -44,12 +44,12 @@ define([
 			};
 
 			var isValid = function(userAccount) {
-				if (userAccount.email != userAccount.confirm_email) {
+				if (userAccount.email != $scope.confirm_email) {
 					// show some error
 					return false;
 				}
 
-				if (userAccount.password != userAccount.confirm_password) {
+				if (userAccount.password != $scope.confirm_password) {
 					// show some error
 					return false;
 				}

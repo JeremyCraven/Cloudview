@@ -6,6 +6,7 @@ define([
 		'$state',
 		'$mdSidenav',
 		function FolderController($scope, $state, $mdSidenav) {
+			console.log($state.params.id);
 			$scope.user = {
 				hasName:	false,
 				username:	'',
