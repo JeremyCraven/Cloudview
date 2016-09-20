@@ -4,22 +4,44 @@
 
 	content: 'viewport-units-buggyfill; height: 100vh; width: 100vw;';
 }
+/* account item colours */
 .account-0 {
-	background-color: #0088FF;
+	background-color: #0000FF;
 }
-/* C64 14 LightBlue */
+md-checkbox.md-checked#account-check-0 .md-icon {
+	background-color: #0000FF;
+}
+md-checkbox#account-check-0 .md-icon {
+	border-color: #0000FF;
+}
 .account-1 {
-	background-color: #AAFF66;
+	background-color: #00FF00;
 }
-/* C64 13 LightGreen */
+md-checkbox.md-checked#account-check-1 .md-icon {
+	background-color: #00FF00;
+}
+md-checkbox#account-check-1 .md-icon {
+	border-color: #00FF00;
+}
 .account-2 {
-	background-color: #FF7777;
+	background-color: #FF0000;
 }
-/* C64 10 LightRed */
+md-checkbox.md-checked#account-check-2 .md-icon {
+	background-color: #FF0000;
+}
+md-checkbox#account-check-2 .md-icon {
+	border-color: #FF0000;
+}
 .account-3 {
-	background-color: #EEEE77;
+	background-color: #FFFF00;
 }
-/* C64 07 Yellow */
+md-checkbox.md-checked#account-check-3 .md-icon {
+	background-color: #FFFF00;
+}
+md-checkbox#account-check-3 .md-icon {
+	border-color: #FFFF00;
+}
+/* fixes folder items being too long for their box */
 .folder_item {
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -31,6 +53,7 @@
 	width: 100%;
 	display: flex;
 }
+/* Not used at present, maybe will be brought back.  maybe. */
 .cloud_ic_0 svg path {
 	fill: #0088FF;
 }
@@ -39,22 +62,4 @@
 }
 .cloud_ic_2 svg path {
 	fill: #FF7777;
-}
-md-checkbox.md-checked#account-check-0 .md-icon {
-	background-color: #0088FF;
-}
-md-checkbox.md-checked#account-check-1 .md-icon {
-	background-color: #AAFF66;
-}
-md-checkbox.md-checked#account-check-2 .md-icon {
-	background-color: #FF7777;
-}
-md-checkbox#account-check-0 .md-icon {
-	border-color: #0088FF;
-}
-md-checkbox#account-check-1 .md-icon {
-	border-color: #AAFF66;
-}
-md-checkbox#account-check-2 .md-icon {
-	border-color: #FF7777;
 }

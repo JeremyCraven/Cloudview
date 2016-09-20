@@ -19,7 +19,7 @@
             <section>
                 <md-subheader class="md-primary">Accounts</md-subheader>
                 <md-list md-theme="grey" style="padding-top: 0px;">
-                    <md-list-item class="md-2-line" ng-repeat="account in user.accounts">
+                    <md-list-item class="md-2-line" ng-repeat="account in user.accounts" layout-align="start center">
                         <!-- TODO: Click change state event -->
                         <!--<div class="md-avatar cloud_ic cloud_ic_{{$index}}" style="border-radius: 0px;">
                             <ng-include ng-if="account.active" src="'./Views/img/icons/ic_cloud_done_48px.svg'"></ng-include>
@@ -48,9 +48,9 @@
                 </div>
                 <span flex></span>
                 <div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
-                    <h1 style="white-space: nowrap;">My files &emsp;&gt;</h1>
+                    <h1 style="white-space: nowrap;">My files &nbsp;&#9654;</h1>
                     <h1 ng-repeat="f in folder.path | parentFolder: 3" style="white-space: nowrap;">
-                        <a ng-click="gotoFolder(f.pid)">&emsp;{{f.name}}&emsp;<span ng-if="!$last">&gt;</span>
+                        <a ng-click="gotoFolder(f.pid)">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#9654;</span>
                         </a>
                     </h1>
                 </div>
