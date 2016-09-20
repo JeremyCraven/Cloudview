@@ -66,6 +66,30 @@ access.get_google_file = function(auth, fileId, res) {
     res(response);
   });
 }
+/*
+  examples of acceptable file objects:
+  {
+    mimeType: 'image/png',
+    body: fs.createReadStream('awesome.png') // read streams are awesome!
+  }
+  orrrr
+  {
+    mimeType: 'text/plain',
+    body: 'Hello World'
+  }
+*/
+access.put_google_file = function(auth, fileName, file, res) {
+  this.service.files.create({
+    resource: {
+      name: fileName,
+      mimeType: file.mimeType
+    },
+    media: file,
+    auth: auth,
+  }, function(err, response) {
+    res(response);
+  });
+}
 
 
 
@@ -78,7 +102,7 @@ access.get_google_file = function(auth, fileId, res) {
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/drive-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/drive'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'drive-nodejs-quickstart.json';
