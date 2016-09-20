@@ -17,13 +17,17 @@ access.login_google = function(storeAuth) {
     authorize(JSON.parse(content), storeAuth);
   });
 }
-access.get_google_files = function(auth, res) {
+// page token is so you can get the next page
+access.get_google_files = function(auth, pageToken, res) {
   var service = google.drive('v3');
-  service.files.list({
+  var req = {
     auth: auth,
-    pageSize: 10,
-    fields: "nextPageToken, files(id, name)"
-  }, function(err, response) {
+    fields: 'nextPageToken, files(id,name,parents)'
+  }
+  if (pageToken != null) {
+    req.pageToken = pageToken
+  }
+  service.files.list(req, function(err, response) {
     if (err) {
       res('The API returned an error: ' + err);
       return;
@@ -32,15 +36,27 @@ access.get_google_files = function(auth, res) {
     if (files.length == 0) {
         res('No files found.')
     } else {
-      var str = "";
-        str = str + "Files: \n";
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          str = str + file.name + ' ' + file.id + '\n'
-          console.log('%s (%s)', file.name, file.id);
-        }
-        res(str);
+      res(response);
+      //var str = "";
+      //  str = str + "Files: \n";
+      //  for (var i = 0; i < files.length; i++) {
+      //    var file = files[i];
+      //    str = str + file.name + ' ' + file.id + '\n'
+      //    console.log('%s', JSON.stringify(file));
+      //  }
+      //  res(str);
     }
+  });
+}
+access.get_google_file = function(auth, fileId, res) {
+  var service = google.drive('v3');
+  var req = {
+    auth: auth,
+    fileId: '0Bxgx2Luaj5zvN2hoVlZjTXREU0U',
+    fields: 'id,name,parents'
+  }
+  service.files.get(req, function(err, response) {
+    res(response);
   });
 }
 
