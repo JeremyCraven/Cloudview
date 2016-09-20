@@ -31,4 +31,12 @@ router.route('/get_google_files').get((req, res) => {
 	api_access.get_google_files(savedAuth, folder, null, result)
 });
 
+router.route('/upload_google_text').get((req, res) => {
+	function result(obj) {
+		res.json(obj)
+	}
+	var fileObj = {mimeType: 'text/plain', body: 'hello world!'};
+	api_access.put_google_file(savedAuth, "hello.txt", fileObj, result)
+});
+
 module.exports = router;

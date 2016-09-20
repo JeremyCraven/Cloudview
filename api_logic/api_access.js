@@ -5,6 +5,7 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
 var access = new Object();
+access.service = google.drive('v3')
 access.login_google = function(storeAuth) {
   // Load client secrets from a local file.
   fs.readFile('client_secret.json', function processClientSecrets(err, content) {
@@ -19,8 +20,9 @@ access.login_google = function(storeAuth) {
 }
 // page token is so you can get the next page
 // null folder for root, null pagetoken for first page
+// webViewLink will supply a preview (provided by Google), or the link to the google doc
+// webContentLink will appear for non-google doc files and allows you to download the file
 access.get_google_files = function(auth, folder, pageToken, res) {
-  var service = google.drive('v3');
   var query = "'root' in parents and trashed = false";
   if (folder != null) {
     query = "'"+folder+"'" + " in parents and trashed = false"
@@ -28,12 +30,12 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   var req = {
     auth: auth,
     q: query,
-    fields: 'nextPageToken, files(mimeType,id,name,parents)'
+    fields: 'nextPageToken, files(mimeType,id,name,parents,webContentLink,webViewLink)'
   }
   if (pageToken != null) {
     req.pageToken = pageToken
   }
-  service.files.list(req, function(err, response) {
+  this.service.files.list(req, function(err, response) {
     if (err) {
       res('The API returned an error: ' + err);
       return;
@@ -55,13 +57,36 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   });
 }
 access.get_google_file = function(auth, fileId, res) {
-  var service = google.drive('v3');
   var req = {
     auth: auth,
-    fileId: '0Bxgx2Luaj5zvN2hoVlZjTXREU0U',
-    fields: 'id,name,parents'
+    fileId: fileId,
+    fields: 'mimeType,id,name,parents,webContentLink,webViewLink'
   }
-  service.files.get(req, function(err, response) {
+  this.service.files.get(req, function(err, response) {
+    res(response);
+  });
+}
+/*
+  examples of acceptable file objects:
+  {
+    mimeType: 'image/png',
+    body: fs.createReadStream('awesome.png') // read streams are awesome!
+  }
+  orrrr
+  {
+    mimeType: 'text/plain',
+    body: 'Hello World'
+  }
+*/
+access.put_google_file = function(auth, fileName, file, res) {
+  this.service.files.create({
+    resource: {
+      name: fileName,
+      mimeType: file.mimeType
+    },
+    media: file,
+    auth: auth,
+  }, function(err, response) {
     res(response);
   });
 }
@@ -77,7 +102,7 @@ access.get_google_file = function(auth, fileId, res) {
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/drive-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/drive'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'drive-nodejs-quickstart.json';
