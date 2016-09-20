@@ -6,6 +6,11 @@ define([
         '$state',
         '$mdSidenav',
         function FolderController($scope, $state, $mdSidenav) {
+			$scope.ui= {
+				fab: {
+					isOpen: false
+				}
+			};
             $scope.user = {
                 hasName: true,
                 username: 'john.doe123',
