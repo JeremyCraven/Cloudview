@@ -10,7 +10,7 @@ define([
 			.state('home', {
 				url:			'/home',
 				templateUrl:	'Views/_home.html',
-				controller:		'CloudView.Controllers.Home'
+				controller:		'CloudView.Controllers.Home',
 			})
 			.state('login', {
 				url:			'/login',
@@ -23,9 +23,9 @@ define([
 				controller:		'CloudView.Controllers.Signup'
 			})
 			.state('folder', {
-				url:			'/folder',
+				url:			'/folder/:id',
 				templateUrl:	'Views/_folder.html',
-				controller:		'CloudView.Controllers.Folder'
+				controller:		'CloudView.Controllers.Folder',
 			});
 			$urlRouterProvider.otherwise('home');
 		}
