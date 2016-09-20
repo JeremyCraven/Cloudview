@@ -1,6 +1,7 @@
 define([
-	'angular'
+	'angular',
+	'Services/Index'
 ], function(ng) {
 	'use strict';
-	return ng.module('CloudView.Controllers', []);
+	return ng.module('CloudView.Controllers', ['CloudView.Services']);
 });

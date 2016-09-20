@@ -1,4 +1,4 @@
-<div style="height: 100vh;" layout="column">
+<div id="body-div" layout="column">
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 			<h1 id="title">
@@ -25,18 +25,18 @@
 					</div>
 				</md-toolbar>
 				<md-card-content layout="column">
-					<div layout-gt-xs="row" layout="column">
-						<span flex></span>
-						<md-input-container>
-							<label>{{ "GENERAL.USERNAME" | translate }}</label>
-							<input ng-model="username" type="text" name="username" ng-disabled="loading.is" required xreg-pattern="^[0-9_\-\pL]+$"></input>
-							<div ng-messages="signupForm.username.$error" role="alert">
-								<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-								<div ng-message="xregPattern">{{  }}</div>
-							</div>
-						</md-input-container>
-						<span flex></span>
-					</div>
+					<md-input-container>
+						<label>{{ "USER.INFO.FULL_NAME" | translate }}</label>
+						<input ng-model="name" type="text" name="name" ng-disabled="loading.is"></input>
+					</md-input-container>
+					<md-input-container>
+						<label>{{ "GENERAL.USERNAME" | translate }}</label>
+						<input ng-model="username" type="text" name="username" ng-disabled="loading.is" required xreg-pattern="^[0-9_\-\pL]+$"></input>
+						<div ng-messages="signupForm.username.$error" role="alert">
+							<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+							<div ng-message="xregPattern">{{  }}</div><!-- TODO: add error msg -->
+						</div>
+					</md-input-container>
 					<div layout-gt-xs="row" layout="column">
 						<md-input-container>
 							<label>{{ "GENERAL.EMAIL" | translate }}</label>

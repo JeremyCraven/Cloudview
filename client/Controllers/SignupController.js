@@ -4,7 +4,8 @@ define([
 	return module.controller('CloudView.Controllers.Signup', [
 		'$scope',
 		'$state',
-		function SignupController($scope, $state) {
+		'CloudView.Services.AccountServices',
+		function SignupController($scope, $state, AccountServices) {
 			$scope.username = '';
 			$scope.email = '';
 			$scope.confirm_email = '';
@@ -22,7 +23,36 @@ define([
 				$state.go('login');
 			};
 			$scope.signup = function() {
+				var userAccount = {
+						username: $scope.username,
+						email: $scope.email,
+						password: $scope.password
+				};
+				if (isValid(userAccount)) {
+					AccountServices.signup(userAccount)
+						.then(
+							function(result) {
+								var data = result.data;
+								// do something
+							},
+							function(result) {
+								var error = result.data;
+								// do something
+							}
+						);
+				}
+			};
 
+			var isValid = function(userAccount) {
+				if (userAccount.email != $scope.confirm_email) {
+					// show some error
+					return false;
+				}
+
+				if (userAccount.password != $scope.confirm_password) {
+					// show some error
+					return false;
+				}
 			};
 		}
 	]);
