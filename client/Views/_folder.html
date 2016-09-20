@@ -40,7 +40,7 @@
         <md-toolbar class="md-tall">
             <div layout="column" layout-fill layout-align="start start">
                 <div layout="row" class="md-toolbar-tools">
-                    <md-button class="md-icon-button" aria-label="Navigation" ng-click="toggleSidenav()" hide-gt-md>
+                    <md-button class="md-icon-button" aria-label="Navigation" ng-click="ui.sideNav.toggleSidenav()" hide-gt-md>
                         <md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
                     </md-button>
                     <h1>CloudView</h1>
@@ -50,7 +50,7 @@
                 <div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
                     <h1 style="white-space: nowrap;">My files &nbsp;&#9654;</h1>
                     <h1 ng-repeat="f in folder.path | parentFolder: 3" style="white-space: nowrap;">
-                        <a ng-click="gotoFolder(f.pid)">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#9654;</span>
+                        <a ng-click="ui.folder.go(f.pid)">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#9654;</span>
                         </a>
                     </h1>
                 </div>
@@ -66,14 +66,14 @@
                         </md-subheader>
                         <div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
                             <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
-                                <md-card>
+                                <md-card ng-click="ui.folder.go(sub.pid)">
                                     <md-tooltip md-delay="1000">
                                         {{sub}}
                                     </md-tooltip>
                                     <md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
                                         <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
                                         <p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
-                                            {{sub}}
+                                            {{sub.name}}
                                         </p>
                                     </md-card-content>
                                 </md-card>
@@ -86,7 +86,7 @@
                         </md-subheader>
                         <div class="md-padding" style="padding-top: 0px;">
                             <md-grid-list id="files" md-cols-xs="2" md-cols-sm="4" md-cols-md="8" md-cols-lg="10" md-cols-xl="20" md-row-height="1:1" md-gutter="12px" md-gutter-gt-sm="8px">
-                                <md-grid-tile ng-repeat="file in filteredFiles" class="account-{{file.account}}">
+                                <md-grid-tile ng-repeat="file in filteredFiles" class="account-{{file.account}}" ng-click="ui.file.open(file.pid)">
                                     <md-grid-tile-footer class="folder_file">
                                         <md-tooltip md-delay="1000">
                                             {{file.name}}
@@ -97,17 +97,19 @@
                             </md-grid-list>
                         </div>
                     </section>
-					<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" style="position: fixed; right: 32px; bottom: 32px;">
+					<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" style="position: fixed; right: 32px; bottom: 32px;">
 						<md-fab-trigger>
-							<md-button aria-label="menu" class="md-fab md-warn">
+							<md-button aria-label="Add" class="md-fab">
 								<md-icon md-svg-src="./Views/img/icons/ic_add_48px.svg"></md-icon>
 							</md-button>
 						</md-fab-trigger>
-
 						<md-fab-actions>
-							<!--<md-button aria-label="Twitter" class="md-fab md-raised md-mini">
-								<md-icon md-svg-src="img/icons/twitter.svg" aria-label="Twitter"></md-icon>
-							</md-button>-->
+							<md-button aria-label="New File" class="md-fab md-raised md-mini" ng-click="ui.folder.new_file()">
+								<md-icon md-svg-src="./Views/img/icons/ic_note_add_48px.svg" aria-label="New File"></md-icon>
+							</md-button>
+							<md-button aria-label="New Folder" class="md-fab md-raised md-mini" ng-click="ui.folder.new_folder()">
+								<md-icon md-svg-src="./Views/img/icons/folder.svg" aria-label="New Folder"></md-icon>
+							</md-button>
 						</md-fab-actions>
 					</md-fab-speed-dial>
                 </div>

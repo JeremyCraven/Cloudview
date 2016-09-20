@@ -6,9 +6,30 @@ define([
         '$state',
         '$mdSidenav',
         function FolderController($scope, $state, $mdSidenav) {
-			$scope.ui= {
+			$scope.ui = {
 				fab: {
 					isOpen: false
+				},
+				sideNav: {
+					toggleSidenav: function() {
+		                $mdSidenav('left').toggle();
+					}
+	            },
+				folder: {
+					go: function(path) {
+						//TODO: go-to folder
+					},
+					new_folder: function() {
+						//TODO: new folder dialogue
+					},
+				},
+				file: {
+					open: {
+						//TODO: open file?
+					},
+					new_file: function() {
+						//TODO: new file dialogue
+					}
 				}
 			};
             $scope.user = {
@@ -39,7 +60,10 @@ define([
                         used: 14.5 * 1024 * 1024 * 1024,
                         available: 15 * 1024 * 1024 * 1024
                     }
-                }]
+                }],
+				account_toggle: function(index) {
+	                $scope.user.accounts[index].active = !$scope.user.accounts[index].active;
+	            }
             };
             $scope.folder = {
                 title: 'New Folder',
@@ -55,24 +79,19 @@ define([
                 files: []
             }
             for (var i = 0; i < 13; i++) {
-                $scope.folder.subfolders.push('Folder ' + (i + 1));
+                $scope.folder.subfolders.push({
+					name: 'Folder ' + (i + 1),
+					pid: i+3
+				});
             }
             for (var i = 0; i < 100; i++) {
                 $scope.folder.files.push({
                     name: 'File  ' + (i + 1),
                     type: 'word',
-                    account: i % $scope.user.accounts.length
+                    account: i % $scope.user.accounts.length,
+					pid: i
                 });
             }
-            $scope.toggleSidenav = function() {
-                $mdSidenav('left').toggle();
-            };
-            $scope.user.account_toggle = function(index) {
-                $scope.user.accounts[index].active = !$scope.user.accounts[index].active;
-            };
-			$scope.gotoFolder = function(pid){
-				//TODO: do something
-			}
         }
     ]);
 });

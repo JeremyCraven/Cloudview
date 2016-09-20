@@ -6,40 +6,40 @@
 }
 /* account item colours */
 .account-0 {
-	background-color: #0000FF;
+	background-color: #0088FF;
 }
 md-checkbox.md-checked#account-check-0 .md-icon {
-	background-color: #0000FF;
+	background-color: #0088FF;
 }
 md-checkbox#account-check-0 .md-icon {
-	border-color: #0000FF;
+	border-color: #0088FF;
 }
 .account-1 {
-	background-color: #00FF00;
+	background-color: #AAFF66;
 }
 md-checkbox.md-checked#account-check-1 .md-icon {
-	background-color: #00FF00;
+	background-color: #AAFF66;
 }
 md-checkbox#account-check-1 .md-icon {
-	border-color: #00FF00;
+	border-color: #AAFF660;
 }
 .account-2 {
-	background-color: #FF0000;
+	background-color: #FF7777;
 }
 md-checkbox.md-checked#account-check-2 .md-icon {
-	background-color: #FF0000;
+	background-color: #FF7777;
 }
 md-checkbox#account-check-2 .md-icon {
-	border-color: #FF0000;
+	border-color: #FF7777;
 }
 .account-3 {
-	background-color: #FFFF00;
+	background-color: #EEEE77;
 }
 md-checkbox.md-checked#account-check-3 .md-icon {
-	background-color: #FFFF00;
+	background-color: #EEEE77;
 }
 md-checkbox#account-check-3 .md-icon {
-	border-color: #FFFF00;
+	border-color: #EEEE77;
 }
 /* fixes folder items being too long for their box */
 .folder_item {
