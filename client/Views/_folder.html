@@ -56,7 +56,7 @@
                 </div>
             </div>
         </md-toolbar>
-        <md-content layout="column" flex="">
+        <md-content layout="column" flex>
             <!-- TODO: stuff goes here -->
             <div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length">
                 <div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || folder.subFolders.length">
@@ -68,7 +68,7 @@
                             <div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders">
                                 <md-card ng-click="ui.folder.go(sub.pid)">
                                     <md-tooltip md-delay="1000">
-                                        {{sub}}
+                                        {{sub.name}}
                                     </md-tooltip>
                                     <md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
                                         <img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;"/>
