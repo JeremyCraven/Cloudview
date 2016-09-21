@@ -16,6 +16,19 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
+router.route('/login').get((req, res) => {
+    // Check if user exists
+
+    // If user exists
+    res.json({
+        googleToken: 'faketokengoogle',
+        dropboxToken: 'faketokendropbox',
+        onedriveToken: 'faketokenonedrive'
+    });
+
+    // else return 403
+});
+
 var savedAuth = null
 
 router.route('/authorize_google').get((req, res) => {
