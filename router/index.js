@@ -16,11 +16,18 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
+router.route('/create_account').get((req, res) => {
+	res.json({
+		status: 200
+	});
+});
+
 router.route('/login').get((req, res) => {
     // Check if user exists
 
     // If user exists
     res.json({
+    	accountID: '123456',
         googleToken: 'faketokengoogle',
         dropboxToken: 'faketokendropbox',
         onedriveToken: 'faketokenonedrive'
