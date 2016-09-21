@@ -16,11 +16,12 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
-router.route('/login').get((req, res) => {
+router.route('/login').post((req, res) => {
     // Check if user exists
 
     // If user exists
     res.json({
+    	id: 'fakeid',
         googleToken: 'faketokengoogle',
         dropboxToken: 'faketokendropbox',
         onedriveToken: 'faketokenonedrive'

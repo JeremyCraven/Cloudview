@@ -25,7 +25,7 @@ define([
 					.then(
 						function(result) {
 							// if ()
-								$state.go('folder', { id: result.data.id } );
+								$state.go('folder', result.data);
 						},
 						function(result) {
 							// do something with error
