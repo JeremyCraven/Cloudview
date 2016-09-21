@@ -22,12 +22,12 @@ router.route('/create_account').get((req, res) => {
 	});
 });
 
-router.route('/login').get((req, res) => {
+router.route('/login').post((req, res) => {
     // Check if user exists
 
     // If user exists
     res.json({
-    	accountID: '123456',
+    	id: 'fakeid',
         googleToken: 'faketokengoogle',
         dropboxToken: 'faketokendropbox',
         onedriveToken: 'faketokenonedrive'
