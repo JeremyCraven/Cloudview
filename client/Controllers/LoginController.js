@@ -24,8 +24,7 @@ define([
 				AccountServices.login(credentials)
 					.then(
 						function(result) {
-							// if ()
-								$state.go('folder', result.data);
+							$state.go('folder', result.data);
 						},
 						function(result) {
 							// do something with error

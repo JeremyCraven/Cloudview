@@ -33,6 +33,12 @@ router.route('/login').post((req, res) => {
     // else return 403
 });
 
+router.route('/signup').post((req, res) => {
+	res.json({
+		things: true
+	})
+});
+
 var savedAuth = null
 
 router.route('/authorize_google').get((req, res) => {
