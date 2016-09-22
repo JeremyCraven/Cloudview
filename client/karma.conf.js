@@ -22,12 +22,15 @@ module.exports = function(config) {
                 included: false
             },
 
-			{
-				pattern: 'bower_components/**/*.js',
-				included: false
-			},
+            {
+                pattern: 'bower_components/**/*.js',
+                included: false
+            }, {
+                pattern: 'Views/*.html',
+                included: false
+            },
 
-			'Test/Main.test.js'
+            'Test/Main.test.js'
         ],
 
 
@@ -37,8 +40,14 @@ module.exports = function(config) {
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {},
+        preprocessors: {
+            'Views/*.html': ['ng-html2js']
+        },
 
+        ngHtml2JsPreprocessor: {
+            // the name of the Angular module to create
+            moduleName: "templates"
+        },
 
         // test results reporter to use
         // possible values: 'dots', 'progress'

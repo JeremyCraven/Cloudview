@@ -34,7 +34,9 @@ requirejs.config({
         'Directives': './Directives',
         'Filters': './Filters',
         'Libraries': './Libraries',
-        'Services': './Services'
+        'Services': './Services',
+		//views
+		'View.signup': './Views/_signup.html'
     },
 
     shim: {
@@ -73,7 +75,11 @@ requirejs.config({
         },
         'xregexp': {
             exports: "XRegExp",
-        }
+        },
+		//Views
+		'View.signup': {
+			deps: ['angular']
+		}
     },
 
     // ask Require.js to load these files (all our tests)
