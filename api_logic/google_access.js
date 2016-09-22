@@ -4,6 +4,9 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
+
+// TODO: stub out service (for google) and see if we can fake api calls for unit testing\
+
 var access = new Object();
 access.service = google.drive('v3')
 access.login_google = function(storeAuth) {
@@ -45,14 +48,6 @@ access.get_google_files = function(auth, folder, pageToken, res) {
         res('No files found.')
     } else {
       res(response);
-      //var str = "";
-      //  str = str + "Files: \n";
-      //  for (var i = 0; i < files.length; i++) {
-      //    var file = files[i];
-      //    str = str + file.name + ' ' + file.id + '\n'
-      //    console.log('%s', JSON.stringify(file));
-      //  }
-      //  res(str);
     }
   });
 }
@@ -63,6 +58,10 @@ access.get_google_file = function(auth, fileId, res) {
     fields: 'mimeType,id,name,parents,webContentLink,webViewLink'
   }
   this.service.files.get(req, function(err, response) {
+    if (err) {
+      res('The API returned an error: ' + err);
+      return;
+    }
     res(response);
   });
 }
@@ -87,6 +86,10 @@ access.put_google_file = function(auth, fileName, file, res) {
     media: file,
     auth: auth,
   }, function(err, response) {
+    if (err) {
+      res('The API returned an error: ' + err);
+      return;
+    }
     res(response);
   });
 }
