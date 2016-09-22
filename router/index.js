@@ -27,10 +27,7 @@ router.route('/login').post((req, res) => {
 
     // If user exists
     res.json({
-    	id: 'fakeid',
-        googleToken: 'faketokengoogle',
-        dropboxToken: 'faketokendropbox',
-        onedriveToken: 'faketokenonedrive'
+    	cloudViewToken: 'fakeCloudViewToken'
     });
 
     // else return 403

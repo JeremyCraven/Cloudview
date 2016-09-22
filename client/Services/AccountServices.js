@@ -6,12 +6,12 @@ define([
 		function($http) {
 			var service = {};
 
-			var path = 'http://localhost:8081/';
+			var url = 'http://localhost:8081/';
 			
 			service.login = function(credentials) {
 				return $http({
 					method: 'POST',
-					url: path + 'login',
+					url: url + 'login',
 					data: credentials
 				});
 			}
@@ -19,7 +19,7 @@ define([
 			service.signup = function(userAccount) {
 				return $http({
 					method: 'POST',
-					url: path + 'signup',
+					url: url + 'signup',
 					data: userAccount
 				})
 			}

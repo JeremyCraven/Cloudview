@@ -1,3 +1,4 @@
 define([
-	'./AccountServices'
+	'./AccountServices',
+	'./FileServices'
 ], function () {});
