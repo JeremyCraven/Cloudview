@@ -13,7 +13,7 @@
 		</div>
 	</md-toolbar>
 	<md-content class="md-padding" layout="column" layout-align="center center" flex>
-		<form name="signupForm" ng-submit="signup()">
+		<form name="signupForm" ng-submit="signupForm.$valid && signup()">
 			<md-card id="signup">
 				<md-toolbar hide-xs>
 					<div class="md-toolbar-tools">

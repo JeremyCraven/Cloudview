@@ -22,7 +22,7 @@ define([
 				$state.go('login');
 			};
 			$scope.signup = function() {
-
+				debugger;
 			};
 		}
 	]);
