@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var api_access = require('../api_logic/api_access');
+var api_access = require('../api_logic/google_access');
 
 router.use((req, res, next) => {
     // Default route
