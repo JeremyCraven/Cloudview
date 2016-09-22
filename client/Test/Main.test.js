@@ -1,10 +1,10 @@
 var tests = [];
 for (var file in window.__karma__.files) {
-  if (window.__karma__.files.hasOwnProperty(file)) {
-    if (/Spec\.js$/.test(file)) {
-      tests.push(file);
+    if (window.__karma__.files.hasOwnProperty(file)) {
+        if (/Spec\.js$/.test(file)) {
+            tests.push(file);
+        }
     }
-  }
 }
 
 requirejs.config({
@@ -12,8 +12,9 @@ requirejs.config({
     baseUrl: '/base',
 
     paths: {
-		//Bower Libraries
+        //Bower Libraries
         'angular': './bower_components/angular/angular',
+        'ngMocks': './bower_components/angular-mocks/angular-mocks',
         'ngAnimate': './bower_components/angular-animate/angular-animate',
         'ngAria': './bower_components/angular-aria/angular-aria',
         'ngMaterial': './bower_components/angular-material/angular-material',
@@ -26,8 +27,8 @@ requirejs.config({
         'domReady': './bower_components/domReady/domReady',
         'underscore': './bower_components/underscore/underscore',
         'xregexp': './bower_components/xregexp/xregexp-all',
-		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
-		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
+        'viewport-units-buggyfill': './bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
+        'viewport-units-buggyfill-hacks': './bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
         //our code
         'Controllers': './Controllers/Static',
         'Directives': './Directives',
@@ -37,8 +38,11 @@ requirejs.config({
     },
 
     shim: {
-		'angular': {
+        'angular': {
             exports: 'angular'
+        },
+        'ngMocks': {
+            deps: ['angular'],
         },
         'ngAnimate': {
             deps: ['angular']

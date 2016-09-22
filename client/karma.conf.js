@@ -14,13 +14,7 @@ module.exports = function(config) {
 
 
         // list of files / patterns to load in the browser
-        files: [
-            JASMINE,
-            JASMINE_ADAPTER,
-            REQUIRE,
-            REQUIRE_ADAPTER,
-
-            {
+        files: [{
                 pattern: '**/*.js',
                 included: false
             }, {
@@ -28,23 +22,12 @@ module.exports = function(config) {
                 included: false
             },
 
-			'./bower_components/angular/angular',
-	        './bower_components/angular-animate/angular-animate',
-	        './bower_components/angular-aria/angular-aria',
-	        './bower_components/angular-material/angular-material',
-	        './bower_components/angular-messages/angular-messages',
-	        './bower_components/angular-sanitize/angular-sanitize',
-	        './bower_components/angular-translate/angular-translate',
-	        './bower_components/angular-ui-router/release/angular-ui-router',
-	        './bower_components/angular-ui-tree/dist/angular-ui-tree',
-	        './bower_components/angular-validation-match/dist/angular-validation-match',
-	        './bower_components/domReady/domReady',
-	        './bower_components/underscore/underscore',
-	        './bower_components/xregexp/xregexp-all',
-			'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
-			'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
+			{
+				pattern: 'bower_components/**/*.js',
+				included: false
+			},
 
-            'Test/Main.test.js'
+			'Test/Main.test.js'
         ],
 
 
