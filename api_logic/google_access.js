@@ -13,7 +13,7 @@ access.login_google = function(storeAuth) {
   // Load client secrets from a local file.
   fs.readFile('client_secret.json', function processClientSecrets(err, content) {
     if (err) {
-      console.log('Error loading client secret file: ' + err);
+      console.log('Error loading client secret file: ' + JSON.stringify(err));
       return;
     }
     // Authorize a client with the loaded credentials, then call the
@@ -40,7 +40,7 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   }
   this.service.files.list(req, function(err, response) {
     if (err) {
-      res('The API returned an error: ' + err);
+      res('The API returned an error: ' + JSON.stringify(err));
       return;
     }
     var files = response.files;
@@ -59,7 +59,7 @@ access.get_google_file = function(auth, fileId, res) {
   }
   this.service.files.get(req, function(err, response) {
     if (err) {
-      res('The API returned an error: ' + err);
+      res('The API returned an error: ' + JSON.stringify(err));
       return;
     }
     res(response);
@@ -87,7 +87,7 @@ access.put_google_file = function(auth, fileName, file, res) {
     auth: auth,
   }, function(err, response) {
     if (err) {
-      res('The API returned an error: ' + err);
+      res('The API returned an error: ' + JSON.stringify(err));
       return;
     }
     res(response);
