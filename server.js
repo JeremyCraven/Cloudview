@@ -23,6 +23,8 @@ app.use('/', require('./router'));
 var port = process.env.PORT || 8081;
 
 // Start the server
-app.listen(port, () => {
+var server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`);
 });
+
+exports.server = server
