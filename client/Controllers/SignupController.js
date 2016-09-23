@@ -21,8 +21,7 @@ define([
 			$scope.loading = false;
 
 			$scope.error = {
-				passwordMessage: '',
-				emailMessage: '',
+				message: '',
 				exists: ''
 			};
 
@@ -43,7 +42,7 @@ define([
 								console.log(result.data);
 							},
 							function(result) {
-								
+
 							}
 						);
 				}
@@ -61,7 +60,7 @@ define([
 					$scope.error.message = 'The passwords provided do not match';
 				}
 				if (valid) {
-					$scope.error.exists = false;	
+					$scope.error.exists = false;
 				}
 				return valid;
 			};
