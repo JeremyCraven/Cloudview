@@ -19,7 +19,7 @@ define([
 			service.signup = function(userAccount) {
 				return $http({
 					method: 'POST',
-					url: url + 'signup',
+					url: url + 'create_account',
 					data: userAccount
 				});
 			}
