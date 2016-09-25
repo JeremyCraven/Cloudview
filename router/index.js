@@ -43,6 +43,65 @@ router.route('/signup').post((req, res) => {
 var savedAuth = null
 var dropboxSavedToken = null
 
+router.route('/api/v1/get_files').get((req, res) => {
+	var folder = req.query.folderId;
+	if (folder === null) {
+		res.json(JSON.stringify({
+			nextPageToken: 'hey mitch',
+			files: [
+				{
+					mimeType: 'heh',
+					id: '1',
+					name: 'two',
+					parents: 'root',
+					webViewLink: 'http://www.google.com'
+				},
+				{
+					mimeType: 'heh',
+					id: '2',
+					name: 'three',
+					parents: 'root',
+					webViewLink: 'http://www.google.com'
+				},
+				{
+					mimeType: 'heh',
+					id: '3',
+					name: 'four',
+					parents: 'root',
+					webViewLink: 'http://www.google.com'
+				},
+				{
+					mimeType: 'heh',
+					id: '4',
+					name: 'five',
+					parents: 'root',
+					webViewLink: 'http://www.google.com'
+				},
+				{
+					mimeType: 'heh',
+					id: '5',
+					name: 'six',
+					parents: 'root',
+					webViewLink: 'http://www.google.com'
+				}
+			]
+		}));
+	} else if (folder === 'test') {
+		res.json(JSON.stringify({
+			nextPageToken: 'hey mitch',
+			files: [
+				{
+					mimeType: 'heh',
+					id: '10',
+					name: 'look_at_that',
+					parents: 'test',
+					webViewLink: 'http://www.facebook.com'
+				},
+			]
+		}));
+	}
+});
+
 router.route('/authorize_google').get((req, res) => {
 	function saveAuth(auth) {
 		savedAuth = auth;
