@@ -41,14 +41,14 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   }
   this.service.files.list(req, function(err, response) {
     if (err) {
-      res('The API returned an error: ' + JSON.stringify(err));
+      res('The API returned an error: ' + JSON.stringify(err), null);
       return;
     }
     var files = response.files;
     if (files.length == 0) {
-        res('No files found.')
+        res('No files found.', null);
     } else {
-      res(response);
+      res(null, response);
     }
   });
 }

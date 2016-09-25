@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var api_access = require('../api_logic/google_access');
+var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
+var api_access = require('../api_logic/api');
 
 router.use((req, res, next) => {
     // Default route
@@ -45,61 +46,19 @@ var dropboxSavedToken = null
 
 router.route('/api/v1/get_files').get((req, res) => {
 	var folder = req.query.folderId;
-	if (folder === null) {
-		res.json(JSON.stringify({
-			nextPageToken: 'hey mitch',
-			files: [
-				{
-					mimeType: 'heh',
-					id: '1',
-					name: 'two',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '2',
-					name: 'three',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '3',
-					name: 'four',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '4',
-					name: 'five',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '5',
-					name: 'six',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				}
-			]
-		}));
-	} else if (folder === 'test') {
-		res.json(JSON.stringify({
-			nextPageToken: 'hey mitch',
-			files: [
-				{
-					mimeType: 'heh',
-					id: '10',
-					name: 'look_at_that',
-					parents: 'test',
-					webViewLink: 'http://www.facebook.com'
-				},
-			]
-		}));
-	}
+	if (!folder) { folder = ''; }
+	var pageToken = req.query.pageToken;
+	api_access.get_files(folder, pageToken, res);
+});
+
+// TODO: this is temp. In the future, we should call this api_access.login when we
+// login to a specific account and use api_access.store_credentials(creds)
+// otherwise when we have the authentication token stored in the db
+//
+// TODO: edit api_access.login to not take the res, because we won't call
+// it from an endpoint
+router.route('/api/v1/login').get((req, res) => {
+	api_access.login(['google', 'dropbox'], res);
 });
 
 router.route('/authorize_google').get((req, res) => {
@@ -108,7 +67,7 @@ router.route('/authorize_google').get((req, res) => {
 		res.send("saved auth");
 	}
 
-	api_access.login_google(saveAuth);
+	api_access_google.login_google(saveAuth);
 });
 
 router.route('/get_google_files').get((req, res) => {
@@ -116,7 +75,7 @@ router.route('/get_google_files').get((req, res) => {
 		res.json(obj)
 	}
 	var folder = req.query.folderId;
-	api_access.get_google_files(savedAuth, folder, null, result)
+	api_access_google.get_google_files(savedAuth, folder, null, result)
 });
 
 router.route('/upload_google_text').get((req, res) => {
@@ -163,7 +122,10 @@ router.route('/dropbox_all/:file_path(*)?').get((req, res) => {
 });
 
 router.route('/dropbox_file_metadata/:file_path(*)?').get((req, res) => {
-	api_access_dropbox.metadata(dropboxSavedToken, get_path(req), res);
+	var temp = function(obj) {
+		res.send(obj);
+	}
+	api_access_dropbox.metadata(dropboxSavedToken, get_path(req), temp);
 });
 
 router.route('/dropbox_file_link/:file_path(*)?').get((req, res) => {

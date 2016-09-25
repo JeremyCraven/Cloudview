@@ -8,32 +8,47 @@ const util = require('util')
 var access = new Object();
 
 var callbackHost = "http://localhost:8081"
+var TOKEN_PATH = (process.env.HOME || process.env.HOMEPATH ||
+    process.env.USERPROFILE) + '/.credentials/dropbox-api-token.json'
 
 access.authorize = function(res, callback) {
 
-  var promise = new Promise(function(resolve, reject) {
-    
-    app.requesttoken(function(status, request_token){
-      var url = request_token.authorize_url + "&oauth_callback=" + callbackHost + "/authorized_dropbox";
-      res.send("<a href=\"" + url + "\"> Click here kiddos!</a>");
-      console.log("request_token is " + util.inspect(request_token, false, null));
-      resolve(request_token);
+  var promise = new Promise(function(resolve, reject) {   
+    fs.readFile(TOKEN_PATH, function(err, token) {
+      if (err) {
+        app.requesttoken(function(status, request_token){
+          var url = request_token.authorize_url + "&oauth_callback=" + callbackHost + "/authorized_dropbox";
+          if (!(res === null)) { res.redirect(url); }
+          console.log("request_token is " + util.inspect(request_token, false, null));
+          resolve(request_token);
+        });
+      } else {
+        if (!(res === null)) { res.redirect(callbackHost + "/authorized_dropbox"); }
+        resolve(null);
+      }
     });
   });
 
   promise.then(function(request_token) {
-      callback(request_token);  
+      callback(request_token);
   }, null);
 }
 
 access.authorized = function(request_token, res, callback) {
-
   var promise = new Promise(function(resolve, reject) {
-    app.accesstoken(request_token, function(status, access_token){
-      console.log("accesstoken is " + util.inspect(access_token, false, null));
-      resolve(access_token);
-    });
+    if (request_token === null) {
+      fs.readFile(TOKEN_PATH, function(err, token) {
+        resolve(JSON.parse(token));
+      });
+    } else {
+      app.accesstoken(request_token, function(status, access_token){
+        fs.writeFile(TOKEN_PATH, JSON.stringify(access_token));
+        console.log("accesstoken is " + util.inspect(access_token, false, null));
+        resolve(access_token);
+      });
+    }
   });
+  
 
   // We need to store:
   // the request_token in our db FOR THIS USER
@@ -67,9 +82,9 @@ access.metadata = function(access_token, file_path, res) {
   var options = {
     root: "dropbox"
   }
-
+  
   client.metadata(file_path, options, function(status, reply){
-    res.send(reply);
+    res(reply);
   });
 }
 
