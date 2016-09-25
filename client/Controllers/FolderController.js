@@ -5,7 +5,8 @@ define([
 		'$scope',
 		'$state',
 		'$mdSidenav',
-		function FolderController($scope, $state, $mdSidenav) {
+		'CloudView.Services.FileServices',
+		function FolderController($scope, $state, $mdSidenav, FileServices) {
 			console.log($state.params);
 			$scope.user = {
 				hasName:	false,
@@ -23,6 +24,21 @@ define([
 			$scope.toggleSidenav = function() {
 				$mdSidenav('left').toggle();
 			};
+
+			$scope.getFiles = function() {
+				var cloudViewToken = $state.params;
+				FileServices.getFiles(cloudViewToken)
+					.then(
+						function(result) {
+							
+						}, 
+						function(result) {
+
+						}
+					);
+
+			};
+
 		}
 	]);
 });

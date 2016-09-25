@@ -17,13 +17,13 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
-router.route('/create_account').get((req, res) => {
+router.route('/api/create_account').get((req, res) => {
 	res.json({
 		status: 200
 	});
 });
 
-router.route('/login').post((req, res) => {
+router.route('/api/login').post((req, res) => {
     // Check if user exists
 
     // If user exists
