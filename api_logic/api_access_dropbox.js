@@ -3,6 +3,7 @@ var readline = require('readline');
 var Promise = require('es6-promise').Promise;
 var dbox  = require("dbox");
 var app   = dbox.app({ "app_key": "mbvg6drwcnt8ijt", "app_secret": "o5dd4i6tp2ku5l9" });
+const util = require('util')
 
 var access = new Object();
 
@@ -15,6 +16,7 @@ access.authorize = function(res, callback) {
     app.requesttoken(function(status, request_token){
       var url = request_token.authorize_url + "&oauth_callback=" + callbackHost + "/authorized_dropbox";
       res.send("<a href=\"" + url + "\"> Click here kiddos!</a>");
+      console.log("request_token is " + util.inspect(request_token, false, null));
       resolve(request_token);
     });
   });
@@ -28,6 +30,7 @@ access.authorized = function(request_token, res, callback) {
 
   var promise = new Promise(function(resolve, reject) {
     app.accesstoken(request_token, function(status, access_token){
+      console.log("accesstoken is " + util.inspect(access_token, false, null));
       resolve(access_token);
     });
   });
@@ -48,7 +51,7 @@ access.account_info = function(access_token, res) {
 }
 
 access.show_all = function(access_token, file_path, res) {
-  var client = app.client(access_token);
+  var client = app.client(JSON.stringify(access_token));
   var options = {
     root: "dropbox"
   }
