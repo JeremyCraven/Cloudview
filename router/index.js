@@ -35,28 +35,16 @@ router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
-<<<<<<< HEAD
-router.route('/api/create_account').get((req, res) => {
-	res.json({
-		status: 200
-	});
-});
-
-router.route('/api/login').post((req, res) => {
-    // Check if user exists
-=======
 router.route('/users/create_account').post((req, res) => {
     var name = req.body.name;
     var username = req.body.username;
 	var email = req.body.email;
     var password = req.body.password;
 
-    console.log(req.body);
-
     User.findOne({ 'email': email}, (err, user) => {
         if (err) {
-            res.json({
-                status: 'Error'
+            res.status(500).json({
+                message: 'Error: Database error'
             });
         }
         else if (user === null) {
@@ -69,66 +57,62 @@ router.route('/users/create_account').post((req, res) => {
 
             newAccount.save((err) => {
                 if (err) {
-                    res.json({
-                        status: 'Error'
+                    res.status(500).json({
+                        error: err,
+                        message: 'Error: Account creation failed'
                     });
                 }
                 else {
-                    res.json({
-                        user: newAccount
+                    res.status(200).json({
+                        message: 'Successful account creation'
                     });
                 }
             });
         }
         else {
             // Account already exists
-            console.log(user);
-            res.json({
-                status: 'Error'
+            res.status(500).json({
+                message: 'Error: Account already exists'
             });
         }
     });
 });
 
 router.route('/users/login').post((req, res) => {
-    var username = req.body.username;
-    var email = req.body.email;
+    var login = req.body.login;
     var password = req.body.password;
->>>>>>> origin/master
-
-    // TODO
-    var login_credentials = (username == undefined) ? email : username;
 
     // Check if user exists
-    User.findOne({ 'email': email, 'password': password }, (err, user) => {
+    User.findOne({ 'email': login, 'password': password }, (err, user) => {
         if (err) {
-            res.json({
-                status: 'Error'
+            res.status(500).json({
+                message: 'Error: Database error'
             });
         }
         else if (user === null) {
             // Check username instead of email
-            User.findOne({ 'username': username, 'password': password }, (err, user) => {
+            User.findOne({ 'username': login, 'password': password }, (err, user) => {
                 if (err) {
-                    res.json({
-                        status: 'Error'
+                    res.status(500).json({
+                        message: 'Error: Database error'
                     });
                 }
                 else if (user === null) {
-                    res.json({
-                        status: 'Invalid login'
+                    res.status(401).json({
+                        message: 'Error: Invalid login'
                     });
                 }
                 else {
-                    res.json({
-                        // return the user
-                        status: 'Error'
+                    res.status(200).json({
+                        message: 'Successful login'
                     });
                 }
             })
         }
         else {
-            res.send("TODO");
+            res.status(200).json({
+                message: 'Successful login'
+            });
         }
     });
 });
@@ -138,7 +122,7 @@ router.route('/users/auth_google').get(passport.authenticate('google', { scope: 
 router.route('/users/auth_google_callback').get(
     passport.authenticate('google',
         { 
-            failureRedirect: '/signup',
+            failureRedirect: '/',
             session: false
         }
     ),
@@ -150,7 +134,7 @@ router.route('/users/auth_google_callback').get(
 var savedAuth = null
 var dropboxSavedToken = null
 
-router.route('/api/v1/get_files').get((req, res) => {
+router.route('/get_files').get((req, res) => {
 	var folder = req.query.folderId;
 	if (!folder) { folder = ''; }
 	var pageToken = req.query.pageToken;
@@ -163,7 +147,7 @@ router.route('/api/v1/get_files').get((req, res) => {
 //
 // TODO: edit api_access.login to not take the res, because we won't call
 // it from an endpoint
-router.route('/api/v1/login').get((req, res) => {
+router.route('login').get((req, res) => {
 	api_access.login(['google', 'dropbox'], res);
 });
 

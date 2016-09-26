@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(__dirname + '/client'));
 
 // Register all our routes
-app.use('/', require('./router'));
+app.use('/api/v1', require('./router'));
 
 // Get the port
 var port = process.env.PORT || 8081;

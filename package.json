@@ -4,6 +4,7 @@
   "description": "- Install [node](http://lmgtfy.com/?q=install+node.js) and [express](http://lmgtfy.com/?q=install+express) - Run ``node server.js`` - Visit ``http://localhost:8081/``",
   "main": "server.js",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "dbox": "^0.6.1",
     "dropbox": "^2.2.1",
