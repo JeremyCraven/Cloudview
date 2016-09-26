@@ -1,44 +1,139 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+// Config
+var conf = require('../config.js');
+
+// Models
+var User = require('../models/user');
+
+// API Logic
 var api_access = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
+
+// Auth
+passport.use(new GoogleStrategy({
+        clientID: conf.CLIENT_ID,
+        clientSecret: conf.CLIENT_SECRET,
+        callbackURL: conf.GOOGLE_CALLBACK
+    },
+    function(accessToken, refreshToken, profile, done) {
+        console.log('ACCESS TOKEN: ' + accessToken);
+        return done({ success: true });
+    }
+));
 
 router.use((req, res, next) => {
     // Default route
     next();
 });
 
-router.route('/').get((req, res) => {
-    console.log('Got here');
-});
-
 router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
-router.route('/create_account').get((req, res) => {
-	res.json({
-		status: 200
-	});
-});
+router.route('/users/create_account').post((req, res) => {
+    var name = req.body.name;
+    var username = req.body.username;
+	var email = req.body.email;
+    var password = req.body.password;
 
-router.route('/login').post((req, res) => {
-    // Check if user exists
+    console.log(req.body);
 
-    // If user exists
-    res.json({
-    	cloudViewToken: 'fakeCloudViewToken'
+    User.findOne({ 'email': email}, (err, user) => {
+        if (err) {
+            res.json({
+                status: 'Error'
+            });
+        }
+        else if (user === null) {
+            // Create a new account
+            var newAccount = User();
+            newAccount.name = name;
+            newAccount.username = username;
+            newAccount.email = email;
+            newAccount.password = password;
+
+            newAccount.save((err) => {
+                if (err) {
+                    res.json({
+                        status: 'Error'
+                    });
+                }
+                else {
+                    res.json({
+                        user: newAccount
+                    });
+                }
+            });
+        }
+        else {
+            // Account already exists
+            console.log(user);
+            res.json({
+                status: 'Error'
+            });
+        }
     });
-
-    // else return 403
 });
 
-router.route('/signup').post((req, res) => {
-	res.json({
-		things: true
-	})
+router.route('/users/login').post((req, res) => {
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+
+    // TODO
+    var login_credentials = (username == undefined) ? email : username;
+
+    // Check if user exists
+    User.findOne({ 'email': email, 'password': password }, (err, user) => {
+        if (err) {
+            res.json({
+                status: 'Error'
+            });
+        }
+        else if (user === null) {
+            // Check username instead of email
+            User.findOne({ 'username': username, 'password': password }, (err, user) => {
+                if (err) {
+                    res.json({
+                        status: 'Error'
+                    });
+                }
+                else if (user === null) {
+                    res.json({
+                        status: 'Invalid login'
+                    });
+                }
+                else {
+                    res.json({
+                        // return the user
+                        status: 'Error'
+                    });
+                }
+            })
+        }
+        else {
+            res.send("TODO");
+        }
+    });
 });
+
+router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive'] }));
+
+router.route('/users/auth_google_callback').get(
+    passport.authenticate('google',
+        { 
+            failureRedirect: '/signup',
+            session: false
+        }
+    ),
+    (req, res) => {
+        res.redirect('/');
+    }
+);
 
 var savedAuth = null
 var dropboxSavedToken = null
