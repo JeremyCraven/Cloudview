@@ -44,7 +44,7 @@ router.route('/users/create_account').post((req, res) => {
     User.findOne({ 'email': email}, (err, user) => {
         if (err) {
             res.status(500).json({
-                message: 'Error: Database error'
+                message: 'Error: Database access'
             });
         }
         else if (user === null) {
@@ -83,18 +83,18 @@ router.route('/users/login').post((req, res) => {
     var password = req.body.password;
 
     // Check if user exists
-    User.findOne({ 'email': login, 'password': password }, (err, user) => {
+    User.findOne({ 'email': login }, (err, user) => {
         if (err) {
             res.status(500).json({
-                message: 'Error: Database error'
+                message: 'Error: Database access'
             });
         }
         else if (user === null) {
             // Check username instead of email
-            User.findOne({ 'username': login, 'password': password }, (err, user) => {
+            User.findOne({ 'username': login }, (err, user) => {
                 if (err) {
                     res.status(500).json({
-                        message: 'Error: Database error'
+                        message: 'Error: Database access'
                     });
                 }
                 else if (user === null) {
@@ -103,15 +103,35 @@ router.route('/users/login').post((req, res) => {
                     });
                 }
                 else {
-                    res.status(200).json({
-                        message: 'Successful login'
+                    // test a matching password
+                    user.comparePassword(password, function(err, isMatch) {
+                        if (err) {
+                            res.status(500).json({
+                                message: 'Error: Password decrypting'
+                            });
+                        }
+                        else if (isMatch) {
+                            res.status(200).json({
+                                message: 'Successful login'
+                            });
+                        }
                     });
                 }
             })
         }
         else {
-            res.status(200).json({
-                message: 'Successful login'
+            // test a matching password
+            user.comparePassword(password, function(err, isMatch) {
+                if (err) {
+                    res.status(500).json({
+                        message: 'Error: Password decrypting'
+                    });
+                }
+                else if (isMatch) {
+                    res.status(200).json({
+                        message: 'Successful login'
+                    });
+                }
             });
         }
     });
