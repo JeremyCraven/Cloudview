@@ -27,7 +27,7 @@ describe('API Wrapper', function() {
 			}
 
 			google_access.get_google_files(new Object(), null,//for root
-				null, function(obj) {
+				null, function(err, obj) {
 					assert('webViewLink' in obj.files[0] || 'webContentLink' in obj.files[0]);
 					done();
 				});
@@ -47,10 +47,10 @@ describe('API Wrapper', function() {
 			}
 
 			google_access.get_google_files(new Object(), null,//for root
-				null, function(obj) {
+				null, function(err, obj) {
 					assert('nextPageToken' in obj);
 					google_access.get_google_files(new Object(), null,//for root
-						obj.nextPageToken, function(obj) {
+						obj.nextPageToken, function(err, obj) {
 							assert(!('nextPageToken' in obj));
 							assert('files' in obj);
 							assert(obj.files === 'next');

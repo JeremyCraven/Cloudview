@@ -7,13 +7,17 @@ var bodyParser = require('body-parser');
 var Directory = require('./models/directory');
 
 // MONGO
-//mongoose.connect('mongodb://localhost:27017/db_name');
+mongoose.connect('mongodb://localhost:27017/cloudview');
 
 // Create the app
 var app = express();
 
 // App use
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 app.use(express.static(__dirname + '/client'));
 
 // Register all our routes

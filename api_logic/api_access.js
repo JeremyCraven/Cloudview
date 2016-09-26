@@ -4,17 +4,13 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
-
-// TODO: stub out service (for google) and see if we can fake api calls for unit testing\
-
 var access = new Object();
 access.service = google.drive('v3')
-
 access.login_google = function(storeAuth) {
   // Load client secrets from a local file.
   fs.readFile('client_secret.json', function processClientSecrets(err, content) {
     if (err) {
-      console.log('Error loading client secret file: ' + JSON.stringify(err));
+      console.log('Error loading client secret file: ' + err);
       return;
     }
     // Authorize a client with the loaded credentials, then call the
@@ -41,14 +37,22 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   }
   this.service.files.list(req, function(err, response) {
     if (err) {
-      res('The API returned an error: ' + JSON.stringify(err), null);
+      res('The API returned an error: ' + err);
       return;
     }
     var files = response.files;
     if (files.length == 0) {
-        res('No files found.', null);
+        res('No files found.')
     } else {
-      res(null, response);
+      res(response);
+      //var str = "";
+      //  str = str + "Files: \n";
+      //  for (var i = 0; i < files.length; i++) {
+      //    var file = files[i];
+      //    str = str + file.name + ' ' + file.id + '\n'
+      //    console.log('%s', JSON.stringify(file));
+      //  }
+      //  res(str);
     }
   });
 }
@@ -59,10 +63,6 @@ access.get_google_file = function(auth, fileId, res) {
     fields: 'mimeType,id,name,parents,webContentLink,webViewLink'
   }
   this.service.files.get(req, function(err, response) {
-    if (err) {
-      res('The API returned an error: ' + JSON.stringify(err));
-      return;
-    }
     res(response);
   });
 }
@@ -87,10 +87,6 @@ access.put_google_file = function(auth, fileName, file, res) {
     media: file,
     auth: auth,
   }, function(err, response) {
-    if (err) {
-      res('The API returned an error: ' + JSON.stringify(err));
-      return;
-    }
     res(response);
   });
 }

@@ -1,22 +1,41 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-var api_access = require('../api_logic/google_access');
+// Config
+var conf = require('../config.js');
+
+// Models
+var User = require('../models/user');
+
+// API Logic
+var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
+var api_access = require('../api_logic/api');
+
+// Auth
+passport.use(new GoogleStrategy({
+        clientID: conf.CLIENT_ID,
+        clientSecret: conf.CLIENT_SECRET,
+        callbackURL: conf.GOOGLE_CALLBACK
+    },
+    function(accessToken, refreshToken, profile, done) {
+        console.log('ACCESS TOKEN: ' + accessToken);
+        return done({ success: true });
+    }
+));
 
 router.use((req, res, next) => {
     // Default route
     next();
 });
 
-router.route('/').get((req, res) => {
-    console.log('Got here');
-});
-
 router.route('/routes').get((req, res) => {
     res.json(router.stack);
 });
 
+<<<<<<< HEAD
 router.route('/api/create_account').get((req, res) => {
 	res.json({
 		status: 200
@@ -25,81 +44,127 @@ router.route('/api/create_account').get((req, res) => {
 
 router.route('/api/login').post((req, res) => {
     // Check if user exists
+=======
+router.route('/users/create_account').post((req, res) => {
+    var name = req.body.name;
+    var username = req.body.username;
+	var email = req.body.email;
+    var password = req.body.password;
 
-    // If user exists
-    res.json({
-    	cloudViewToken: 'fakeCloudViewToken'
+    console.log(req.body);
+
+    User.findOne({ 'email': email}, (err, user) => {
+        if (err) {
+            res.json({
+                status: 'Error'
+            });
+        }
+        else if (user === null) {
+            // Create a new account
+            var newAccount = User();
+            newAccount.name = name;
+            newAccount.username = username;
+            newAccount.email = email;
+            newAccount.password = password;
+
+            newAccount.save((err) => {
+                if (err) {
+                    res.json({
+                        status: 'Error'
+                    });
+                }
+                else {
+                    res.json({
+                        user: newAccount
+                    });
+                }
+            });
+        }
+        else {
+            // Account already exists
+            console.log(user);
+            res.json({
+                status: 'Error'
+            });
+        }
     });
-
-    // else return 403
 });
 
-router.route('/signup').post((req, res) => {
-	res.json({
-		things: true
-	})
+router.route('/users/login').post((req, res) => {
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+>>>>>>> origin/master
+
+    // TODO
+    var login_credentials = (username == undefined) ? email : username;
+
+    // Check if user exists
+    User.findOne({ 'email': email, 'password': password }, (err, user) => {
+        if (err) {
+            res.json({
+                status: 'Error'
+            });
+        }
+        else if (user === null) {
+            // Check username instead of email
+            User.findOne({ 'username': username, 'password': password }, (err, user) => {
+                if (err) {
+                    res.json({
+                        status: 'Error'
+                    });
+                }
+                else if (user === null) {
+                    res.json({
+                        status: 'Invalid login'
+                    });
+                }
+                else {
+                    res.json({
+                        // return the user
+                        status: 'Error'
+                    });
+                }
+            })
+        }
+        else {
+            res.send("TODO");
+        }
+    });
 });
+
+router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive'] }));
+
+router.route('/users/auth_google_callback').get(
+    passport.authenticate('google',
+        { 
+            failureRedirect: '/signup',
+            session: false
+        }
+    ),
+    (req, res) => {
+        res.redirect('/');
+    }
+);
 
 var savedAuth = null
 var dropboxSavedToken = null
 
 router.route('/api/v1/get_files').get((req, res) => {
 	var folder = req.query.folderId;
-	if (folder === null) {
-		res.json(JSON.stringify({
-			nextPageToken: 'hey mitch',
-			files: [
-				{
-					mimeType: 'heh',
-					id: '1',
-					name: 'two',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '2',
-					name: 'three',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '3',
-					name: 'four',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '4',
-					name: 'five',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				},
-				{
-					mimeType: 'heh',
-					id: '5',
-					name: 'six',
-					parents: 'root',
-					webViewLink: 'http://www.google.com'
-				}
-			]
-		}));
-	} else if (folder === 'test') {
-		res.json(JSON.stringify({
-			nextPageToken: 'hey mitch',
-			files: [
-				{
-					mimeType: 'heh',
-					id: '10',
-					name: 'look_at_that',
-					parents: 'test',
-					webViewLink: 'http://www.facebook.com'
-				},
-			]
-		}));
-	}
+	if (!folder) { folder = ''; }
+	var pageToken = req.query.pageToken;
+	api_access.get_files(folder, pageToken, res);
+});
+
+// TODO: this is temp. In the future, we should call this api_access.login when we
+// login to a specific account and use api_access.store_credentials(creds)
+// otherwise when we have the authentication token stored in the db
+//
+// TODO: edit api_access.login to not take the res, because we won't call
+// it from an endpoint
+router.route('/api/v1/login').get((req, res) => {
+	api_access.login(['google', 'dropbox'], res);
 });
 
 router.route('/authorize_google').get((req, res) => {
@@ -108,7 +173,7 @@ router.route('/authorize_google').get((req, res) => {
 		res.send("saved auth");
 	}
 
-	api_access.login_google(saveAuth);
+	api_access_google.login_google(saveAuth);
 });
 
 router.route('/get_google_files').get((req, res) => {
@@ -116,7 +181,7 @@ router.route('/get_google_files').get((req, res) => {
 		res.json(obj)
 	}
 	var folder = req.query.folderId;
-	api_access.get_google_files(savedAuth, folder, null, result)
+	api_access_google.get_google_files(savedAuth, folder, null, result)
 });
 
 router.route('/upload_google_text').get((req, res) => {
@@ -163,7 +228,10 @@ router.route('/dropbox_all/:file_path(*)?').get((req, res) => {
 });
 
 router.route('/dropbox_file_metadata/:file_path(*)?').get((req, res) => {
-	api_access_dropbox.metadata(dropboxSavedToken, get_path(req), res);
+	var temp = function(obj) {
+		res.send(obj);
+	}
+	api_access_dropbox.metadata(dropboxSavedToken, get_path(req), temp);
 });
 
 router.route('/dropbox_file_link/:file_path(*)?').get((req, res) => {
