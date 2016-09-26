@@ -6,7 +6,7 @@ define([
 		function($http) {
 			var service = {};
 
-			var url = 'http://localhost:8081/api/';
+			var url = 'http://localhost:8081/users/';
 			
 			service.login = function(credentials) {
 				return $http({

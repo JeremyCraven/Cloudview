@@ -6,14 +6,28 @@ define([
 		function($http) {
 			var service = {};
 
-			var url = 'http://localhost:8081/api/';
+			var url = 'http://localhost:8081/';
 			
 			service.getFiles = function(credentials) {
 				return $http({
-					method: 'POST',
-					url: url + 'v1/get_files',
+					method: 'GET',
+					url: url + 'api/v1/get_files',
 					data: credentials
 				});
+			}
+
+			service.authorizeGoogle = function() {
+				return $http({
+					method: 'GET',
+					url: url + 'authorize_google',
+				});
+			}
+
+			service.authorizeDropbox = function() {
+				return $http({
+					method: 'GET',
+					url: url + 'authorize_dropbox'
+				})
 			}
 			
 			return service;

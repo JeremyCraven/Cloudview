@@ -22,7 +22,7 @@ define([
 
 			$scope.error = {
 				message: '',
-				exists: ''
+				exists: false
 			};
 
 			$scope.login = function() {
@@ -53,11 +53,13 @@ define([
 				if (userAccount.email != $scope.confirm_email) {
 					$scope.error.exists = true;
 					$scope.error.message = 'The email addresses provided do not match';
+					valid = false;
 				}
 
 				if (userAccount.password != $scope.confirm_password) {
 					$scope.error.exists = true;
 					$scope.error.message = 'The passwords provided do not match';
+					valid = false;
 				}
 				if (valid) {
 					$scope.error.exists = false;

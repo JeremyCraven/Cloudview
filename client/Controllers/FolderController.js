@@ -30,14 +30,18 @@ define([
 				FileServices.getFiles(cloudViewToken)
 					.then(
 						function(result) {
-							
+							console.log(result.data);
 						}, 
 						function(result) {
-
+							console.log(result.data);
 						}
 					);
 
 			};
+
+			FileServices.authorizeGoogle();
+			FileServices.authorizeDropbox();
+			$scope.getFiles();
 
 		}
 	]);
