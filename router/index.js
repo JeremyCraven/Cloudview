@@ -162,16 +162,6 @@ router.route('/get_files').get((req, res) => {
 	res.json(api_access.get_files(credentials, folder, pageToken));
 });
 
-// TODO: this is temp. In the future, we should call this api_access.login when we
-// login to a specific account and use api_access.store_credentials(creds)
-// otherwise when we have the authentication token stored in the db
-//
-// TODO: edit api_access.login to not take the res, because we won't call
-// it from an endpoint
-router.route('login').get((req, res) => {
-	api_access.login(['google', 'dropbox'], res);
-});
-
 router.route('/authorize_google').get((req, res) => {
 	function saveAuth(auth) {
 		savedAuth = auth;
