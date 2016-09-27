@@ -158,7 +158,8 @@ router.route('/get_files').get((req, res) => {
 	var folder = req.query.folderId;
 	if (!folder) { folder = ''; }
 	var pageToken = req.query.pageToken;
-	api_access.get_files(folder, pageToken, res);
+    var credentials = { google: {token: 'blah'}};// TODO: get based on person who requests **** JEREMY
+	res.json(api_access.get_files(credentials, folder, pageToken));
 });
 
 // TODO: this is temp. In the future, we should call this api_access.login when we

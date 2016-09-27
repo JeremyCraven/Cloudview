@@ -1,59 +1,18 @@
 var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
 
-var google_token;
-var dropbox_token;
-
 var api = new Object();
-// options is array with any/all of the following:
-// [ 'google', 'dropbox', 'onedrive' ]
-api.login = function(options, res) {
-	for (var i = 0; i < options.length; i++) {
-		switch (options[i]) {
-			case 'google':
-				var saveAuth = function(auth) {
-					google_token = auth;
-				}
-				api_access_google.login_google(saveAuth);
-				break;
-			case 'dropbox':
-				var getReq = function(auth) {
-					var saveAuth = function(auth2) {
-						dropbox_token = auth2;
-					}
-					// get access token which we can then save
-					api_access_dropbox.authorized(auth, null, saveAuth);
-				}
-				// get request token if needed
-				api_access_dropbox.authorize(null, getReq);
-				break;
-			default:
-				console.log('Service not recognized');
-		}
-		if (i == options.length - 1) {
-			res.json({success: true});
-		}
-	}
-}
-// creds is an object with the credentials
-// { google: {...}, dropbox: {...}, onedrive: {...}}
-api.store_credentials = function(creds) {
-	if ('google' in creds) {
-		google_token = creds.google;
-	}
-	if ('dropbox' in creds) {
-		dropbox_token = creds.dropbox;
-	}
-}
+
 // folder is a string id for the folder
-api.get_files = function(folder, pageToken, res) {
+// creds = { google: ..., dropbox: ..., onedrive: ...}
+api.get_files = function(creds, folder, pageToken, res) {
 	var sp = folder.split('|');
 	var id = sp[1];
 	var service = sp[0];
 	switch (service) {
 		case 'google':
 			var callback = function(err, obj) {
-				if (err) { res.send(err); }
+				if (err) { return {error:err}; }
 				else { 
 					var ret = new Object();
 					if ('nextPageToken' in obj) { ret.nextPageToken = obj.nextPageToken; }
@@ -70,10 +29,10 @@ api.get_files = function(folder, pageToken, res) {
 						ret.files.push(f);
 					});
 
-					res.json(ret); 
+					return ret; 
 				}
 			}
-			api_access_google.get_google_files(google_token,
+			api_access_google.get_google_files(creds.google,
 				id === undefined ? null : id,
 				pageToken,
 				callback);
@@ -92,14 +51,14 @@ api.get_files = function(folder, pageToken, res) {
 					f.webViewLink = 'http://www.google.com';
 					ret.files.push(f);
 				});
-				res.json(ret);
+				return ret;
 			}
-			api_access_dropbox.metadata(dropbox_token,
+			api_access_dropbox.metadata(creds.dropbox,
 				id === undefined ? '' : id,
-				callback);
+				callback); 
 			break;
 		default:
-			res.json({
+			return {
 				files: [
 					{
 						id: 'google',
@@ -120,7 +79,7 @@ api.get_files = function(folder, pageToken, res) {
 						name: 'OneDrive'
 					},
 				]
-			});
+			};
 	}
 }
 
