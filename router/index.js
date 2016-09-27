@@ -161,9 +161,14 @@ router.route('/get_files').get((req, res) => {
 	if (!folder) { folder = ''; }
 	var pageToken = req.query.pageToken;
     var credentials = { google: {token: 'blah'}};// TODO: get based on person who requests **** JEREMY
-	res.json(api_access.get_files(credentials, folder, pageToken));
+    var callback = function(obj) {
+        // if obj doesn't have obj.error, it will be the object you have to return to the user
+        res.send(obj);
+    }
+	res.json(api_access.get_files(credentials, folder, pageToken, callback));
 });
 
+/*
 router.route('/authorize_google').get((req, res) => {
 	function saveAuth(auth) {
 		savedAuth = auth;
@@ -188,6 +193,7 @@ router.route('/upload_google_text').get((req, res) => {
 	var fileObj = {mimeType: 'text/plain', body: 'hello world!'};
 	api_access.put_google_file(savedAuth, "hello.txt", fileObj, result)
 });
+*/
 
 router.route('/authorize_dropbox').get((req, res) => {
 		function saveAuth(auth) {
