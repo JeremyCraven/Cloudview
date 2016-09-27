@@ -31,7 +31,7 @@
   "scripts": {
     "server-test": "mocha tests",
     "client-test": "karma start client/karma.conf.js --browsers PhantomJS --single-run",
-    "test": "npm run server-test && npm run client-test",
+    "test": "npm run server-test || npm run client-test",
     "start": "node server.js"
   },
   "repository": {
