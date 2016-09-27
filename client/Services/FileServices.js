@@ -6,12 +6,12 @@ define([
 		function($http) {
 			var service = {};
 
-			var url = 'http://localhost:8081/';
+			var url = 'http://localhost:8081/api/v1/';
 			
 			service.getFiles = function(credentials) {
 				return $http({
 					method: 'GET',
-					url: url + 'api/v1/get_files',
+					url: url + 'get_files',
 					data: credentials
 				});
 			}

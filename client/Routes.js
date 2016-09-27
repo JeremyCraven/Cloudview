@@ -23,7 +23,7 @@ define([
 				controller:		'CloudView.Controllers.Signup'
 			})
 			.state('folder', {
-				url:			'/folder',
+				url:			'/folder/:id?',
 				templateUrl:	'Views/_folder.html',
 				controller:		'CloudView.Controllers.Folder',
 			});

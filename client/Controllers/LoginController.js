@@ -27,7 +27,7 @@ define([
 							$state.go('folder');
 						},
 						function(result) {
-							// do something with error
+							$state.go('folder');
 						}
 					);
 			};
