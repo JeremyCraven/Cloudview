@@ -105,7 +105,7 @@ access.put_google_folder = function(auth, folderName, res) {
     resource: fileMetadata,
     fields: 'id,mimeType,name,parents'
   }, function(err, file) {
-    f (err) {
+    if (err) {
       res('The API returned an error: ' + JSON.stringify(err));
       return;
     }

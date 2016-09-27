@@ -81,7 +81,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					},
 					{
 						id: 'onedrive',
-						root: 'onedrive'
+						root: 'onedrive',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'OneDrive'
