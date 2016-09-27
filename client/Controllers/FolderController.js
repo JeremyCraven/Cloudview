@@ -25,15 +25,13 @@ define([
 				$mdSidenav('left').toggle();
 			};
 
-			$scope.fileFolderStructure = {};
 
 			$scope.getFiles = function() {
 				folderID = $state.params;
 				FileServices.getFiles(folderID)
 					.then(
 						function(result) {
-							$scope.fileFolderStructure = result.data;
-							console.log($scope.fileFolderStructure);
+							sort(result.data.files);							
 						}, 
 						function(result) {
 							console.log(result.data);
@@ -42,9 +40,19 @@ define([
 
 			};
 
-			FileServices.authorizeGoogle();
-			//FileServices.authorizeDropbox();
+			
 			$scope.getFiles();
+
+			var sort = function(files) {
+				files.forEach(function(file) {
+					if (file.isDir) {
+						$scope.folder.subfolders.push(file);
+					}
+					else {
+						$scope.folder.files.push(file);
+					}
+				})
+			}
 
 			$scope.open = function(object) {
 				if (object.isDir) {
