@@ -14,7 +14,7 @@ var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
 var api_access = require('../api_logic/api');
 
-// Auth
+// Auth Google Strategy
 passport.use(new GoogleStrategy({
         clientID: conf.CLIENT_ID,
         clientSecret: conf.CLIENT_SECRET,
@@ -112,6 +112,7 @@ router.route('/users/login').post((req, res) => {
                         }
                         else if (isMatch) {
                             res.status(200).json({
+                                user: user,
                                 message: 'Successful login'
                             });
                         }
@@ -129,6 +130,7 @@ router.route('/users/login').post((req, res) => {
                 }
                 else if (isMatch) {
                     res.status(200).json({
+                        user: user,
                         message: 'Successful login'
                     });
                 }
