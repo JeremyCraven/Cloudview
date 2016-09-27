@@ -17,7 +17,7 @@ require.config({
 		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
 		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
         //our code
-        'Controllers': './Controllers',
+        'Controllers': './Controllers/Static',
         'Directives': './Directives',
         'Filters': './Filters',
         'Libraries': './Libraries',
