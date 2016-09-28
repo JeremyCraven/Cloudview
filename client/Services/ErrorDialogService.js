@@ -18,14 +18,14 @@ define([
             }
 
             var service = {};
-            service.showError = function(title, body, more, from, to) {
+            service.showError = function(title, body, more, from) {
                 $mdDialog.show({
                     controller: ErrorDialogController,
                     templateUrl: './Views/_error_dialog.html',
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
                     openFrom: from,
-                    closeTo: to,
+                    closeTo: froms,
                     locals: {
                         'title': title,
                         'body': body,
