@@ -80,7 +80,7 @@ router.route('/users/create_account').post((req, res) => {
 
 // Login
 router.route('/users/login').post((req, res) => {
-    var login = req.body.login;
+    var login = req.body.username;
     var password = req.body.password;
 
     // Check if user exists
@@ -114,7 +114,7 @@ router.route('/users/login').post((req, res) => {
                             user: {
                                 name: user.name,
                                 email: user.email,
-                                token: user.token
+                                token: token
                             },
                             message: 'Successful login'
                         });

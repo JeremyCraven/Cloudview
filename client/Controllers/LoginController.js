@@ -25,11 +25,14 @@ define([
 				AccountServices.login(credentials)
 					.then(
 						function(result) {
-							angular.extend(AccountServices.userAccount, result.data);
+							var data = result.data;
+							console.log(data);
 							AccountServices.userAccount.hasName = true;
+							AccountServices.userAccount.name = data.user.name;
+							AccountServices.userAccount.email = data.user.email;
+							AccountServices.userAccount.cloudViewToken = data.user.token;
 							console.log(AccountServices.userAccount);
 							$scope.loading = false;
-							//$state.go('folder', AccountServices.userAccount.CloudViewToken);
 							$state.go('folder');
 						},
 						function(result) {

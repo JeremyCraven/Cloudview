@@ -6,8 +6,8 @@ define([
 		'$state',
 		'$mdSidenav',
 		'CloudView.Services.FileServices',
-		function FolderController($scope, $state, $mdSidenav, FileServices) {
-			console.log($state.params);
+		'CloudView.Services.AccountServices',
+		function FolderController($scope, $state, $mdSidenav, FileServices, AccountServices) {
 			$scope.user = {
 				hasName:	false,
 				username:	'',
@@ -27,11 +27,22 @@ define([
 
 
 			$scope.getFiles = function() {
-				folderID = $state.params;
-				FileServices.getFiles(folderID)
+				var data = {
+					folderId: $state.params.folderId,
+					token: AccountServices.userAccount.cloudViewToken	
+				}
+				console.log(data);
+				
+				FileServices.getFiles(data)
 					.then(
 						function(result) {
-							sort(result.data.files);							
+							sort(result.data.files);
+							if ($state.params.folderId == '') {
+								$folder.title = 'root';
+							}
+							else {
+								$folder.title = '$state.params.folderId';
+							}							
 						}, 
 						function(result) {
 							console.log(result.data);
