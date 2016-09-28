@@ -5,30 +5,15 @@
 				<h2>Add Account</h2>
 				<span flex></span>
 				<md-button class="md-icon-button" ng-click="cancel()">
-					<md-icon md-svg-src="./Views/img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+					<md-icon md-svg-src="./Views/img/icons/ic_close_48px.svg" aria-label="Close dialog"></md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
 
 		<md-dialog-content>
-			<div class="md-dialog-content">
+			<div class="md-dialog-content" style="min-width: 500px; min-height: 300px;">
 				<div id="google-signin"></div>
 			</div>
 		</md-dialog-content>
 	</form>
 </md-dialog>
-<script>
-	function renderButton() {
-		gapi.signin2.render('google-signin', {
-			'scope': 'profile email',
-			'width': 240,
-			'height': 50,
-			'longtitle': true,
-			'theme': 'light',
-			'onsuccess': onSuccess,
-			'onfailure': onFailure
-		});
-	}
-</script>
-
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

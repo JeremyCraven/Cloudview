@@ -4,8 +4,8 @@ define([
 	return module.controller('CloudView.Controllers.Dialog.NewAccount', [
 		'$scope',
 		'$mdDialog',
-		function newAccountDialogController($scope, $mdDialog) {
-			require(['google-signin'], function(gapi){
+		function NewAccountDialogController($scope, $mdDialog) {
+			require(['google-signin'], function(){
 				//lazy load the apis
 				gapi.signin2.render('google-signin', {
 					'scope': 'profile email',
@@ -19,18 +19,21 @@ define([
 			});
 			$scope.google = {
 				onSuccess: function(googleUser) {
-					//TODO: do something
+					//TODO: tell server
+					if(true) { //TODO: change to if success on our server
+						$scope.hide('success');
+					} else {
+						$scope.hide('reason'); //TODO: change reason for toast
+					}
 				},
-				onFailureL function(error) {
+				onFailure: function(error) {
 					//TODO: handle failure
+					$mdDialog.hide('reason'); //TODO: change reason for toast
 				}
 			};
 			$scope.close = function() {
-				//tells the opening controller that we did nothing,
-				//hide(answer) should trigger a refresh on server.
-				//Use hide for success.
 				$mdDialog.cancel();
-			};
+			}
 		}
 	]);
 });

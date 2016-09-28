@@ -17,7 +17,15 @@
 			<!--	TODO: list accounts -->
 			<!--	TODO: place directory tree -->
 			<section>
-				<md-subheader class="md-primary">Accounts</md-subheader>
+				<md-subheader class="md-primary subhead-no-padding">
+					<div  layout="row" layout-align="center center" style="padding-left: 16px;">
+						<h3 class="md-subhead">Accounts</h3>
+						<span flex=""></span>
+						<md-button class="md-icon-button md-primary md-mini" aria-label="New Account" ng-click="ui.new_account($event)">
+							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
+						</md-button>
+					</div>
+				</md-subheader>
 				<md-list md-theme="grey" style="padding-top: 0px;">
 					<md-list-item class="md-2-line" ng-repeat="account in user.accounts" layout-align="start center">
 						<!-- TODO: Click change state event -->

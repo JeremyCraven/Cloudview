@@ -5,7 +5,9 @@ define([
         '$scope',
         '$state',
         '$mdSidenav',
-        function FolderController($scope, $state, $mdSidenav) {
+        '$mdDialog',
+        '$mdBottomSheet',
+        function FolderController($scope, $state, $mdSidenav, $mdDialog, $mdBottomSheet) {
             $scope.ui = {
                 fab: {
                     isOpen: false
@@ -30,6 +32,21 @@ define([
                     new_file: function() {
                         //TODO: new file dialogue
                     }
+                },
+                new_account: function(ev) {
+                    $mdDialog.show({
+                            controller: 'CloudView.Controllers.Dialog.NewAccount',
+                            templateUrl: './Views/_new_account_dialog.html',
+                            parent: angular.element(document.body),
+                            targetEvent: ev,
+                            clickOutsideToClose: true,
+                            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+                        })
+                        .then(function(answer) {
+                            //TODO: handle 'success'
+                        }, function() {
+                            //do nothing becuase the action was canceled
+                        });
                 }
             };
             $scope.user = {
