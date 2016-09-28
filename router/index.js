@@ -151,7 +151,7 @@ router.route('/users/login').post((req, res) => {
 
 
 // Protects routes
-/*router.use((req, res, next) => {
+router.use((req, res, next) => {
     var token = req.headers.token;
 
     if (token) {
@@ -172,7 +172,7 @@ router.route('/users/login').post((req, res) => {
             message: 'Error: Invalid token'
         });
     }
-});*/
+});
 
 router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'] }));
 
@@ -232,7 +232,6 @@ router.route('/get_files').get((req, res) => {
 	var folder = req.query.folderId;
 	if (!folder) { folder = ''; }
 	var pageToken = req.query.pageToken;
-<<<<<<< HEAD
 
     User.findOne({ email: req.decoded.email }, function(err, user) {
         if (err) {
