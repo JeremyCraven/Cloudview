@@ -5,8 +5,9 @@ define([
         '$scope',
         '$state',
         '$mdSidenav',
+		'$mdDialog',
         'CloudView.Services.FileServices',
-        function FolderController($scope, $state, $mdSidenav, FileServices) {
+        function FolderController($scope, $state, $mdSidenav, $mdDialog, FileServices) {
             console.log($state.params);
             $scope.ui = {
                 fab: {
