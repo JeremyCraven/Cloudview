@@ -8,8 +8,6 @@ define([
 
 			service.userAccount = {
 				hasName:	false,
-				username:	'',
-				name:		'',
 				accounts: []
 			}
 

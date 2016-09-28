@@ -17,6 +17,7 @@ define([
 			$scope.loading = false;
 
 			$scope.login = function() {
+				$scope.loading = true;
 				var credentials = {
 					username: $scope.username,
 					password: $scope.password
@@ -24,9 +25,11 @@ define([
 				AccountServices.login(credentials)
 					.then(
 						function(result) {
-							console.log(result.data);
-							// TODO
-							AccountServices.userAccount = result.data;
+							angular.extend(AccountServices.userAccount, result.data);
+							AccountServices.userAccount.hasName = true;
+							console.log(AccountServices.userAccount);
+							$scope.loading = false;
+							//$state.go('folder', AccountServices.userAccount.CloudViewToken);
 							$state.go('folder');
 						},
 						function(result) {
