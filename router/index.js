@@ -242,7 +242,7 @@ router.route('/get_files').get((req, res) => {
         else {
             if (user.google_accounts.length > 0) {
                 for (account of user.google_accounts) {
-                    var credentials = { google: {token: account.access_token }};
+                    var credentials = { google: {token: account.accessToken }};
                     var callback = function(obj) {
                         // if obj doesn't have obj.error, it will be the object you have to return to the user
                         res.send(obj);
