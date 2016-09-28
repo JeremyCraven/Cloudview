@@ -35,6 +35,7 @@ define([
 					.then(
 						function(result) {
 							console.log(result.data);
+							
 							$scope.loading = false;
 							$state.go('login');
 						},
