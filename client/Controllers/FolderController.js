@@ -77,8 +77,7 @@ define([
 
             };
 
-
-            $scope.getFiles();
+            //$scope.getFiles();
 
             var sort = function(files) {
                 files.forEach(function(file) {
@@ -103,15 +102,6 @@ define([
                 newFolder = folder;
                 return newFolder;
             }
-
-            $scope.open = function(object) {
-                if (object.isDir) {
-                    $state.go('folder', object.id);
-                } else {
-                    // open file
-                }
-            }
-
         }
     ]);
 });
