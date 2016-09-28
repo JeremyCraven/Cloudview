@@ -2,5 +2,6 @@ define([
 	'./HomeController',
 	'./FolderController',
 	'./LoginController',
-	'./SignupController'
+	'./SignupController',
+	'./NewAccountDialogController'
 ], function () {});
