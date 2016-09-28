@@ -12,7 +12,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 	switch (service) {
 		case 'google':
 			var callback = function(err, obj) {
-				if (err) { return {error:err}; }
+				if (err) { res({error:err}); }
 				else { 
 					var ret = new Object();
 					if ('nextPageToken' in obj) { ret.nextPageToken = obj.nextPageToken; }
@@ -20,6 +20,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					obj.files.forEach((file) => {
 						var f = new Object();
 						f.id = 'google|' + file.id;
+						f.root = 'google';
 						f.mimeType = file.mimeType;
 						f.isDir = (f.mimeType === 'application/vnd.google-apps.folder');
 						f.name = file.name;
@@ -29,7 +30,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						ret.files.push(f);
 					});
 
-					return ret; 
+					res(ret); 
 				}
 			}
 			api_access_google.get_google_files(creds.google,
@@ -44,6 +45,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 				obj.contents.forEach((file) => {
 					var f = new Object();
 					f.id = 'dropbox|' + file.path.substring(1); // get path minus first '/'
+					f.root = 'dropbox';
 					var sp = file.path.split('/');
 					f.name = sp[sp.length-1];
 					f.isDir = file.is_dir;
@@ -51,36 +53,45 @@ api.get_files = function(creds, folder, pageToken, res) {
 					f.webViewLink = 'http://www.google.com';
 					ret.files.push(f);
 				});
-				return ret;
+				res(ret);
 			}
 			api_access_dropbox.metadata(creds.dropbox,
 				id === undefined ? '' : id,
 				callback); 
 			break;
+		case 'onedrive':
+			res({ files: [{id:'onedrive',root:'onedrive',mimeType:'cloudview/folder',isDir:true,name:'onedrive'}] });
+			break;
 		default:
-			return {
+			res({
 				files: [
 					{
 						id: 'google',
+						root: 'google',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'Google Drive'
 					},
 					{
 						id: 'dropbox',
+						root: 'dropbox',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'Dropbox'
 					},
 					{
 						id: 'onedrive',
+						root: 'onedrive',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'OneDrive'
 					},
 				]
-			};
+			});
 	}
+}
+api.put_file = function(creds, is_folder, name, file, callback) {
+	callback({success:true});
 }
 
 

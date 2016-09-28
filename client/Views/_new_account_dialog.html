@@ -1,0 +1,26 @@
+<md-dialog aria-label="Add Account">
+	<form ng-cloak>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>Add Account</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="close()">
+					<md-icon md-svg-src="./Views/img/icons/ic_close_48px.svg" aria-label="Close dialog"></md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+		<script type="text/ng-template" id="new_account_buttons.html">
+			<div class="md-dialog-content" layout="row" layout-align="center center" layout-fill="">
+				<div id="google-signin">Sign into your google account</div>
+			</div>
+		</script>
+
+		<md-dialog-content hide-gt-sm>
+			<ng-include src="'new_account_buttons.html'"></ng-include>
+		</md-dialog-content>
+		<md-dialog-content hide-xs hide-sm style="min-width: 600px; min-height: 400px;">
+			<ng-include src="'new_account_buttons.html'"></ng-include>
+		</md-dialog-content>
+	</form>
+</md-dialog>

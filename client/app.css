@@ -53,6 +53,10 @@ md-checkbox#account-check-3 .md-icon {
 	width: 100%;
 	display: flex;
 }
+
+.subhead-no-padding .md-subheader-inner {
+	padding: 0px;
+}
 /* Not used at present, maybe will be brought back.  maybe. */
 .cloud_ic_0 svg path {
 	fill: #0088FF;

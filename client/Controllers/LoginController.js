@@ -24,10 +24,13 @@ define([
 				AccountServices.login(credentials)
 					.then(
 						function(result) {
+							console.log(result.data);
+							// TODO
+							AccountServices.userAccount = result.data;
 							$state.go('folder');
 						},
 						function(result) {
-							$state.go('folder');
+							console.log(result.data);
 						}
 					);
 			};
