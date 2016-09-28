@@ -46,12 +46,26 @@ define([
 			var sort = function(files) {
 				files.forEach(function(file) {
 					if (file.isDir) {
-						$scope.folder.subfolders.push(file);
+						$scope.folder.subfolders.push(mapFolder(file));
 					}
 					else {
-						$scope.folder.files.push(file);
+						$scope.folder.files.push(mapFile(file));
 					}
 				})
+			}
+
+			var mapFolder = function(file) {
+				newFile = {};
+				// TODO
+				newFile = file;
+				return newFile;
+			}
+
+			var mapFile = function(folder) {
+				newFolder = {};
+				// TODO
+				newFolder = folder;
+				return newFolder;
 			}
 
 			$scope.open = function(object) {
