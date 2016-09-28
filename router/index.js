@@ -228,9 +228,9 @@ var savedAuth = null
 var dropboxSavedToken = null
 
 router.route('/get_files').post((req, res) => {
-	var folder = req.query.folderId;
+	var folder = req.body.folderId;
 	if (!folder) { folder = ''; }
-	var pageToken = req.query.pageToken;
+	var pageToken = req.body.pageToken;
 
     User.findOne({ email: req.decoded.email }, function(err, user) {
         if (err) {

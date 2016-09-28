@@ -32,7 +32,7 @@ define([
 			service.addGoogleDriveAccount = function(googleDriveCredentials) {
 				return $http({
 					method: 'POST',
-					url: url + '',
+					url: url + 'users/auth_google',
 					data: googleDriveCredentials
 				}); 
 			}
