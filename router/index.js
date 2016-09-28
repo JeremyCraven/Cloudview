@@ -186,7 +186,7 @@ router.route('/users/auth_google_callback').get(
     (req, res) => {
         var userInfo = req.user;
 
-        User.findOne({ email: 'Jeremy@craven.com' }, function(err, user) {
+        User.findOne({ email: req.decoded.email }, function(err, user) {
             if (err) {
                 res.status(500).json({
                     Error: err
