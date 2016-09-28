@@ -80,7 +80,7 @@ router.route('/users/create_account').post((req, res) => {
 
 // Login
 router.route('/users/login').post((req, res) => {
-    var login = req.body.login;
+    var login = req.body.username;
     var password = req.body.password;
 
     // Check if user exists
@@ -114,7 +114,7 @@ router.route('/users/login').post((req, res) => {
                             user: {
                                 name: user.name,
                                 email: user.email,
-                                token: user.token
+                                token: token
                             },
                             message: 'Successful login'
                         });
@@ -139,7 +139,7 @@ router.route('/users/login').post((req, res) => {
                         user: {
                             name: user.name,
                             email: user.email,
-                            token: user.token
+                            token: token
                         },
                         message: 'Successful login'
                     });
@@ -152,8 +152,7 @@ router.route('/users/login').post((req, res) => {
 
 // Protects routes
 router.use((req, res, next) => {
-    var token = req.headers.token;
-
+    var token = req.body.token;
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
             if (err) {
@@ -228,7 +227,7 @@ router.route('/users/auth_google_callback').get(
 var savedAuth = null
 var dropboxSavedToken = null
 
-router.route('/get_files').get((req, res) => {
+router.route('/get_files').post((req, res) => {
 	var folder = req.query.folderId;
 	if (!folder) { folder = ''; }
 	var pageToken = req.query.pageToken;

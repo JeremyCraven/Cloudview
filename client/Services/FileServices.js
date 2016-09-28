@@ -10,7 +10,7 @@ define([
 			
 			service.getFiles = function(credentials) {
 				return $http({
-					method: 'GET',
+					method: 'POST',
 					url: url + 'get_files',
 					data: credentials
 				});
