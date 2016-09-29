@@ -105,26 +105,26 @@
 							</md-grid-list>
 						</div>
 					</section>
-					<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" style="position: fixed; right: 32px; bottom: 32px;">
-						<md-fab-trigger>
-							<md-button aria-label="Add" class="md-fab">
-								<md-icon md-svg-src="./Views/img/icons/ic_add_48px.svg"></md-icon>
-							</md-button>
-						</md-fab-trigger>
-						<md-fab-actions>
-							<md-button aria-label="New File" class="md-fab md-raised md-mini" ng-click="ui.folder.new_file()">
-								<md-icon md-svg-src="./Views/img/icons/ic_note_add_48px.svg" aria-label="New File"></md-icon>
-							</md-button>
-							<md-button aria-label="New Folder" class="md-fab md-raised md-mini" ng-click="ui.folder.new_folder()">
-								<md-icon md-svg-src="./Views/img/icons/folder.svg" aria-label="New Folder"></md-icon>
-							</md-button>
-						</md-fab-actions>
-					</md-fab-speed-dial>
 				</div>
 				<div ng-hide="filteredFiles.length || folder.subfolders.length" layout="column" layout-align="center center" flex>
 					<h1 class="md-body-1">This folder is empty.
                     </h1>
 				</div>
+				<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" style="position: fixed; right: 32px; bottom: 32px;">
+					<md-fab-trigger>
+						<md-button aria-label="Add" class="md-fab">
+							<md-icon md-svg-src="./Views/img/icons/ic_add_48px.svg"></md-icon>
+						</md-button>
+					</md-fab-trigger>
+					<md-fab-actions>
+						<md-button aria-label="New File" class="md-fab md-raised md-mini" ng-click="ui.folder.new_file()">
+							<md-icon md-svg-src="./Views/img/icons/ic_note_add_48px.svg" aria-label="New File"></md-icon>
+						</md-button>
+						<md-button aria-label="New Folder" class="md-fab md-raised md-mini" ng-click="ui.folder.new_folder()">
+							<md-icon md-svg-src="./Views/img/icons/folder.svg" aria-label="New Folder"></md-icon>
+						</md-button>
+					</md-fab-actions>
+				</md-fab-speed-dial>
 			</div>
 			<div ng-hide="activeAccounts.length" layout="column" layout-align="center center" flex>
 				<h1 class="md-body-1">There are no active accounts.

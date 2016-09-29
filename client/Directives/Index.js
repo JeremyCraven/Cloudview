@@ -1,4 +1,6 @@
 define([
-	'./googleSignInButton',
-	'./xregPattern'
+	'./GoogleSignInButton',
+	'./xregPattern',
+	'./OnlyLowerCase',
+	'./OnlyUpperCase'
 ], function () {});

@@ -59,9 +59,11 @@
 					<div layout-gt-xs="row" layout="column">
 						<md-input-container>
 							<label>{{ "GENERAL.PASSWORD" | translate }}</label>
-							<input ng-model="password" type="password" name="password" ng-change="signupForm.confirmPassword.$validate();" ng-disabled="loading.is" required></input>
+							<input ng-model="password" type="password" name="password" ng-change="signupForm.confirmPassword.$validate();" ng-disabled="loading.is" ng-minlength="6" required only-lower-case only-upper-case></input>
 							<div ng-messages="signupForm.password.$error" role="alert">
 								<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+								<div ng-message="minlength">Too Short</div>
+								<div ng-message="onlyLowerCase"></div>
 							</div>
 						</md-input-container>
 						<md-input-container>
