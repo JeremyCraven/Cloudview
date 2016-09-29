@@ -173,9 +173,9 @@ router.use((req, res, next) => {
     }
 });
 
-router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'] }));
+router.route('/users/auth_google').post(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'] }));
 
-router.route('/users/auth_google_callback').get(
+router.route('/users/auth_google_callback').post(
     passport.authenticate('google',
         { 
             failureRedirect: '/',
@@ -211,6 +211,8 @@ router.route('/users/auth_google_callback').get(
                                 res.status(500).json({
                                     Error: err
                                 });
+                            } else {
+                                res.json
                             }
                         });
                     }
@@ -286,6 +288,7 @@ router.route('/upload_google_text').get((req, res) => {
 });
 */
 
+/*
 router.route('/authorize_dropbox').get((req, res) => {
 		function saveAuth(auth) {
 		savedAuth = auth;
@@ -347,5 +350,6 @@ router.route('/dropbox_create/:file_name/:text').get((req, res) => {
 function get_path(req) {
 	return !req.params.file_path ? '' : req.params.file_path;
 }
+*/
 
 module.exports = router;

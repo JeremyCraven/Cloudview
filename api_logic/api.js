@@ -64,7 +64,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 			break;
 		default:
 			var ret = {files:[]};
-			if ('google' in creds) {
+			if (true || 'google' in creds) {
 				ret.files.push({
 						id: 'google',
 						root: 'google',
@@ -73,7 +73,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						name: 'Google Drive'
 					});
 			}
-			if ('dropbox' in creds) {
+			if (true || 'dropbox' in creds) {
 				ret.files.push({
 						id: 'dropbox',
 						root: 'dropbox',
@@ -82,7 +82,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						name: 'Dropbox'
 					});
 			}
-			if ('onedrive' in creds) {
+			if (true || 'onedrive' in creds) {
 				ret.files.push({
 						id: 'onedrive',
 						root: 'onedrive',

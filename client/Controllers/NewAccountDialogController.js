@@ -4,7 +4,8 @@ define([
     return module.controller('CloudView.Controllers.Dialog.NewAccount', [
         '$scope',
         '$mdDialog',
-        function NewAccountDialogController($scope, $mdDialog) {
+        'CloudView.Services.AccountServices',
+        function NewAccountDialogController($scope, $mdDialog, AccountServices) {
             //TODO: handle google auto signin
             $scope.google = {
                 'width': 240,
@@ -22,6 +23,25 @@ define([
             };
             $scope.close = function() {
                 $mdDialog.cancel();
+            }
+            $scope.login_google = function() {
+                $scope.loading = true;
+                var credentials = {
+                    token: AccountServices.userAccount.cloudViewToken
+                };
+                AccountServices.addGoogleDriveAccount(credentials)
+                    .then(
+                        function(result) {
+                            var data = result.data;
+                            //console.log(data);
+                            //AccountServices.userAccount.accounts.push(data);
+                            $scope.loading = false;
+                            $scope.close();
+                        },
+                        function(result) {
+                            console.log(result.data);
+                        }
+                    );
             }
         }
     ]);

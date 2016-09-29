@@ -66,8 +66,8 @@
 		</md-toolbar>
 		<md-content layout="column" flex>
 			<!-- TODO: stuff goes here -->
-			<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length">
-				<div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || folder.subFolders.length">
+			<!--<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length"> -->
+				<div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || folder.subfolders.length">
 					<section ng-show="folder.subfolders.length">
 						<md-subheader class="md-primary">
 							<span style="padding-left: 8px;">Folders</span>
@@ -125,11 +125,11 @@
 						</md-button>
 					</md-fab-actions>
 				</md-fab-speed-dial>
-			</div>
+			<!--</div>
 			<div ng-hide="activeAccounts.length" layout="column" layout-align="center center" flex>
 				<h1 class="md-body-1">There are no active accounts.
                 </h1>
-			</div>
+			</div>-->
 		</md-content>
 	</div>
 </div>
