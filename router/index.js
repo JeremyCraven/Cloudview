@@ -247,7 +247,7 @@ router.route('/get_files').post((req, res) => {
                         res.send(obj);
                     };
                     
-                    res.json(api_access.get_files(credentials, folder, pageToken, callback));
+                    api_access.get_files(credentials, folder, pageToken, callback);
                 }
             }
         }

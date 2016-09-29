@@ -63,31 +63,35 @@ api.get_files = function(creds, folder, pageToken, res) {
 			res({ files: [{id:'onedrive',root:'onedrive',mimeType:'cloudview/folder',isDir:true,name:'onedrive'}] });
 			break;
 		default:
-			res({
-				files: [
-					{
+			var ret = {files:[]};
+			if ('google' in creds) {
+				ret.files.push({
 						id: 'google',
 						root: 'google',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'Google Drive'
-					},
-					{
+					});
+			}
+			if ('dropbox' in creds) {
+				ret.files.push({
 						id: 'dropbox',
 						root: 'dropbox',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'Dropbox'
-					},
-					{
+					});
+			}
+			if ('onedrive' in creds) {
+				ret.files.push({
 						id: 'onedrive',
 						root: 'onedrive',
 						mimeType: 'cloudview/folder',
 						isDir: true,
 						name: 'OneDrive'
-					},
-				]
-			});
+					});
+			}
+			res(ret);
 	}
 }
 api.put_file = function(creds, is_folder, name, file, callback) {
