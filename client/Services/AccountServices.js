@@ -6,7 +6,12 @@ define([
 		function($http) {
 			var service = {};
 
-			var url = 'http://localhost:8081/api/';
+			service.userAccount = {
+				hasName:	false,
+				accounts: []
+			}
+
+			var url = 'http://localhost:8081/api/v1/';
 			
 			service.login = function(credentials) {
 				return $http({
@@ -27,7 +32,7 @@ define([
 			service.addGoogleDriveAccount = function(googleDriveCredentials) {
 				return $http({
 					method: 'POST',
-					url: url + '',
+					url: url + 'users/auth_google',
 					data: googleDriveCredentials
 				}); 
 			}

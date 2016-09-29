@@ -17,6 +17,7 @@ define([
 			$scope.loading = false;
 
 			$scope.login = function() {
+				$scope.loading = true;
 				var credentials = {
 					username: $scope.username,
 					password: $scope.password
@@ -24,10 +25,18 @@ define([
 				AccountServices.login(credentials)
 					.then(
 						function(result) {
+							var data = result.data;
+							console.log(data);
+							AccountServices.userAccount.hasName = true;
+							AccountServices.userAccount.name = data.user.name;
+							AccountServices.userAccount.email = data.user.email;
+							AccountServices.userAccount.cloudViewToken = data.user.token;
+							console.log(AccountServices.userAccount);
+							$scope.loading = false;
 							$state.go('folder');
 						},
 						function(result) {
-							$state.go('folder');
+							console.log(result.data);
 						}
 					);
 			};

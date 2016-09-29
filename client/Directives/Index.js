@@ -1,3 +1,4 @@
 define([
+	'./googleSignInButton',
 	'./xregPattern'
 ], function () {});

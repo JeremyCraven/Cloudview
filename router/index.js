@@ -2,39 +2,39 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var jwt = require('jsonwebtoken');
 
 // Config
 var conf = require('../config.js');
 
 // Models
 var User = require('../models/user');
+var CloudAccount = require('../models/cloud_account');
 
 // API Logic
 var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
 var api_access = require('../api_logic/api');
 
-// Auth
+// Auth Google Strategy
 passport.use(new GoogleStrategy({
         clientID: conf.CLIENT_ID,
         clientSecret: conf.CLIENT_SECRET,
         callbackURL: conf.GOOGLE_CALLBACK
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log('ACCESS TOKEN: ' + accessToken);
-        return done({ success: true });
+        var userInfo = {
+            accountType: 'google',
+            accountId: 'google-' + profile.id,
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        };
+
+        return done(null, userInfo);
     }
 ));
 
-router.use((req, res, next) => {
-    // Default route
-    next();
-});
-
-router.route('/routes').get((req, res) => {
-    res.json(router.stack);
-});
-
+// Create an account
 router.route('/users/create_account').post((req, res) => {
     var name = req.body.name;
     var username = req.body.username;
@@ -78,8 +78,9 @@ router.route('/users/create_account').post((req, res) => {
     });
 });
 
+// Login
 router.route('/users/login').post((req, res) => {
-    var login = req.body.login;
+    var login = req.body.username;
     var password = req.body.password;
 
     // Check if user exists
@@ -105,22 +106,24 @@ router.route('/users/login').post((req, res) => {
                 else {
                     // test a matching password
                     user.comparePassword(password, function(err, isMatch) {
-                        if (err) {
-                            res.status(500).json({
-                                message: 'Error: Password decrypting'
-                            });
-                        }
-                        else if (isMatch) {
-                            res.status(200).json({
-                                message: 'Successful login'
-                            });
-                        }
+                        var token = jwt.sign(user, conf.TOKEN_SECRET, {
+                            expiresIn: '1h'
+                        });
+
+                        res.status(200).json({
+                            user: {
+                                name: user.name,
+                                email: user.email,
+                                token: token
+                            },
+                            message: 'Successful login'
+                        });
                     });
                 }
             })
         }
         else {
-            // test a matching password
+            // Test a matching password
             user.comparePassword(password, function(err, isMatch) {
                 if (err) {
                     res.status(500).json({
@@ -128,7 +131,16 @@ router.route('/users/login').post((req, res) => {
                     });
                 }
                 else if (isMatch) {
+                    var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
+                        expiresIn: '1h'
+                    });
+
                     res.status(200).json({
+                        user: {
+                            name: user.name,
+                            email: user.email,
+                            token: token
+                        },
                         message: 'Successful login'
                     });
                 }
@@ -137,7 +149,31 @@ router.route('/users/login').post((req, res) => {
     });
 });
 
-router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive'] }));
+
+// Protects routes
+router.use((req, res, next) => {
+    var token = req.body.token;
+    if (token) {
+        jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
+            if (err) {
+                res.status(500).json({
+                    message: 'Error: Invalid token'
+                });
+            }
+            else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    }
+    else {
+        res.status(500).json({
+            message: 'Error: Invalid token'
+        });
+    }
+});
+
+router.route('/users/auth_google').get(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'] }));
 
 router.route('/users/auth_google_callback').get(
     passport.authenticate('google',
@@ -147,30 +183,78 @@ router.route('/users/auth_google_callback').get(
         }
     ),
     (req, res) => {
-        res.redirect('/');
+        var userInfo = req.user;
+
+        User.findOne({ email: req.decoded.email }, function(err, user) {
+            if (err) {
+                res.status(500).json({
+                    Error: err
+                });
+            }
+            else {
+                var newGoogleAccount = CloudAccount();
+                newGoogleAccount.accountType = userInfo.accountType;
+                newGoogleAccount.accountId = userInfo.accountId;
+                newGoogleAccount.accessToken = userInfo.accessToken;
+                newGoogleAccount.refreshToken = userInfo.refreshToken;
+
+                newGoogleAccount.save(function(err) {
+                    if (err) {
+                        res.status(500).json({
+                            Error: err
+                        });
+                    }
+                    else {
+                        user.google_accounts.push(newGoogleAccount);
+                        user.save(function(err) {
+                            if (err) {
+                                res.status(500).json({
+                                    Error: err
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        res.json({
+            message: 'Successfully authenticated with google drive'
+        });
     }
 );
 
 var savedAuth = null
 var dropboxSavedToken = null
 
-router.route('/get_files').get((req, res) => {
-	var folder = req.query.folderId;
+router.route('/get_files').post((req, res) => {
+	var folder = req.body.folderId;
 	if (!folder) { folder = ''; }
-	var pageToken = req.query.pageToken;
-	api_access.get_files(folder, pageToken, res);
+	var pageToken = req.body.pageToken;
+
+    User.findOne({ email: req.decoded.email }, function(err, user) {
+        if (err) {
+            res.status(500).json({
+                message: 'Error: Database access'
+            });
+        }
+        else {
+            if (user.google_accounts.length > 0) {
+                for (account of user.google_accounts) {
+                    var credentials = { google: {token: account.accessToken }};
+                    var callback = function(obj) {
+                        // if obj doesn't have obj.error, it will be the object you have to return to the user
+                        res.send(obj);
+                    };
+                    
+                    res.json(api_access.get_files(credentials, folder, pageToken, callback));
+                }
+            }
+        }
+    });    
 });
 
-// TODO: this is temp. In the future, we should call this api_access.login when we
-// login to a specific account and use api_access.store_credentials(creds)
-// otherwise when we have the authentication token stored in the db
-//
-// TODO: edit api_access.login to not take the res, because we won't call
-// it from an endpoint
-router.route('login').get((req, res) => {
-	api_access.login(['google', 'dropbox'], res);
-});
-
+/*
 router.route('/authorize_google').get((req, res) => {
 	function saveAuth(auth) {
 		savedAuth = auth;
@@ -195,6 +279,7 @@ router.route('/upload_google_text').get((req, res) => {
 	var fileObj = {mimeType: 'text/plain', body: 'hello world!'};
 	api_access.put_google_file(savedAuth, "hello.txt", fileObj, result)
 });
+*/
 
 router.route('/authorize_dropbox').get((req, res) => {
 		function saveAuth(auth) {
@@ -255,7 +340,7 @@ router.route('/dropbox_create/:file_name/:text').get((req, res) => {
 });
 
 function get_path(req) {
-	return !req.params.file_path ? '' : req.params.file_path
+	return !req.params.file_path ? '' : req.params.file_path;
 }
 
 module.exports = router;

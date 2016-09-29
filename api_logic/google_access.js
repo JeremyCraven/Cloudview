@@ -95,6 +95,24 @@ access.put_google_file = function(auth, fileName, file, res) {
   });
 }
 
+access.put_google_folder = function(auth, folderName, res) {
+  var fileMetadata = {
+    'name' : folderName,
+    'mimeType' : 'application/vnd.google-apps.folder'
+  };
+  drive.files.create({
+    auth: auth,
+    resource: fileMetadata,
+    fields: 'id,mimeType,name,parents'
+  }, function(err, file) {
+    if (err) {
+      res('The API returned an error: ' + JSON.stringify(err));
+      return;
+    }
+    res(file);
+  });
+}
+
 
 
 
