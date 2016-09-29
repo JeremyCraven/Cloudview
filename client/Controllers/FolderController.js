@@ -7,7 +7,8 @@ define([
         '$mdSidenav',
 		'$mdDialog',
         'CloudView.Services.FileServices',
-        function FolderController($scope, $state, $mdSidenav, $mdDialog, FileServices) {
+        'CloudView.Services.AccountServices',
+        function FolderController($scope, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
             console.log($state.params);
             $scope.ui = {
                 fab: {
@@ -70,6 +71,7 @@ define([
             };
             $scope.getFiles = function() {
                 folderID = $state.params;
+                folderID.token = AccountServices.userAccount.cloudViewToken
                 FileServices.getFiles(folderID)
                     .then(
                         function(result) {
@@ -82,7 +84,7 @@ define([
 
             };
 
-            //$scope.getFiles();
+            $scope.getFiles();
 
             var sort = function(files) {
                 files.forEach(function(file) {
@@ -94,18 +96,16 @@ define([
                 })
             }
 
-            var mapFolder = function(file) {
-                newFile = {};
-                // TODO
-                newFile = file;
-                return newFile;
+            var mapFolder = function(folder) {
+                folder.type = folder.mimeType;
+                folder.account = 0;
+                return folder;
             }
 
-            var mapFile = function(folder) {
-                newFolder = {};
-                // TODO
-                newFolder = folder;
-                return newFolder;
+            var mapFile = function(file) {
+                file.type = file.mimeType;
+                file.account = 0;
+                return file;
             }
         }
     ]);

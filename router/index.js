@@ -239,17 +239,22 @@ router.route('/get_files').post((req, res) => {
             });
         }
         else {
-            if (user.google_accounts.length > 0) {
+            console.log(err);
+            console.log(user);
+
+            var credentials = {};
+            if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
+                console.log(user.google_accounts)
+                credentials.google = {};
                 for (account of user.google_accounts) {
-                    var credentials = { google: {token: account.accessToken }};
-                    var callback = function(obj) {
-                        // if obj doesn't have obj.error, it will be the object you have to return to the user
-                        res.send(obj);
-                    };
-                    
-                    api_access.get_files(credentials, folder, pageToken, callback);
+                    credentials.google.access_token = account.accessToken;
                 }
             }
+            var callback = function(obj) {
+                // if obj doesn't have obj.error, it will be the object you have to return to the user
+                res.send(obj);
+            };
+            api_access.get_files(credentials, folder, pageToken, callback);
         }
     });    
 });
