@@ -1,7 +1,5 @@
 require.config({
     paths: {
-		//external
-		'google-signin': 'https://apis.google.com/js/platform.js',
         //Bower Libraries
         'angular': './bower_components/angular/angular',
         'ngAnimate': './bower_components/angular-animate/angular-animate',
@@ -30,9 +28,6 @@ require.config({
         'angular': {
             exports: 'angular'
         },
-		'google-signin': {
-			export: 'gapi'
-		},
         'ngAnimate': {
             deps: ['angular']
         },

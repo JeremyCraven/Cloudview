@@ -12,14 +12,14 @@
 
 		<script type="text/ng-template" id="new_account_buttons.html">
 			<div class="md-dialog-content" layout="row" layout-align="center center" layout-fill="">
-				<div class="g-signin2" data-onsuccess="google.signin">Google Sign In</div>
+				<google-sign-in-button button-id="google-signin-button" options="google"></google-sign-in-button>
 			</div>
 		</script>
 
 		<md-dialog-content hide-gt-sm>
 			<ng-include src="'new_account_buttons.html'"></ng-include>
 		</md-dialog-content>
-		<md-dialog-content hide-xs hide-sm style="min-width: 600px; min-height: 400px;">
+		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;">
 			<ng-include src="'new_account_buttons.html'"></ng-include>
 		</md-dialog-content>
 	</form>
