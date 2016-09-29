@@ -8,10 +8,11 @@ define([
 			$scope.google = {
 				onsuccess: function(googleUser) {
 					//TODO: tell server
+					debugger;
 					if(true) { //TODO: change to if success on our server
-						$scope.hide('success');
+						$mdDialog.hide('success');
 					} else {
-						$scope.hide('reason'); //TODO: change reason for toast
+						$mdDialog.hide('reason'); //TODO: change reason for toast
 					}
 				}
 			};
