@@ -10,7 +10,7 @@ define([
 					//TODO: tell server
 					debugger;
 					if(true) { //TODO: change to if success on our server
-						$mdDialog.hide('success');
+						$mdDialog.hide('success'); //TODO: figure out a response to folder controller to tell it to update the view
 					} else {
 						$mdDialog.hide('reason'); //TODO: change reason for toast
 					}

@@ -45,6 +45,11 @@ define([
                         })
                         .then(function(answer) {
                             //TODO: handle 'success'
+							if(answer === 'success') {
+								//TODO: reload account list
+							} else {
+								//TODO: render ErrorDialog or use a toast
+							}
                         }, function() {
                             //do nothing becuase the action was canceled
                         });
