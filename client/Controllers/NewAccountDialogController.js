@@ -5,6 +5,7 @@ define([
 		'$scope',
 		'$mdDialog',
 		function NewAccountDialogController($scope, $mdDialog) {
+			//TODO: handle google auto signin
 			$scope.google = {
 				onsuccess: function(googleUser) {
 					//TODO: tell server
