@@ -12,6 +12,7 @@ define([
                 onsuccess: function(googleUser) {
                     //TODO: tell server
                     debugger;
+					gapi.auth2.getAuthInstance().signOut();
                     if (true) { //TODO: change to if success on our server
                         $mdDialog.hide('success'); //TODO: figure out a response to folder controller to tell it to update the view
                     } else {
