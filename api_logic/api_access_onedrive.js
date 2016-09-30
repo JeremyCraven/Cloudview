@@ -1,125 +1,146 @@
 var fs = require('fs');
 var readline = require('readline');
 var Promise = require('es6-promise').Promise;
-var oned  = require("./oned");
-var app   = oned.app({ "client_id": "58054cc9-75fc-4e79-bfa2-8dac7656afbf", "client_secret": "LYFRbjrb5J5bjiRqmfaNY3b" });
+var oned  = require("./onedrive-nodejs-api/oned");
+//var app   = oned.app({ "client_id": "58054cc9-75fc-4e79-bfa2-8dac7656afbf", "client_secret": "LYFRbjrb5J5bjiRqmfaNY3b" });
 const util = require('util')
 
 var access = new Object();
 
-var callbackHost = "http://localhost:8081"
-var TOKEN_PATH = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/onedrive-api-token.json'
+access.user_info = function(access_token, res) {
+  var app = oned.app(access_token); 
 
-access.authorize = function(res) {
-
-  fs.readFile(TOKEN_PATH, function(err, token) {
-      if (err) {
-        app.requesttoken(callbackHost + "/authorized_onedrive", ["wl.basic", "wl.offline_access", "wl.skydrive_update"]);
-      } else {
-        if (!(res === null)) { 
-          res.redirect(callbackHost + "/authorized_onedrive"); 
-        }
-      }
-  }
-}
-
-access.authorized = function(request_token, res, callback) {
-  var promise = new Promise(function(resolve, reject) {
-    if (request_token === null) {
-      fs.readFile(TOKEN_PATH, function(err, token) {
-        resolve(JSON.parse(token));
-      });
-    } else {
-      app.accesstoken(request_token, function(status, access_token){
-        fs.writeFile(TOKEN_PATH, JSON.stringify(access_token));
-        console.log("accesstoken is " + util.inspect(access_token, false, null));
-        resolve(access_token);
-      });
-    }
-  });
-  
-
-  // We need to store:
-  // the request_token in our db FOR THIS USER
-  // the access_token in our db FOR THIS USER SESSION
-  promise.then(function(access_token) {
-    callback(access_token);
-  }, null);
-}
-
-access.account_info = function(access_token, res) {
-  var client = app.client(access_token);
-  client.account(function(status, reply){
-      res.send(reply)
-  })
-}
-
-access.show_all = function(access_token, file_path, res) {
-  var client = app.client(JSON.stringify(access_token));
-  var options = {
-    root: "dropbox"
-  }
-
-  client.readdir(file_path, options, function(status, reply){
-    console.log(status);
-    res.send(reply);
+  app.user_info(function(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
   });
 }
 
-access.metadata = function(access_token, file_path, res) {
-  var client = app.client(access_token);
-  var options = {
-    root: "dropbox"
-  }
-  
-  client.metadata(file_path, options, function(status, reply){
-    res(reply);
+access.edit_link = function(access_token, file_path, res) {
+  var app = oned.app(access_token); 
+
+  app.edit_link(file_path, function(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
   });
 }
 
-access.get_link = function(access_token, file_path, res) {
-  var client = app.client(access_token);
-  var options = {
-    root: "dropbox"
-  }
+access.download_link = function(access_token, file_path, res) {
+  var app = oned.app(access_token); 
 
-  client.shares(file_path, options, function(status, reply){
-    res.send(reply);
+  app.download_link(file_path, function(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
   });
 }
 
-access.get_streamable = function(access_token, file_path, res) {
-  var client = app.client(access_token);
-  var options = {
-    root: "dropbox"
-  }
+access.delete = function(access_token, file_path, res) {
+  var app = oned.app(access_token); 
 
-  client.media(file_path, options, function(status, reply){
-    res.send(reply);
+  app.delete(ffile_path, unction(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
   });
 }
 
-access.search = function(access_token, search, file_path, res) {
-  var client = app.client(access_token);
-  var options = {
-    root: "dropbox"
-  }
+access.create_folder = function(access_token, folder_name, res, folder_path) {
+  var app = oned.app(access_token); 
 
-  client.search(file_path, search, options, function(status, reply){
-    res.send(reply);
+  if(folder_path === null) {
+    app.create_folder(folder_name, function(status, reply){
+        if(status == 200)
+          res.send(reply);
+        else
+          res.send(get_error(status));
+    });
+  } else {
+    app.create_folder(folder_name, function(status, reply){
+        if(status == 200)
+          res.send(reply);
+        else
+          res.send(get_error(status));
+    }, folder_path);
+  }
+}
+
+access.list_files = function(access_token, res, folder_id) {
+  var app = oned.app(access_token); 
+
+  if(folder_id === null) {
+    app.list_files(function(status, reply){
+        if(status == 200)
+          res.send(reply);
+        else
+          res.send(get_error(status));
+    });
+  } else {
+    app.list_files(function(status, reply){
+        if(status == 200)
+          res.send(reply);
+        else
+          res.send(get_error(status));
+    }, folder_id);
+  }
+}
+
+access.search = function(access_token, search_term, res) {
+  var app = oned.app(access_token); 
+
+  app.search(search_term, function(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
   });
 }
 
-access.create = function(access_token, file_path, text, res) {
-  var client = app.client(access_token);
-  var options = {
-    root: "dropbox"
-  }
-
-  client.put(file_path, text, options, function(status, reply){
-    res.send(reply);
-  });
+var get_error : function(status_number) {
+  switch (status_number) {
+            case 200: 
+              return "OK";
+            case 202: 
+              return "Accepted";
+            case 204: 
+              return "No content";
+            case 400: 
+              return "Bad request";
+            case 401: 
+              return "Unauthorized";
+            case 403: 
+              return "Forbidden";
+            case 404: 
+              return "Not found";
+            case 405: 
+              return "Not allowed";
+            case 409: 
+              return "Resource conflict";
+            case 410: 
+              return "Gone";
+            case 411: 
+              return "Length required";
+            case 413: 
+              return "Request entity too large";
+            case 414: 
+              return "Request URI too long";
+            case 415: 
+              return "Unsupported type";
+            case 500: 
+              return "Server error";
+            case 501: 
+              return "Not implemented";
+            case 502: 
+              return "Bad gateway";
+            default: 
+              return "Unknown response code";
+        };
 }
 
 module.exports = access
