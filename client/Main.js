@@ -17,6 +17,7 @@ require.config({
 		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
 		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
         //our code
+		'Controllers-Common': './Controllers/Common',
         'Controllers': './Controllers',
         'Directives': './Directives',
         'Filters': './Filters',
@@ -28,6 +29,9 @@ require.config({
         'angular': {
             exports: 'angular'
         },
+		'underscore': {
+			exports: '_'
+		},
         'ngAnimate': {
             deps: ['angular']
         },
