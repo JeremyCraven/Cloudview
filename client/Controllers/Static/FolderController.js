@@ -41,6 +41,7 @@ define([
                     }
                 }]
 			};
+			$scope.folder.path = ['Party', 'Supplies'];
             for (var i = 0; i < 13; i++) {
                 $scope.folder.subfolders.push({
                     name: 'Folder ' + (i + 1),

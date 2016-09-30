@@ -4,7 +4,7 @@ define([
     return module.controller('CloudView.Controllers.Common.Folder', [
         '$scope',
         '$mdSidenav',
-		'$mdDialog',
+        '$mdDialog',
         function FolderController($scope, $mdSidenav, $mdDialog) {
             $scope.ui = {
                 fab: {
@@ -23,6 +23,23 @@ define([
                     open: {},
                     new_file: function() {}
                 },
+                sort: {
+                    fields: [{
+                        display: 'None',
+                        value: null,
+                        has_direction: false
+                    }, {
+                        display: 'Name',
+                        value: 'name',
+                        has_direction: true
+                    }],
+                    sort: function(field, direction) {
+                        $scope.ui.sort.field = field;
+                        $scope.ui.sort.reverse = direction;
+                    },
+                    field: null,
+                    reverse: false
+                },
                 new_account: function(ev) {
                     $mdDialog.show({
                             controller: 'CloudView.Controllers.Dialog.NewAccount',
@@ -34,7 +51,7 @@ define([
                         })
                         .then($scope.ui.new_account_response, function() {});
                 },
-				new_account_response: function(response){}
+                new_account_response: function(response) {}
             };
             $scope.user = {
                 hasName: false,
