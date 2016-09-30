@@ -5,9 +5,11 @@ define([
 		'$scope',
 		'$controller',
 		'$state',
+		'$cookies',
 		'CloudView.Services.AccountServices',
-		function LoginController($scope, $controller, $state, AccountServices) {
+		function LoginController($scope, $controller, $state, $cookies, AccountServices) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Login', {$scope: $scope, $state: $state}));
+
 			$scope.login = function() {
 				$scope.loading = true;
 				var credentials = {
@@ -23,6 +25,7 @@ define([
 							AccountServices.userAccount.name = data.user.name;
 							AccountServices.userAccount.email = data.user.email;
 							AccountServices.userAccount.cloudViewToken = data.user.token;
+							$cookies.put(AccountServices.cookie_token_key, data.user.token);
 							console.log(AccountServices.userAccount);
 							$scope.loading = false;
 							$state.go('folder');
