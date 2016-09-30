@@ -1,6 +1,7 @@
 define([
     './Module'
 ], function(module) {
+    'use strict';
     return module.controller('CloudView.Controllers.Folder', [
         '$scope',
         '$state',
@@ -16,6 +17,23 @@ define([
                     toggleSidenav: function() {
                         $mdSidenav('left').toggle();
                     }
+                },
+                sort: {
+                    fields: [{
+						display: 'None',
+                        value: null,
+						has_direction: false
+					},{
+                        display: 'Name',
+                        value: 'name',
+						has_direction: true
+                    }],
+                	sort: function(field, direction) {
+                        $scope.ui.sort.field = field;
+                        $scope.ui.sort.reverse = direction;
+                    },
+                    field: null,
+                    reverse: false
                 },
                 folder: {
                     go: function(path) {

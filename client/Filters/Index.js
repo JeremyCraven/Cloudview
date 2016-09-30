@@ -1,4 +1,5 @@
 define([
 	'./ParentFolderFilter',
-	'./SelectedAccountsFilter'
+	'./SelectedAccountsFilter',
+	'./SortFilesFilter'
 ], function(){});
