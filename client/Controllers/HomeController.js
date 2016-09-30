@@ -1,16 +1,12 @@
 define([
-	'./Module'
+	'./Common/HomeController'
 ], function(module) {
 	return module.controller('CloudView.Controllers.Home', [
 		'$scope',
 		'$state',
-		function HomeController($scope, $state) {
-			$scope.login = function() {
-				$state.go('login');
-			};
-			$scope.signup = function() {
-				$state.go('signup');
-			};
+		'$controller',
+		function HomeController($scope, $state, $controller) {
+			angular.extend(this, $controller('CloudView.Controllers.Common.Home', {$scope: $scope, $state: $state}));
 		}
 	]);
 });
