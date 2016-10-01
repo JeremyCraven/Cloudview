@@ -10,8 +10,14 @@ define([
         'CloudView.Services.FileServices',
         'CloudView.Services.AccountServices',
         function FolderController($scope, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
-            console.log($state.params);
+            //console.log($state.params);
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
+            $scope.ui.folder.go = function(path) {
+                $state.params.folderId = path;
+                $scope.folder.subfolders = [];
+                $scope.folder.files = [];
+                getFiles();
+            }
             var getFiles = function() {
                 folderID = $state.params;
                 folderID.token = AccountServices.userAccount.cloudViewToken
