@@ -5,7 +5,8 @@ define([
 		'$scope',
 		'$state',
 		'CloudView.Services.AccountServices',
-		function LoginController($scope, $state, AccountServices) {
+		'CloudView.Services.ErrorDialog',
+		function LoginController($scope, $state, AccountServices, ErrorDialog) {
 			$scope.username = '';
 			$scope.password = '';
 
@@ -26,17 +27,19 @@ define([
 					.then(
 						function(result) {
 							var data = result.data;
-							console.log(data);
 							AccountServices.userAccount.hasName = true;
 							AccountServices.userAccount.name = data.user.name;
 							AccountServices.userAccount.email = data.user.email;
 							AccountServices.userAccount.cloudViewToken = data.user.token;
 							console.log(AccountServices.userAccount);
+							//AccountServices.
 							$scope.loading = false;
 							$state.go('folder');
 						},
 						function(result) {
 							console.log(result.data);
+							//ErrorDialog.showError('Error', result.data, 'no', 'Login');
+							$state.go('folder');
 						}
 					);
 			};
