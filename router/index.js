@@ -53,7 +53,7 @@ router.route('/users/create_account').post((req, res) => {
 
     User.findOne({ 'email': email}, (err, user) => {
         if (err) {
-            res.status(500).json({
+            res.status(403).json({
                 message: 'Error: Database access'
             });
         }
@@ -67,7 +67,7 @@ router.route('/users/create_account').post((req, res) => {
 
             newAccount.save((err) => {
                 if (err) {
-                    res.status(500).json({
+                    res.status(403).json({
                         error: err,
                         message: 'Error: Account creation failed'
                     });
@@ -81,7 +81,7 @@ router.route('/users/create_account').post((req, res) => {
         }
         else {
             // Account already exists
-            res.status(500).json({
+            res.status(403).json({
                 message: 'Error: Account already exists'
             });
         }
@@ -96,7 +96,7 @@ router.route('/users/login').post((req, res) => {
     // Check if user exists
     User.findOne({ 'email': login }, (err, user) => {
         if (err) {
-            res.status(500).json({
+            res.status(403).json({
                 message: 'Error: Database access'
             });
         }
@@ -104,7 +104,7 @@ router.route('/users/login').post((req, res) => {
             // Check username instead of email
             User.findOne({ 'username': login }, (err, user) => {
                 if (err) {
-                    res.status(500).json({
+                    res.status(403).json({
                         message: 'Error: Database access'
                     });
                 }
@@ -136,7 +136,7 @@ router.route('/users/login').post((req, res) => {
             // Test a matching password
             user.comparePassword(password, function(err, isMatch) {
                 if (err) {
-                    res.status(500).json({
+                    res.status(403).json({
                         message: 'Error: Password decrypting'
                     });
                 }
@@ -169,7 +169,7 @@ router.use((req, res, next) => {
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
             if (err) {
-                res.status(500).json({
+                res.status(403).json({
                     message: 'Error: Invalid token'
                 });
             }
@@ -180,7 +180,7 @@ router.use((req, res, next) => {
         });
     }
     else {
-        res.status(500).json({
+        res.status(403).json({
             message: 'Error: Invalid token'
         });
     }
@@ -205,7 +205,7 @@ router.route('/users/auth_google_callback').get(
 
         User.findOne({ email: req.decoded._doc.email }, function(err, user) {
             if (err) {
-                res.status(500).json({
+                res.status(403).json({
                     Error: err
                 });
             }
@@ -218,7 +218,7 @@ router.route('/users/auth_google_callback').get(
 
                 newGoogleAccount.save(function(err) {
                     if (err) {
-                        res.status(500).json({
+                        res.status(403).json({
                             Error: err
                         });
                     }
@@ -227,7 +227,7 @@ router.route('/users/auth_google_callback').get(
                         user.google_accounts.push(newGoogleAccount);
                         user.save(function(err) {
                             if (err) {
-                                res.status(500).json({
+                                res.status(403).json({
                                     Error: err
                                 });
                             } else {
@@ -257,7 +257,7 @@ router.route('/get_files').post((req, res) => {
         .populate('google_accounts')
         .exec(function(err, user) {
             if (err) {
-                res.status(500).json({
+                res.status(403).json({
                     message: 'Error: Database access'
                 });
             }
