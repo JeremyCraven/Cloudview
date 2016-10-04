@@ -16,7 +16,8 @@ define([
                 $scope.folder.subfolders = [];
                 $scope.folder.files = [];
                 getFiles();
-            }
+            };
+			
             var getFiles = function() {
                 folderID = $state.params;
                 FileServices.getFiles(folderID)

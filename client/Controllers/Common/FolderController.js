@@ -42,6 +42,10 @@ define([
                     field: null,
                     reverse: false
                 },
+				search: {
+					string: '',
+					go: function() {}
+				},
                 new_account: function(ev) {
                     $mdDialog.show({
                             controller: 'CloudView.Controllers.Dialog.NewAccount',
