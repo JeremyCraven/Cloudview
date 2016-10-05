@@ -7,7 +7,8 @@ define([
   		'$state',
  		'$cookies',
   		'CloudView.Services.AccountServices',
- 		function LoginController($scope, $controller, $state, $cookies, AccountServices) {
+  		'CloudView.Services.ErrorDialog',
+ 		function LoginController($scope, $controller, $state, $cookies, AccountServices, ErrorDialog) {
  			angular.extend(this, $controller('CloudView.Controllers.Common.Login', {$scope: $scope, $state: $state}));
 
 			$scope.login = function() {
@@ -25,7 +26,6 @@ define([
 						},
 						function(result) {
 							ErrorDialog.showError('Error', result.data, 'body');
-							$state.go('folder');
 						}
 					);
 			};
