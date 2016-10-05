@@ -3,7 +3,8 @@ define([
 ], function(module) {
 	return module.factory('CloudView.Services.AccountServices', [
 		'$http',
-		function($http) {
+		'CloudView.Services.AccountServices'
+		function($http, AccountServices) {
 			var service = {};
 
 			service.cookie_token_key = 'token';
@@ -14,7 +15,7 @@ define([
 			}
 
 			var url = 'http://localhost:8081/api/v1/';
-			
+
 			service.login = function(credentials) {
 				return $http({
 					method: 'POST',
@@ -22,7 +23,7 @@ define([
 					data: credentials
 				});
 			}
-			
+
 			service.signup = function(userAccount) {
 				return $http({
 					method: 'POST',
@@ -36,7 +37,7 @@ define([
 					method: 'POST',
 					url: url + 'users/auth_google',
 					data: googleDriveCredentials
-				}); 
+				});
 			}
 
 			service.addDropboxAccount = function(dropboxCredentials) {
@@ -54,7 +55,7 @@ define([
 					data: oneDriveCredentials
 				});
 			}
-			
+
 			return service;
 		}
 	]);
