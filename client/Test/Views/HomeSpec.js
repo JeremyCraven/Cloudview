@@ -14,7 +14,6 @@ define(['Application', 'angular', 'ngMocks', 'View.signup'], function(app, ng, m
             $compile = _$compile_;
 			var html = $templateCache.get('Views/_home.html');
 			view = $compile(angular.element(html))($scope);
-			debugger;
         }));
 
         describe('testing buttons exit', function() {

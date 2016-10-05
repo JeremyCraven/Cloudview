@@ -8,7 +8,7 @@ define([
             require: '?ngModel',
             restrict: 'A',
             link: function(scope, elem, attrs, ctrl) {
-                var regex = XRegExp("/[\p{Ll}\p{Lo}/");
+				var regex = XRegExp('(?=.*[\\p{Ll}\\p{Lo}])');
                 ctrl.$validators.onlyUpperCase = function() {
                     return regex.test(ctrl.$viewValue) === true;
                 };

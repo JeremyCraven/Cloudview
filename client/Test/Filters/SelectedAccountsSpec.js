@@ -68,7 +68,6 @@ define(['Application', 'angular', 'ngMocks'], function(app, ng, mocks) {
 					else
 						accounts[i].active = true;
 				var result = $filter(items, accounts);
-				debugger;
                 for(var i = 0; i < result.length; i++)
 					expect(result[i].account > 0 || result[i].account < (accounts.length - 1)).toBe(true);
             });

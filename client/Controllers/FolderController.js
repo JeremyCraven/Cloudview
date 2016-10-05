@@ -1,75 +1,24 @@
 define([
-    './Module'
+    './Common/FolderController'
 ], function(module) {
     return module.controller('CloudView.Controllers.Folder', [
         '$scope',
+		'$controller',
         '$state',
         '$mdSidenav',
 		'$mdDialog',
         'CloudView.Services.FileServices',
         'CloudView.Services.AccountServices',
-        function FolderController($scope, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
-            console.log($state.params);
-            $scope.ui = {
-                fab: {
-                    isOpen: false
-                },
-                sideNav: {
-                    toggleSidenav: function() {
-                        $mdSidenav('left').toggle();
-                    }
-                },
-                folder: {
-                    go: function(path) {
-                        //TODO: go-to folder
-                    },
-                    new_folder: function() {
-                        //TODO: new folder dialogue
-                    },
-                },
-                file: {
-                    open: {
-                        //TODO: open file?
-                    },
-                    new_file: function() {
-                        //TODO: new file dialogue
-                    }
-                },
-                new_account: function(ev) {
-                    $mdDialog.show({
-                            controller: 'CloudView.Controllers.Dialog.NewAccount',
-                            templateUrl: './Views/_new_account_dialog.html',
-                            parent: angular.element(document.body),
-                            targetEvent: ev,
-                            clickOutsideToClose: true,
-                            fullscreen: true
-                        })
-                        .then(function(answer) {
-                            //TODO: handle 'success'
-							if(answer === 'success') {
-								//TODO: reload account list
-							} else {
-								//TODO: render ErrorDialog or use a toast
-							}
-                        }, function() {
-                            //do nothing becuase the action was canceled
-                        });
-                }
-            };
-            $scope.user = {
-                hasName: false,
-                username: '',
-                name: '',
-                accounts: []
-            };
-            $scope.folder = {
-                title: '',
-                account: '', //TODO: Bacakend guy figure out datatype
-                path: [],
-                subfolders: [],
-                files: []
-            };
-            $scope.getFiles = function() {
+        function FolderController($scope, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
+            //console.log($state.params);
+			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
+            $scope.ui.folder.go = function(path) {
+                $state.params.folderId = path;
+                $scope.folder.subfolders = [];
+                $scope.folder.files = [];
+                getFiles();
+            }
+            var getFiles = function() {
                 folderID = $state.params;
                 folderID.token = AccountServices.userAccount.cloudViewToken
                 FileServices.getFiles(folderID)
@@ -83,8 +32,7 @@ define([
                     );
 
             };
-
-            $scope.getFiles();
+            getFiles();
 
             var sort = function(files) {
                 files.forEach(function(file) {

@@ -28,7 +28,6 @@ define(['Application', 'angular', 'ngMocks', 'View.signup'], function(app, ng, m
 			var html = $templateCache.get('Views/_signup.html');
 			view = $compile(angular.element(html))($scope);
             form = $scope.signupForm;
-			debugger;
         }));
 
         describe('testing username', function() {
@@ -86,12 +85,33 @@ define(['Application', 'angular', 'ngMocks', 'View.signup'], function(app, ng, m
         });
 		describe('testing password', function() {
             it('require should work for entered value', function() {
-                form.password.$setViewValue('1234badpass');
+                form.password.$setViewValue('1234badPass');
                 $scope.$digest();
+				debugger;
                 expect(form.password.$valid).toBe(true);
             });
             it('require should fail for empty value', function() {
 				form.password.$setViewValue('');
+                $scope.$digest();
+                expect(form.password.$valid).toBe(false);
+            });
+			it('require should fail for all lower case', function() {
+				form.password.$setViewValue('badpass');
+                $scope.$digest();
+                expect(form.password.$valid).toBe(false);
+            });
+			it('require should fail for all upper case', function() {
+				form.password.$setViewValue('BADPASS');
+                $scope.$digest();
+                expect(form.password.$valid).toBe(false);
+            });
+			it('require should fail for only numbers', function() {
+				form.password.$setViewValue('1234567');
+                $scope.$digest();
+                expect(form.password.$valid).toBe(false);
+            });
+			it('require should fail for too short value', function() {
+				form.password.$setViewValue('Ab123');
                 $scope.$digest();
                 expect(form.password.$valid).toBe(false);
             });

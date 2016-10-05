@@ -7,6 +7,7 @@ require.config({
         'ngMaterial': './bower_components/angular-material/angular-material',
         'ngMessages': './bower_components/angular-messages/angular-messages',
         'ngSanitize': './bower_components/angular-sanitize/angular-sanitize',
+        'ngCookies': './bower_components/angular-cookies/angular-cookies',
         'pascalprecht.translate': './bower_components/angular-translate/angular-translate',
         'ui.router': './bower_components/angular-ui-router/release/angular-ui-router',
         'ui.tree': './bower_components/angular-ui-tree/dist/angular-ui-tree',
@@ -17,6 +18,7 @@ require.config({
 		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
 		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
         //our code
+		'Controllers-Common': './Controllers/Common',
         'Controllers': './Controllers',
         'Directives': './Directives',
         'Filters': './Filters',
@@ -28,6 +30,9 @@ require.config({
         'angular': {
             exports: 'angular'
         },
+		'underscore': {
+			exports: '_'
+		},
         'ngAnimate': {
             deps: ['angular']
         },
@@ -41,6 +46,9 @@ require.config({
             deps: ['angular']
         },
         'ngSanitize': {
+            deps: ['angular']
+        },
+        'ngCookies': {
             deps: ['angular']
         },
         'pascalprecht.translate': {

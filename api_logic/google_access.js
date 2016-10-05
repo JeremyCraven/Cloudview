@@ -4,6 +4,8 @@ var readline = require('readline');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 
+var conf = require('../config.js');
+
 
 // TODO: stub out service (for google) and see if we can fake api calls for unit testing\
 
@@ -31,8 +33,13 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   if (folder != null) {
     query = "'"+folder+"'" + " in parents and trashed = false"
   }
+  //TODO: have to do these two objects in every request?? ****************
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
+  console.log(oauth2Client)
   var req = {
-    auth: auth,
+    auth: oauth2Client,
     q: query,
     fields: 'nextPageToken, files(mimeType,id,name,parents,webContentLink,webViewLink)'
   }
@@ -40,6 +47,8 @@ access.get_google_files = function(auth, folder, pageToken, res) {
     req.pageToken = pageToken
   }
   this.service.files.list(req, function(err, response) {
+    console.log(response)
+    console.log(err)
     if (err) {
       res('The API returned an error: ' + JSON.stringify(err), null);
       return;
@@ -110,6 +119,19 @@ access.put_google_folder = function(auth, folderName, res) {
       return;
     }
     res(file);
+  });
+}
+
+access.get_token_from_code = function(code, callback) {
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, 'urn:ietf:wg:oauth:2.0:oob');
+  oauth2Client.getToken(code, function(err, token) {
+    if (err) {
+      console.log('Error while trying to retrieve access token', err);
+      return;
+    }
+    oauth2Client.credentials = token;
+    callback(oauth2Client);
   });
 }
 

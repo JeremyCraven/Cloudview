@@ -8,7 +8,7 @@ define([
             require: '?ngModel',
             restrict: 'A',
             link: function(scope, elem, attrs, ctrl) {
-                var regex = XRegExp("/[\p{Lu}\p{Lo}/");
+                var regex = XRegExp('(?=.*[\\p{Lu}\\p{Lo}])');
                 ctrl.$validators.onlyLowerCase = function() {
                     return regex.test(ctrl.$viewValue) === true;
                 };

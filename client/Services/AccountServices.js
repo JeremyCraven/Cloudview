@@ -6,6 +6,8 @@ define([
 		function($http) {
 			var service = {};
 
+			service.cookie_token_key = 'token';
+
 			service.userAccount = {
 				hasName:	false,
 				accounts: []

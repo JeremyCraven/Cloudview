@@ -20,16 +20,26 @@ var api_access = require('../api_logic/api');
 passport.use(new GoogleStrategy({
         clientID: conf.CLIENT_ID,
         clientSecret: conf.CLIENT_SECRET,
-        callbackURL: conf.GOOGLE_CALLBACK
+        callbackURL: conf.GOOGLE_CALLBACK,
+        scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'],
+        accessType: 'offline',
+        approvalPrompt: 'force',
+        session: false
     },
-    function(accessToken, refreshToken, profile, done) {
+    function(accessToken, refreshToken, params, profile, done) {
         var userInfo = {
             accountType: 'google',
             accountId: 'google-' + profile.id,
             accessToken: accessToken,
             refreshToken: refreshToken
         };
-
+        
+        console.log('begin')
+        console.log(params)
+        console.log(refreshToken);
+        console.log(accessToken);
+        console.log(profile);
+        console.log('end')
         return done(null, userInfo);
     }
 ));
@@ -153,6 +163,9 @@ router.route('/users/login').post((req, res) => {
 // Protects routes
 router.use((req, res, next) => {
     var token = req.body.token;
+    if (!token) {
+        token = req.query.state;
+    }
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
             if (err) {
@@ -173,9 +186,13 @@ router.use((req, res, next) => {
     }
 });
 
-router.route('/users/auth_google').post(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'] }));
+router.route('/users/auth_google').get((req, res, next) => {
+    passport.authenticate('google', {
+        state: req.query.state
+    })(req,res,next);
+});
 
-router.route('/users/auth_google_callback').post(
+router.route('/users/auth_google_callback').get(
     passport.authenticate('google',
         { 
             failureRedirect: '/',
@@ -184,8 +201,9 @@ router.route('/users/auth_google_callback').post(
     ),
     (req, res) => {
         var userInfo = req.user;
+        console.log(userInfo)
 
-        User.findOne({ email: req.decoded.email }, function(err, user) {
+        User.findOne({ email: req.decoded._doc.email }, function(err, user) {
             if (err) {
                 res.status(500).json({
                     Error: err
@@ -205,6 +223,7 @@ router.route('/users/auth_google_callback').post(
                         });
                     }
                     else {
+                        if (!user.google_accounts) { user.google_accounts = []; }
                         user.google_accounts.push(newGoogleAccount);
                         user.save(function(err) {
                             if (err) {
@@ -212,7 +231,7 @@ router.route('/users/auth_google_callback').post(
                                     Error: err
                                 });
                             } else {
-                                res.json
+                                res.json({success: true});
                             }
                         });
                     }
@@ -220,9 +239,9 @@ router.route('/users/auth_google_callback').post(
             }
         });
 
-        res.json({
+        /*res.json({
             message: 'Successfully authenticated with google drive'
-        });
+        });*/
     }
 );
 
@@ -234,30 +253,33 @@ router.route('/get_files').post((req, res) => {
 	if (!folder) { folder = ''; }
 	var pageToken = req.body.pageToken;
 
-    User.findOne({ email: req.decoded.email }, function(err, user) {
-        if (err) {
-            res.status(500).json({
-                message: 'Error: Database access'
-            });
-        }
-        else {
-            console.log(err);
-            console.log(user);
-
-            var credentials = {};
-            if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
-                console.log(user.google_accounts)
-                credentials.google = {};
-                for (account of user.google_accounts) {
-                    credentials.google.access_token = account.accessToken;
-                }
+    User.findOne({ email: req.decoded._doc.email })
+        .populate('google_accounts')
+        .exec(function(err, user) {
+            if (err) {
+                res.status(500).json({
+                    message: 'Error: Database access'
+                });
             }
-            var callback = function(obj) {
-                // if obj doesn't have obj.error, it will be the object you have to return to the user
-                res.send(obj);
-            };
-            api_access.get_files(credentials, folder, pageToken, callback);
-        }
+            else {
+
+                var credentials = {};
+                console.log(user.google_accounts)
+                if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
+                    credentials.google = {};
+                    for (account of user.google_accounts) {
+                        // TODO: make it so it doesn't only get the last one
+                        credentials.google.access_token = account.accessToken;
+                        credentials.google.refresh_token = account.refreshToken;
+                    }
+                }
+                console.log(credentials)
+                var callback = function(obj) {
+                    // if obj doesn't have obj.error, it will be the object you have to return to the user
+                    res.send(obj);
+                };
+                api_access.get_files(credentials, folder, pageToken, callback);
+            }
     });    
 });
 
