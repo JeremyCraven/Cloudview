@@ -8,12 +8,11 @@ define([
 
 			var url = 'http://localhost:8081/api/v1/';
 
-			service.getFiles = function(credentials) {
-				credentials.token = AccountServices.userAccount.cloudViewToken;
+			service.getFiles = function(data) {
 				return $http({
 					method: 'POST',
 					url: url + 'get_files',
-					data: credentials
+					data: data
 				});
 			};
 

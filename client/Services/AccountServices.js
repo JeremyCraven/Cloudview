@@ -10,6 +10,8 @@ define([
 
 			service.userAccount = {
 				hasName:	false,
+				email: '',
+				cloudViewToken: '',
 				accounts: []
 			};
 
@@ -28,15 +30,14 @@ define([
 				service.userAccount.hasName = true;
 				service.userAccount.name = data.user.name;
 				service.userAccount.email = data.user.email;
-				service.userAccount.cloudViewToken = data.user.token;			
+				service.userAccount.cloudViewToken = data.user.token;
+				service.userAccount.accounts.push(data.user.google_accounts);
+				service.userAccount.accounts.push(data.user.dropbox_accounts);
+				service.userAccount.accounts.push(data.user.onedrive_accounts);
 			}
 
 			service.login_failure = function(result) {
-				switch (result.status) {
-					case 403:
-						ErrorDialog.showError('LOGIN.ERRORS.403.TITLE', 'LOGIN.ERRORS.403.CONTENT', '', '#login-button');
-							break;		
-				}
+
 			}
 
 			service.signup = function(userAccount) {
@@ -52,7 +53,7 @@ define([
 			}
 
 			service.signup_failure = function() {
-				
+
 			}
 
 			service.addGoogleDriveAccount = function(googleDriveCredentials) {
