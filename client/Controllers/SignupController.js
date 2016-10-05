@@ -26,7 +26,7 @@ define([
 						},
 						function(result) {
 							console.log(result.data);
-							//ErrorDialogService.showError('Error', result.data, 'no', 'Signup');
+							ErrorDialogService.showError('Error', result.data, 'body');
 						}
 					);
 

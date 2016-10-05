@@ -3,8 +3,7 @@ define([
 ], function(module) {
 	return module.factory('CloudView.Services.AccountServices', [
 		'$http',
-		'CloudView.Services.AccountServices'
-		function($http, AccountServices) {
+		function($http) {
 			var service = {};
 
 			service.cookie_token_key = 'token';
@@ -23,6 +22,18 @@ define([
 					data: credentials
 				});
 			};
+
+			service.login_success = function(result) {
+				var data = result.data;
+				service.userAccount.hasName = true;
+				service.userAccount.name = data.user.name;
+				service.userAccount.email = data.user.email;
+				service.userAccount.cloudViewToken = data.user.token;			
+			}
+
+			service.login_failure = function(result) {
+
+			}
 
 			service.signup = function(userAccount) {
 				return $http({
