@@ -16,6 +16,7 @@
     "googleapis": "^13.0.0",
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.0",
+    "mongoose-deep-populate": "^3.0.0",
     "passport": "^0.3.2",
     "passport-dropbox": "^2.0.0",
     "passport-google-oauth": "^1.0.0",
@@ -35,8 +36,8 @@
   },
   "scripts": {
     "server-test": "mocha tests",
-	"client-test-chrome": "karma start client/karma.conf.js --browsers Chrome",
-	"client-test-ie": "karma start client/karma.conf.js --browsers IE",
+    "client-test-chrome": "karma start client/karma.conf.js --browsers Chrome",
+    "client-test-ie": "karma start client/karma.conf.js --browsers IE",
     "client-test": "karma start client/karma.conf.js --browsers PhantomJS --single-run",
     "test": "npm run server-test || npm run client-test",
     "start": "node server.js"

@@ -18,10 +18,12 @@ define([
                 folder: {
                     go: function(path) {},
                     new_folder: function() {},
+					on_new_folder: function() {}
                 },
                 file: {
-                    open: {},
-                    new_file: function() {}
+                    open: function(path) {},
+                    new_file: function() {},
+					on_new_file: function() {}
                 },
                 sort: {
                     fields: [{
