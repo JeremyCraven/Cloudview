@@ -3,12 +3,12 @@ define([
 ], function(module) {
 	return module.controller('CloudView.Controllers.Login', [
 		'$scope',
- -		'$controller',
+ 		'$controller',
   		'$state',
- -		'$cookies',
+ 		'$cookies',
   		'CloudView.Services.AccountServices',
- -		function LoginController($scope, $controller, $state, $cookies, AccountServices) {
- -			angular.extend(this, $controller('CloudView.Controllers.Common.Login', {$scope: $scope, $state: $state}));
+ 		function LoginController($scope, $controller, $state, $cookies, AccountServices) {
+ 			angular.extend(this, $controller('CloudView.Controllers.Common.Login', {$scope: $scope, $state: $state}));
 
 			$scope.login = function() {
 				$scope.loading = true;
