@@ -94,7 +94,9 @@ router.route('/users/login').post((req, res) => {
     var password = req.body.password;
 
     // Check if user exists
-    User.findOne({ 'email': login }, (err, user) => {
+    User.findOne({ 'email': login })
+    .populate('google_accounts dropbox_accounts onedrive_accounts')
+    .exec((err, user) => {
         if (err) {
             res.status(403).json({
                 message: 'Error: Database access'
@@ -102,21 +104,23 @@ router.route('/users/login').post((req, res) => {
         }
         else if (user === null) {
             // Check username instead of email
-            User.findOne({ 'username': login }, (err, user) => {
+            User.findOne({ 'username': login })
+            .populate('google_accounts dropbox_accounts onedrive_accounts')
+            .exec((err, user) => {
                 if (err) {
                     res.status(403).json({
                         message: 'Error: Database access'
                     });
                 }
                 else if (user === null) {
-                    res.status(401).json({
+                    res.status(403).json({
                         message: 'Error: Invalid login'
                     });
                 }
                 else {
                     // test a matching password
                     user.comparePassword(password, function(err, isMatch) {
-                        var token = jwt.sign(user, conf.TOKEN_SECRET, {
+                        var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
                             expiresIn: '1h'
                         });
 
@@ -124,13 +128,16 @@ router.route('/users/login').post((req, res) => {
                             user: {
                                 name: user.name,
                                 email: user.email,
-                                token: token
+                                token: token,
+                                google_accounts: user.google_accounts,
+                                dropbox_accounts: user.dropbox_accounts,
+                                onedrive_accounts: user.onedrive_accounts
                             },
                             message: 'Successful login'
                         });
                     });
                 }
-            })
+            });
         }
         else {
             // Test a matching password
@@ -149,7 +156,10 @@ router.route('/users/login').post((req, res) => {
                         user: {
                             name: user.name,
                             email: user.email,
-                            token: token
+                            token: token,
+                            google_accounts: user.google_accounts,
+                            dropbox_accounts: user.dropbox_accounts,
+                            onedrive_accounts: user.onedrive_accounts
                         },
                         message: 'Successful login'
                     });
@@ -158,7 +168,6 @@ router.route('/users/login').post((req, res) => {
         }
     });
 });
-
 
 // Protects routes
 router.use((req, res, next) => {
@@ -189,7 +198,7 @@ router.use((req, res, next) => {
 router.route('/users/auth_google').get((req, res, next) => {
     passport.authenticate('google', {
         state: req.query.state
-    })(req,res,next);
+    })(req, res, next);
 });
 
 router.route('/users/auth_google_callback').get(
@@ -203,7 +212,7 @@ router.route('/users/auth_google_callback').get(
         var userInfo = req.user;
         console.log(userInfo)
 
-        User.findOne({ email: req.decoded._doc.email }, function(err, user) {
+        User.findOne({ email: req.decoded.email }, function(err, user) {
             if (err) {
                 res.status(403).json({
                     Error: err
@@ -253,7 +262,7 @@ router.route('/get_files').post((req, res) => {
 	if (!folder) { folder = ''; }
 	var pageToken = req.body.pageToken;
 
-    User.findOne({ email: req.decoded._doc.email })
+    User.findOne({ email: req.decoded.email })
         .populate('google_accounts')
         .exec(function(err, user) {
             if (err) {

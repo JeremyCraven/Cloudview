@@ -1,14 +1,21 @@
 define([
-	'./Common/LoginController'
+	'./Module'
 ], function(module) {
 	return module.controller('CloudView.Controllers.Login', [
 		'$scope',
-		'$controller',
 		'$state',
-		'$cookies',
 		'CloudView.Services.AccountServices',
-		function LoginController($scope, $controller, $state, $cookies, AccountServices) {
-			angular.extend(this, $controller('CloudView.Controllers.Common.Login', {$scope: $scope, $state: $state}));
+		'CloudView.Services.ErrorDialog',
+		function LoginController($scope, $state, AccountServices, ErrorDialog) {
+			$scope.username = '';
+			$scope.password = '';
+
+			$scope.warn = {
+				exists: false,
+				prefix:	'',
+				message: ''
+			};
+			$scope.loading = false;
 
 			$scope.login = function() {
 				$scope.loading = true;
@@ -20,20 +27,24 @@ define([
 					.then(
 						function(result) {
 							var data = result.data;
-							console.log(data);
 							AccountServices.userAccount.hasName = true;
 							AccountServices.userAccount.name = data.user.name;
 							AccountServices.userAccount.email = data.user.email;
 							AccountServices.userAccount.cloudViewToken = data.user.token;
-							$cookies.put(AccountServices.cookie_token_key, data.user.token);
 							console.log(AccountServices.userAccount);
+							//AccountServices.
 							$scope.loading = false;
 							$state.go('folder');
 						},
 						function(result) {
 							console.log(result.data);
+							//ErrorDialog.showError('Error', result.data, 'no', 'Login');
+							$state.go('folder');
 						}
 					);
+			};
+			$scope.signup = function() {
+				$state.go('signup');
 			};
 		}
 	]);
