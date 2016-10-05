@@ -28,7 +28,7 @@ define([
 						function(result) {
 							switch (result.status) {
 								case 403:
-									ErrorDialog.showError('SIGNUP.ERRORS.409.TITLE', 'SIGNUP.ERRORS.409.CONTENT', '', '#login-button');
+									ErrorDialog.showError('SIGNUP.ERRORS.409.TITLE', 'SIGNUP.ERRORS.409.CONTENT', '', '#signup-button');
 									break;		
 							}
 						}
