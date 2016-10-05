@@ -25,7 +25,8 @@ define([
 							$state.go('folder');
 						},
 						function(result) {
-							ErrorDialog.showError('Error', result.data, 'body');
+							console.log(result.data);
+							ErrorDialog.showError('An error has occured', result.data.message, '');
 						}
 					);
 			};
