@@ -32,7 +32,11 @@ define([
 			}
 
 			service.login_failure = function(result) {
-
+				switch (result.status) {
+					case 403:
+						ErrorDialog.showError('LOGIN.ERRORS.403.TITLE', 'LOGIN.ERRORS.403.CONTENT', '', '#login-button');
+							break;		
+				}
 			}
 
 			service.signup = function(userAccount) {
@@ -42,6 +46,14 @@ define([
 					data: userAccount
 				});
 			};
+
+			service.signup_success = function() {
+
+			}
+
+			service.signup_failure = function() {
+				
+			}
 
 			service.addGoogleDriveAccount = function(googleDriveCredentials) {
 				return $http({

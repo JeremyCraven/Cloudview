@@ -6,7 +6,8 @@ define([
 		'$controller',
 		'$state',
 		'CloudView.Services.AccountServices',
-		function SignupController($scope, $controller, $state, AccountServices) {
+		'CloudView.Services.ErrorDialog',
+		function SignupController($scope, $controller, $state, AccountServices, ErrorDialog) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Signup', {$scope: $scope, $state: $state}));
 			$scope.signup = function() {
 				$scope.loading = true;
@@ -25,8 +26,11 @@ define([
 							$state.go('login');
 						},
 						function(result) {
-							console.log(result.data);
-							ErrorDialogService.showError('Error', result.data, 'body');
+							switch (result.status) {
+								case 403:
+									ErrorDialog.showError('SIGNUP.ERRORS.409.TITLE', 'SIGNUP.ERRORS.409.CONTENT', '', '#login-button');
+									break;		
+							}
 						}
 					);
 

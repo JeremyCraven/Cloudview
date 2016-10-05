@@ -25,14 +25,11 @@ define([
 							$state.go('folder');
 						},
 						function(result) {
-							console.log(result.status);
 							switch (result.status) {
 								case 403:
-									console.log('in the 403');
 									ErrorDialog.showError('LOGIN.ERRORS.403.TITLE', 'LOGIN.ERRORS.403.CONTENT', '', '#login-button');
 									break;		
-							}
-							
+							}							
 						}
 					);
 			};
