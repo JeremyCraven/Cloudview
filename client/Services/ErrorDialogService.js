@@ -25,7 +25,7 @@ define([
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
                     openFrom: from,
-                    closeTo: froms,
+                    closeTo: from,
                     locals: {
                         'title': title,
                         'body': body,
