@@ -109,21 +109,33 @@ router.route('/users/login').post((req, res) => {
                 else {
                     // test a matching password
                     user.comparePassword(password, function(err, isMatch) {
-                        var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
-                            expiresIn: '1h'
-                        });
+                        if (err) {
+                            res.status(403).json({
+                                message: 'Error: Password decrypting'
+                            });
+                        }
+                        else if (isMatch) {
+                            var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
+                                expiresIn: '1h'
+                            });
 
-                        res.status(200).json({
-                            user: {
-                                name: user.name,
-                                email: user.email,
-                                token: token,
-                                google_accounts: user.google_accounts,
-                                dropbox_accounts: user.dropbox_accounts,
-                                onedrive_accounts: user.onedrive_accounts
-                            },
-                            message: 'Successful login'
-                        });
+                            res.status(200).json({
+                                user: {
+                                    name: user.name,
+                                    email: user.email,
+                                    token: token,
+                                    google_accounts: user.google_accounts,
+                                    dropbox_accounts: user.dropbox_accounts,
+                                    onedrive_accounts: user.onedrive_accounts
+                                },
+                                message: 'Successful login'
+                            });
+                        }
+                        else {
+                            res.status(403).json({
+                                message: 'Error: Invalid login'
+                            });    
+                        }
                     });
                 }
             });
@@ -151,6 +163,11 @@ router.route('/users/login').post((req, res) => {
                             onedrive_accounts: user.onedrive_accounts
                         },
                         message: 'Successful login'
+                    });
+                }
+                else {
+                    res.status(403).json({
+                        message: 'Error: Invalid login'
                     });
                 }
             });
