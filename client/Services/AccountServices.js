@@ -15,29 +15,36 @@ define([
 				accounts: []
 			};
 
-			var url = 'http://localhost:8081/api/v1/';
+			var url = '/api/v1/';
 
-			service.login = function(credentials) {
-				return $http({
+			service.login = function(credentials, cbs, cbf) {
+				$http({
 					method: 'POST',
 					url: url + 'users/login',
 					data: credentials
-				});
+				}).then(login_success(cbs), login_failure(cbf));
 			};
 
-			service.login_success = function(result) {
-				var data = result.data;
-				service.userAccount.hasName = true;
-				service.userAccount.name = data.user.name;
-				service.userAccount.email = data.user.email;
-				service.userAccount.cloudViewToken = data.user.token;
-				service.userAccount.accounts.push(data.user.google_accounts);
-				service.userAccount.accounts.push(data.user.dropbox_accounts);
-				service.userAccount.accounts.push(data.user.onedrive_accounts);
-			}
+			var login_success = function(cb) {
+				return function(result) {
+					debugger;
+					var data = result.data;
+					service.userAccount.hasName = true;
+					service.userAccount.name = data.user.name;
+					service.userAccount.email = data.user.email;
+					service.userAccount.cloudViewToken = data.user.token;
+					service.userAccount.accounts.push(data.user.google_accounts);
+					service.userAccount.accounts.push(data.user.dropbox_accounts);
+					service.userAccount.accounts.push(data.user.onedrive_accounts);
+					cb(result);
+				}
+			};
 
-			service.login_failure = function(result) {
-
+			var login_failure = function(sb) {
+				return function(response) {
+					debugger;
+					cb(response);
+				}
 			}
 
 			service.signup = function(userAccount) {
