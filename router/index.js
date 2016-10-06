@@ -20,11 +20,7 @@ var api_access = require('../api_logic/api');
 passport.use(new GoogleStrategy({
         clientID: conf.CLIENT_ID,
         clientSecret: conf.CLIENT_SECRET,
-        callbackURL: conf.GOOGLE_CALLBACK,
-        scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'],
-        accessType: 'offline',
-        approvalPrompt: 'force',
-        session: false
+        callbackURL: conf.GOOGLE_CALLBACK
     },
     function(accessToken, refreshToken, params, profile, done) {
         var userInfo = {
@@ -33,13 +29,6 @@ passport.use(new GoogleStrategy({
             accessToken: accessToken,
             refreshToken: refreshToken
         };
-        
-        console.log('begin')
-        console.log(params)
-        console.log(refreshToken);
-        console.log(accessToken);
-        console.log(profile);
-        console.log('end')
         return done(null, userInfo);
     }
 ));
@@ -197,6 +186,10 @@ router.use((req, res, next) => {
 
 router.route('/users/auth_google').get((req, res, next) => {
     passport.authenticate('google', {
+        scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'],
+        accessType: 'offline',
+        approvalPrompt: 'force',
+        session: false,
         state: req.query.state
     })(req, res, next);
 });
@@ -210,7 +203,6 @@ router.route('/users/auth_google_callback').get(
     ),
     (req, res) => {
         var userInfo = req.user;
-        console.log(userInfo)
 
         User.findOne({ email: req.decoded.email }, function(err, user) {
             if (err) {
@@ -273,7 +265,6 @@ router.route('/get_files').post((req, res) => {
             else {
 
                 var credentials = {};
-                console.log(user.google_accounts)
                 if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
                     credentials.google = {};
                     for (account of user.google_accounts) {
@@ -282,7 +273,7 @@ router.route('/get_files').post((req, res) => {
                         credentials.google.refresh_token = account.refreshToken;
                     }
                 }
-                console.log(credentials)
+
                 var callback = function(obj) {
                     // if obj doesn't have obj.error, it will be the object you have to return to the user
                     res.send(obj);
