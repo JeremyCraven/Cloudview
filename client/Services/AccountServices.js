@@ -31,9 +31,12 @@ define([
 				service.userAccount.name = data.user.name;
 				service.userAccount.email = data.user.email;
 				service.userAccount.cloudViewToken = data.user.token;
-				service.userAccount.accounts.push(data.user.google_accounts);
-				service.userAccount.accounts.push(data.user.dropbox_accounts);
-				service.userAccount.accounts.push(data.user.onedrive_accounts);
+				if (data.user.google_accounts != '')
+					service.userAccount.accounts.push(data.user.google_accounts);
+				if (data.user.dropbox_accounts != '')
+					service.userAccount.accounts.push(data.user.dropbox_accounts);
+				if (data.user.onedrive_accounts != '')
+					service.userAccount.accounts.push(data.user.onedrive_accounts);
 			}
 
 			service.login_failure = function(result) {
