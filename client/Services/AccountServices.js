@@ -15,14 +15,14 @@ define([
 				accounts: []
 			};
 
-			var url = 'http://localhost:8081/api/v1/';
+			var url = '/api/v1/';
 
-			service.login = function(credentials) {
-				return $http({
+			service.login = function(credentials, cbs, cbf) {
+				$http({
 					method: 'POST',
 					url: url + 'users/login',
 					data: credentials
-				});
+				}).then(login_success(cbs), login_failure(cbf));
 			};
 
 			service.login_success = function(result) {
@@ -40,7 +40,13 @@ define([
 			}
 
 			service.login_failure = function(result) {
+			};
 
+			var login_failure = function(sb) {
+				return function(response) {
+					debugger;
+					cb(response);
+				}
 			}
 
 			service.signup = function(userAccount) {
