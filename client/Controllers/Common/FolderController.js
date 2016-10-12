@@ -7,6 +7,7 @@ define([
         '$mdDialog',
         function FolderController($scope, $mdSidenav, $mdDialog) {
             $scope.ui = {
+                back: function() {},
                 fab: {
                     isOpen: false
                 },
@@ -18,7 +19,8 @@ define([
                 folder: {
                     go: function(path) {},
                     new_folder: function() {},
-					on_new_folder: function() {}
+					on_new_folder: function() {},
+                    back: function() {}
                 },
                 file: {
                     open: function(path) {},

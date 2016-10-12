@@ -15,27 +15,28 @@ define([
             }));
 
             $scope.login = function() {
-                debugger;
                 $scope.loading = true;
                 var credentials = {
                     username: $scope.username,
                     password: $scope.password
-                };
-                AccountServices.login(credentials,
-                    function(result) {
-                        $scope.loading = false;
-                        debugger;
-                        $state.go('folder');
-                    },
-                    function(result) {
-                        debugger;
-                        switch (result.status) {
-                            case 403:
+                }
+
+                AccountServices.login(credentials)
+                    .then(
+                        function(result) {
+                            $scope.loading = false;
+                            AccountServices.login_success(result);
+                            console.log(AccountServices.userAccount);
+                            $state.go('folder');
+                        },
+                        function(result) {
+                            switch (result.status) {
+                                case 403:
                                 ErrorDialog.showError('LOGIN.ERRORS.403.TITLE', 'LOGIN.ERRORS.403.CONTENT', '', '#login-button');
                                 break;
+                            }
                         }
-                    }
-                );
+                    );
             };
         }
     ]);

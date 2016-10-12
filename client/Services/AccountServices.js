@@ -15,14 +15,14 @@ define([
 				accounts: []
 			};
 
-			var url = '/api/v1/';
+			var url = 'http://localhost:8081/api/v1/';
 
-			service.login = function(credentials, cbs, cbf) {
-				$http({
+			service.login = function(credentials) {
+				return $http({
 					method: 'POST',
 					url: url + 'users/login',
 					data: credentials
-				}).then(login_success(cbs), login_failure(cbf));
+				});
 			};
 
 			service.login_success = function(result) {
@@ -31,12 +31,18 @@ define([
 				service.userAccount.name = data.user.name;
 				service.userAccount.email = data.user.email;
 				service.userAccount.cloudViewToken = data.user.token;
-				if (data.user.google_accounts != '')
+				if (data.user.google_accounts != '') {
+					data.user.google_accounts.type = 'Google Drive';
 					service.userAccount.accounts.push(data.user.google_accounts);
-				if (data.user.dropbox_accounts != '')
+				}
+				if (data.user.dropbox_accounts != '') {
+					data.user.dropbox_accounts.type = 'Dropbox';
 					service.userAccount.accounts.push(data.user.dropbox_accounts);
-				if (data.user.onedrive_accounts != '')
+				}
+				if (data.user.onedrive_accounts != '') {
+					data.user.onedrive_accounts.type = 'OneDrive';
 					service.userAccount.accounts.push(data.user.onedrive_accounts);
+				}
 			}
 
 			service.login_failure = function(result) {

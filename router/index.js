@@ -118,7 +118,6 @@ router.route('/users/login').post((req, res) => {
                             var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
                                 expiresIn: '1h'
                             });
-
                             res.status(200).json({
                                 user: {
                                     name: user.name,

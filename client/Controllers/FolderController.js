@@ -11,20 +11,37 @@ define([
         'CloudView.Services.AccountServices',
         function FolderController($scope, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
+
+            var currentState = '';
+            var stack = [];
 			
-            $scope.ui.folder.go = function(path) {
-                $state.params.folderId = path;
+            $scope.ui.folder.go = function(folder) {
+                stack.push(currentState);
+                currentState = folder.id;
+                $scope.folder.path.push(folder);
                 $scope.folder.subfolders = [];
                 $scope.folder.files = [];
-                $state.go('folder', { folderId: path });
+                getFiles(folder.id);
             };
 
-            var getFiles = function() {
+            $scope.ui.back = function() {
+                $scope.folder.path.pop();
+                $scope.folder.subfolders = [];
+                $scope.folder.files = [];
+                var newState = stack.pop();
+                getFiles(newState);
+                currentState = newState;
+            }
+
+            $scope.ui.file.open = function() {
+
+            }
+
+            var getFiles = function(path) {
                 var data = {
-                    folderId: $state.params.folderId,
+                    folderId: path,
                     token: AccountServices.userAccount.cloudViewToken
                 }
-                console.log(data);
                 FileServices.getFiles(data)
                     .then(
                         function(result) {
@@ -34,9 +51,14 @@ define([
                             console.log(result.data);
                         }
                     );
-
             };
-            getFiles();
+
+            var activate = function() {
+                getFiles('');
+                $scope.user = AccountServices.userAccount;    
+            }
+
+            activate();
 
             var sort = function(files) {
                 files.forEach(function(file) {
@@ -55,6 +77,7 @@ define([
             }
 
             var mapFile = function(file) {
+                console.log(file);
                 file.type = file.mimeType;
                 file.account = 0;
                 return file;
