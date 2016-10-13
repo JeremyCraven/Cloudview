@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
 var jwt = require('jsonwebtoken');
 
 // Config
@@ -32,6 +33,30 @@ passport.use(new GoogleStrategy({
         return done(null, userInfo);
     }
 ));
+
+passport.use(new DropboxOAuth2Strategy({
+    apiVersion: '2',
+    clientID: conf.DROPBOX_ID,
+    clientSecret: conf.DROPBOX_SECRET,
+    callbackURL: conf.DROPBOX_CALLBACK
+  },
+  function(accessToken, refreshToken, profile, done) {
+    var userInfo = {
+            accountType: 'dropbox',
+            accountId: 'dropbox-' + profile.id,
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        };
+    return done(null, userInfo);
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // Create an account
 router.route('/users/create_account').post((req, res) => {
@@ -200,6 +225,68 @@ router.use((req, res, next) => {
     }
 });
 
+router.route('/users/auth_dropbox').get((req, res, next) => {
+    passport.authenticate('dropbox-oauth2', {
+        accessType: 'offline',
+        approvalPrompt: 'force',
+        session: false,
+        state: req.query.state
+    })(req, res, next);
+});
+
+router.route('/users/auth_dropbox_callback').get(
+    passport.authenticate('dropbox-oauth2',
+        {
+            failureRedirect: '/'
+        }
+    ),
+    (req, res) => {
+        // TODO: use one method for google and dropbox callbacks *************
+        var userInfo = req.user;
+
+        User.findOne({ email: req.decoded.email }, function(err, user) {
+            if (err) {
+                res.status(403).json({
+                    Error: err
+                });
+            }
+            else {
+                var newDropboxAccount = CloudAccount();
+                newDropboxAccount.accountType = userInfo.accountType;
+                newDropboxAccount.accountId = userInfo.accountId;
+                newDropboxAccount.accessToken = userInfo.accessToken;
+                newDropboxAccount.refreshToken = userInfo.refreshToken;
+
+                newDropboxAccount.save(function(err) {
+                    if (err) {
+                        res.status(403).json({
+                            Error: err
+                        });
+                    }
+                    else {
+                        if (!user.dropbox_accounts) { user.dropbox_accounts = []; }
+                        user.dropbox_accounts.push(newDropboxAccount);
+                        user.save(function(err) {
+                            if (err) {
+                                res.status(403).json({
+                                    Error: err
+                                });
+                            } else {
+                                //res.json({success: true});
+                                res.redirect('/');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        /*res.json({
+            message: 'Successfully authenticated with google drive'
+        });*/
+    }
+);
+
 router.route('/users/auth_google').get((req, res, next) => {
     passport.authenticate('google', {
         scope: ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/plus.login'],
@@ -273,6 +360,7 @@ router.route('/get_files').post((req, res) => {
 
     User.findOne({ email: req.decoded.email })
         .populate('google_accounts')
+        .populate('dropbox_accounts')
         .exec(function(err, user) {
             if (err) {
                 res.status(403).json({
@@ -281,6 +369,7 @@ router.route('/get_files').post((req, res) => {
             }
             else {
 
+                // TODO: merge the two/three loops into one loop **************************
                 var credentials = {};
                 if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
                     credentials.google = {};
@@ -288,6 +377,15 @@ router.route('/get_files').post((req, res) => {
                         // TODO: make it so it doesn't only get the last one
                         credentials.google.access_token = account.accessToken;
                         credentials.google.refresh_token = account.refreshToken;
+                    }
+                }
+
+                if (user && 'dropbox_accounts' in user && user.dropbox_accounts.length > 0) {
+                    credentials.dropbox = {};
+                    for (account of user.dropbox_accounts) {
+                        // TODO: make it so it doesn't only get the last one
+                        credentials.dropbox.access_token = account.accessToken;
+                        credentials.dropbox.refresh_token = account.refreshToken;
                     }
                 }
 

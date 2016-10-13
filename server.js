@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(__dirname + '/client'));
+app.use(passport.initialize())
 app.use('/api/v1', require('./router'));
 
 // Get the port
