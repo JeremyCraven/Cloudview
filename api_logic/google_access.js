@@ -58,6 +58,32 @@ access.get_google_files = function(auth, folder, pageToken, res) {
     }
   });
 }
+access.move_google_file = function(auth, fileId, folderId, res) {
+  drive.files.get({
+    fileId: fileId,
+    fields: 'parents'
+  }, function(err, file) {
+    if (err) {
+      // Handle error
+      console.log(err);
+    } else {
+      // Move the file to the new folder
+      var previousParents = file.parents.join(',');
+      drive.files.update({
+        fileId: fileId,
+        addParents: folderId,
+        removeParents: previousParents,
+        fields: 'id, parents'
+      }, function(err, file) {
+        if(err) {
+          // Handle error
+        } else {
+          res(null, {success: true});
+        }
+      });
+    }
+  });
+}
 access.get_google_file = function(auth, fileId, res) {
   var req = {
     auth: auth,
