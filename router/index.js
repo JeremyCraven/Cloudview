@@ -353,19 +353,13 @@ router.route('/users/auth_google_callback').get(
 var savedAuth = null
 var dropboxSavedToken = null
 
-router.route('/get_files').post((req, res) => {
-	var folder = req.body.folderId;
-	if (!folder) { folder = ''; }
-	var pageToken = req.body.pageToken;
-
+getCredentials = function(req, callback) {
     User.findOne({ email: req.decoded.email })
         .populate('google_accounts')
         .populate('dropbox_accounts')
         .exec(function(err, user) {
             if (err) {
-                res.status(403).json({
-                    message: 'Error: Database access'
-                });
+                callback(null);
             }
             else {
 
@@ -389,13 +383,35 @@ router.route('/get_files').post((req, res) => {
                     }
                 }
 
-                var callback = function(obj) {
-                    // if obj doesn't have obj.error, it will be the object you have to return to the user
-                    res.send(obj);
-                };
-                api_access.get_files(credentials, folder, pageToken, callback);
+                callback(credentials);
             }
-    });    
+    });
+}
+
+router.route('/move_file').post((req, res) => {
+    var file = req.body.fileId;
+    var folder = req.body.folderId;
+
+    getCredentials(req, (creds) => {
+        var callback = function(obj) {
+            res.send(obj);
+        };
+        api_access.move_file(creds, file, folder, callback);
+    });
+});
+
+router.route('/get_files').post((req, res) => {
+	var folder = req.body.folderId;
+	if (!folder) { folder = ''; }
+	var pageToken = req.body.pageToken;
+
+    getCredentials(req, (creds) => {
+        var callback = function(obj) {
+            // if obj doesn't have obj.error, it will be the object you have to return to the user
+            res.send(obj);
+        };
+        api_access.get_files(creds, folder, pageToken, callback);
+    });   
 });
 
 /*

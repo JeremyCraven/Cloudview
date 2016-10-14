@@ -23,6 +23,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						f.root = 'google';
 						f.mimeType = file.mimeType;
 						f.isDir = (f.mimeType === 'application/vnd.google-apps.folder');
+						if (!f.isDir) { console.log(file) }
 						f.name = file.name;
 						f.date = file.modifiedTime;
 						if ('webViewLink' in file) { f.webViewLink = file.webViewLink; }
@@ -96,9 +97,34 @@ api.get_files = function(creds, folder, pageToken, res) {
 			res(ret);
 	}
 }
+api.move_file = function(creds, fileId, folderId, callback) {
+	var sp = folder.split('|');
+	var id = sp[1];
+	var service = sp[0];
+	switch (service) {
+		case 'google':
+			var callback = function(err, obj) {
+				callback(obj);
+			}
+			api_access_google.move_google_file(creds.google,
+				fileId,
+				folderId,
+				callback);
+			break;
+		case 'dropbox':
+			callback({success: false})
+			break;
+		case 'onedrive':
+			callback({success: false})
+			break;
+		default:
+			callback({success: false});
+	}
+}
 api.put_file = function(creds, is_folder, name, file, callback) {
 	callback({success:true});
 }
+
 
 
 
