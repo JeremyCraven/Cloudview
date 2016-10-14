@@ -24,6 +24,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						f.mimeType = file.mimeType;
 						f.isDir = (f.mimeType === 'application/vnd.google-apps.folder');
 						f.name = file.name;
+						f.date = file.modifiedTime;
 						if ('webViewLink' in file) { f.webViewLink = file.webViewLink; }
 						if ('webContentLink' in file) { f.webContentLink = file.webContentLink; }
 
@@ -51,6 +52,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					f.isDir = file.is_dir;
 					f.mimeType = 'mime_type' in file ? file.mime_type : 'dropbox/folder';
 					f.webViewLink = 'http://www.google.com';
+					f.date = file.modified;
 					ret.files.push(f);
 				});
 				res(ret);

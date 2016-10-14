@@ -40,7 +40,7 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   var req = {
     auth: oauth2Client,
     q: query,
-    fields: 'nextPageToken, files(mimeType,id,name,parents,webContentLink,webViewLink)'
+    fields: 'nextPageToken, files(mimeType,id,name,parents,webContentLink,webViewLink,modifiedTime)'
   }
   if (pageToken != null) {
     req.pageToken = pageToken
