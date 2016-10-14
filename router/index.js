@@ -149,7 +149,7 @@ router.route('/users/login').post((req, res) => {
                     });
                 }
                 else if (isMatch) {
-                    var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
+                    var token = jwt.sign({ email: user.name }, conf.TOKEN_SECRET, {
                         expiresIn: '1h'
                     });
 
