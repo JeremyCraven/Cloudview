@@ -26,9 +26,6 @@ define([
 				url:			'/folder',
 				templateUrl:	'Views/_folder.html',
 				controller:		'CloudView.Controllers.Folder',
-				params: {
-					folderId: ''
-				}
 			});
 			$urlRouterProvider.otherwise('home');
 		}

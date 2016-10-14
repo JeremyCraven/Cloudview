@@ -82,7 +82,6 @@ access.metadata = function(access_token, file_path, res) {
   var options = {
     root: "dropbox"
   }
-  
   client.metadata(file_path, options, function(status, reply){
     res(reply);
   });

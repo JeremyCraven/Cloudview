@@ -1,0 +1,49 @@
+<md-dialog aria-label="Add Folder">
+	<form id="newFolderForm" ng-cloak ng-submit="newFolderForm.$valid && submit()">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>New Folder</h2>
+				<span flex></span>
+				<md-button class="md-icon-button" ng-click="close()">
+					<md-icon md-svg-src="./Views/img/icons/ic_close_48px.svg" aria-label="Close dialog"></md-icon>
+				</md-button>
+			</div>
+		</md-toolbar>
+
+		<script type="text/ng-template" id="new_folder_content.html">
+			<md-input-container>
+				<label>Folder Name</label>
+				<input ng-model="name" type="text" name="name" required></input>
+				<div ng-messages="newFolderForm.name.$error" role="alert">
+					<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
+				<label>Account</label>
+				<md-select ng-model="account">
+					<md-option ng-repeat="ac in accounts" ng-value="ac.index">
+						{{ac.type}} - {{ac.email}}
+					</md-option>
+				</md-select>
+			</md-input-container>
+		</script>
+
+		<md-dialog-content hide-gt-sm layout="column" layout-align="center start">
+			<ng-include src="'new_folder_content.html'"></ng-include>
+		</md-dialog-content>
+		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;" layout="column" layout-align="center center">
+			<ng-include src="'new_folder_content.html'"></ng-include>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+			<span flex=""></span>
+			<md-button type="button" ng-click="close()">
+				Cancel
+			</md-button>
+			<md-button type="submit" style="margin-right:20px;">
+				Add
+			</md-button>
+		</md-dialog-actions>
+
+	</form>
+</md-dialog>

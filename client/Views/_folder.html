@@ -24,6 +24,9 @@
 						<md-button class="md-icon-button md-primary md-mini" aria-label="New Account" ng-click="ui.new_account($event)">
 							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
 						</md-button>
+						<md-button class="md-icon-button md-primary md-mini" aria-label="Back" ng-click="ui.back()">
+							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
+						</md-button>
 					</div>
 				</md-subheader>
 				<md-list md-theme="grey" style="padding-top: 0px;">
@@ -34,7 +37,7 @@
 							<ng-include  ng-if="!account.active" src="'./Views/img/icons/ic_cloud_off_48px.svg'"></ng-include>
                         </div>
 					 class="account-check-{{$index}}"-->
-						<md-checkbox ng-model="account.active" aria-label="{{account.username}}" id="account-check-{{$index}}"></md-checkbox>
+						<md-checkbox ng-model="account.active" aria-label="{{account.type}}" id="account-check-{{$index}}"></md-checkbox>
 						<div class="md-list-item-text">
 							<h3>{{account.type}}</h3>
 							<h4>{{account.username}}</h4>
@@ -99,7 +102,7 @@
 					</md-subheader>
 					<div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
 						<div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders | sortFiles: ui.sort.field : ui.sort.reverse">
-							<md-card ng-click="ui.folder.go(sub.id)">
+							<md-card ng-click="ui.folder.go(sub)">
 								<md-tooltip md-delay="1000">
 									{{sub.name}}
 								</md-tooltip>

@@ -15,29 +15,37 @@ define([
 				accounts: []
 			};
 
-			var url = '/api/v1/';
+			var url = 'http://localhost:8081/api/v1/';
 
-			service.login = function(credentials, cbs, cbf) {
-				$http({
+			service.login = function(credentials) {
+				return $http({
 					method: 'POST',
 					url: url + 'users/login',
 					data: credentials
-				}).then(login_success(cbs), login_failure(cbf));
+				});
 			};
 
-			var login_success = function(cb) {
-				return function(result) {
-					debugger;
-					var data = result.data;
-					service.userAccount.hasName = true;
-					service.userAccount.name = data.user.name;
-					service.userAccount.email = data.user.email;
-					service.userAccount.cloudViewToken = data.user.token;
+			service.login_success = function(result) {
+				var data = result.data;
+				service.userAccount.hasName = true;
+				service.userAccount.name = data.user.name;
+				service.userAccount.email = data.user.email;
+				service.userAccount.cloudViewToken = data.user.token;
+				if (data.user.google_accounts != '') {
+					data.user.google_accounts.type = 'Google Drive';
 					service.userAccount.accounts.push(data.user.google_accounts);
-					service.userAccount.accounts.push(data.user.dropbox_accounts);
-					service.userAccount.accounts.push(data.user.onedrive_accounts);
-					cb(result);
 				}
+				if (data.user.dropbox_accounts != '') {
+					data.user.dropbox_accounts.type = 'Dropbox';
+					service.userAccount.accounts.push(data.user.dropbox_accounts);
+				}
+				if (data.user.onedrive_accounts != '') {
+					data.user.onedrive_accounts.type = 'OneDrive';
+					service.userAccount.accounts.push(data.user.onedrive_accounts);
+				}
+			}
+
+			service.login_failure = function(result) {
 			};
 
 			var login_failure = function(sb) {
