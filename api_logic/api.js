@@ -98,7 +98,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 	}
 }
 api.move_file = function(creds, fileId, folderId, callback) {
-	var sp = folder.split('|');
+	var sp = fileId.split('|');
 	var id = sp[1];
 	var service = sp[0];
 	switch (service) {
@@ -107,8 +107,8 @@ api.move_file = function(creds, fileId, folderId, callback) {
 				callback(obj);
 			}
 			api_access_google.move_google_file(creds.google,
-				fileId,
-				folderId,
+				id,
+				folderId.split('|')[1],
 				cb);
 			break;
 		case 'dropbox':
@@ -116,8 +116,36 @@ api.move_file = function(creds, fileId, folderId, callback) {
 				callback(obj)
 			}
 			api_access_dropbox.move(creds.dropbox,
-				fileId,
-				folderId,
+				id,
+				folderId.split('|')[1],
+				cb);
+			break;
+		case 'onedrive':
+			callback({success: false})
+			break;
+		default:
+			callback({success: false});
+	}
+}
+api.delete_file = function(creds, fileId, callback) {
+	var sp = fileId.split('|');
+	var id = sp[1];
+	var service = sp[0];
+	switch (service) {
+		case 'google':
+			var cb = function(err, obj) {
+				callback(obj);
+			}
+			api_access_google.delete_google_file(creds.google,
+				id,
+				cb);
+			break;
+		case 'dropbox':
+			var cb = function(err, obj) {
+				callback(obj)
+			}
+			api_access_dropbox.move(creds.dropbox,
+				id,
 				cb);
 			break;
 		case 'onedrive':

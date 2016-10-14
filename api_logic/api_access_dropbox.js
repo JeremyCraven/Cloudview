@@ -99,6 +99,18 @@ access.move = function(access_token, file, folder, res) {
   });
 }
 
+access.delete = function(access_token, file, res) {
+  var client = app.client(access_token)
+  var options = {
+    root: "dropbox"
+  }
+  client.rm(file, options, (status, reply) => {
+    console.log(status)
+    console.log(reply)
+    res(status, reply);
+  });
+}
+
 access.get_link = function(access_token, file_path, res) {
   var client = app.client(access_token);
   var options = {

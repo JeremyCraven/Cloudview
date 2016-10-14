@@ -59,7 +59,7 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   });
 }
 access.move_google_file = function(auth, fileId, folderId, res) {
-  drive.files.get({
+  this.service.files.get({
     fileId: fileId,
     fields: 'parents'
   }, function(err, file) {
@@ -81,6 +81,19 @@ access.move_google_file = function(auth, fileId, folderId, res) {
           res(null, {success: true});
         }
       });
+    }
+  });
+}
+access.delete_google_file = function(auth, fileId, res) {
+  var req = {
+    fileId: fileId,
+    trashed: true
+  }
+  this.service.files.update(req, (err, response) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res(null, {success: true});
     }
   });
 }
