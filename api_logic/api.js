@@ -103,16 +103,22 @@ api.move_file = function(creds, fileId, folderId, callback) {
 	var service = sp[0];
 	switch (service) {
 		case 'google':
-			var callback = function(err, obj) {
+			var cb = function(err, obj) {
 				callback(obj);
 			}
 			api_access_google.move_google_file(creds.google,
 				fileId,
 				folderId,
-				callback);
+				cb);
 			break;
 		case 'dropbox':
-			callback({success: false})
+			var cb = function(err, obj) {
+				callback(obj)
+			}
+			api_access_dropbox.move(creds.dropbox,
+				fileId,
+				folderId,
+				cb);
 			break;
 		case 'onedrive':
 			callback({success: false})

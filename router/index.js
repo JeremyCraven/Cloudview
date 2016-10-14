@@ -408,6 +408,7 @@ router.route('/get_files').post((req, res) => {
     getCredentials(req, (creds) => {
         var callback = function(obj) {
             // if obj doesn't have obj.error, it will be the object you have to return to the user
+            console.log(JSON.stringify(obj));
             res.send(obj);
         };
         api_access.get_files(creds, folder, pageToken, callback);
