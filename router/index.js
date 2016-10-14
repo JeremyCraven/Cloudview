@@ -140,7 +140,7 @@ router.route('/users/login').post((req, res) => {
                             });
                         }
                         else if (isMatch) {
-                            var token = jwt.sign({ email: user.email }, conf.TOKEN_SECRET, {
+                            var token = jwt.sign({ id: user._id }, conf.TOKEN_SECRET, {
                                 expiresIn: '1h'
                             });
                             res.status(200).json({
@@ -173,7 +173,7 @@ router.route('/users/login').post((req, res) => {
                     });
                 }
                 else if (isMatch) {
-                    var token = jwt.sign({ email: user.name }, conf.TOKEN_SECRET, {
+                    var token = jwt.sign({ id: user._id }, conf.TOKEN_SECRET, {
                         expiresIn: '1h'
                     });
 
@@ -244,7 +244,7 @@ router.route('/users/auth_dropbox_callback').get(
         // TODO: use one method for google and dropbox callbacks *************
         var userInfo = req.user;
 
-        User.findOne({ email: req.decoded.email }, function(err, user) {
+        User.findOne({ _id: req.decoded.id }, function(err, user) {
             if (err) {
                 res.status(403).json({
                     Error: err
@@ -307,7 +307,7 @@ router.route('/users/auth_google_callback').get(
     (req, res) => {
         var userInfo = req.user;
 
-        User.findOne({ email: req.decoded.email }, function(err, user) {
+        User.findOne({ _id: req.decoded.id }, function(err, user) {
             if (err) {
                 res.status(403).json({
                     Error: err
@@ -336,7 +336,7 @@ router.route('/users/auth_google_callback').get(
                                 });
                             } else {
                                 //res.json({success: true});
-                                res.redirect('/#/folder');
+                                res.status(200).redirect('/#/folder');
                             }
                         });
                     }
@@ -358,7 +358,7 @@ router.route('/get_files').post((req, res) => {
 	if (!folder) { folder = ''; }
 	var pageToken = req.body.pageToken;
 
-    User.findOne({ email: req.decoded.email })
+    User.findOne({ _id: req.decoded.id })
         .populate('google_accounts')
         .populate('dropbox_accounts')
         .exec(function(err, user) {
