@@ -24,8 +24,8 @@ api.get_files = function(creds, folder, pageToken, res) {
 						f.mimeType = file.mimeType;
 						f.isDir = (f.mimeType === 'application/vnd.google-apps.folder');
 						f.name = file.name;
-						if ('webViewLink' in obj) { f.webViewLink = file.webViewLink; }
-						if ('webContentLink' in obj) { f.webContentLink = file.webContentLink; }
+						if ('webViewLink' in file) { f.webViewLink = file.webViewLink; }
+						if ('webContentLink' in file) { f.webContentLink = file.webContentLink; }
 
 						ret.files.push(f);
 					});
