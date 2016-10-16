@@ -3,10 +3,12 @@ var router = express.Router();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
+var OneDriveStrategy = require('passport-onedrive').Strategy;
 var jwt = require('jsonwebtoken');
 
 // Config
 var conf = require('../config.js');
+var conf_global = require('../config_global.js');
 
 // Models
 var User = require('../models/user');
@@ -15,7 +17,10 @@ var CloudAccount = require('../models/cloud_account');
 // API Logic
 var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
+var api_access_onedrive = require('../api_logic/api_access_onedrive');
 var api_access = require('../api_logic/api');
+
+const util = require('util');
 
 // Auth Google Strategy
 passport.use(new GoogleStrategy({
@@ -57,6 +62,23 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+// Auth OneDrive Strategy
+passport.use(new OneDriveStrategy({
+        clientID: conf_global.ONEDRIVE_CLIENT_ID,
+        clientSecret: conf_global.ONEDRIVE_CLIENT_SECRET,
+        callbackURL: conf_global.ONEDRIVE_CALLBACK
+      },
+      function(accessToken, refreshToken, profile, done) {
+        var userInfo = {
+            accountType: 'onedrive',
+            accountId: 'onedrive-' + profile.id,
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        };
+
+        return done(null, userInfo);
+      }
+));
 
 // Create an account
 router.route('/users/create_account').post((req, res) => {
@@ -296,7 +318,6 @@ router.route('/users/auth_google').get((req, res, next) => {
         state: req.query.state
     })(req, res, next);
 });
-
 router.route('/users/auth_google_callback').get(
     passport.authenticate('google',
         { 
@@ -347,6 +368,60 @@ router.route('/users/auth_google_callback').get(
         /*res.json({
             message: 'Successfully authenticated with google drive'
         });*/
+    }
+);
+
+router.route('/users/auth_onedrive').get(
+    passport.authenticate('onedrive',
+     { scope: ["wl.basic", "wl.offline_access", "wl.skydrive_update"] 
+ }));
+
+router.route('/users/auth_onedrive_callback').get( 
+    passport.authenticate('onedrive',
+        { 
+            failureRedirect: '/',
+            session: false
+        }
+    ),
+    (req, res) => {
+        var userInfo = req.user;
+
+        User.findOne({ email: req.decoded.email }, function(err, user) {
+            if (err) {
+                res.status(500).json({
+                    Error: err
+                });
+            }
+            else {
+                var newOneDriveAccount = CloudAccount();
+                newOneDriveAccount.accountType = userInfo.accountType;
+                newOneDriveAccount.accountId = userInfo.accountId;
+                newOneDriveAccount.accessToken = userInfo.accessToken;
+                newOneDriveAccount.refreshToken = userInfo.refreshToken;
+
+                newOneDriveAccount.save(function(err) {
+                    if (err) {
+                        res.status(500).json({
+                            Error: err
+                        });
+                    }
+                    else {
+                        user.onedrive_accounts.push(newOneDriveAccount);
+                        user.save(function(err) {
+                            if (err) {
+                                res.status(500).json({
+                                    Error: err
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        res.json({
+            message: 'Successfully authenticated with OneDrive'
+        });
     }
 );
 
