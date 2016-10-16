@@ -57,7 +57,15 @@ exports.app = function(app_info){
 'use strict';
 // var restler = require('restler');
 var https = require('https');
-var helper = require("./helper")(app_info);
+
+var encode = function(data){
+  return encodeURIComponent(data || "").
+      replace(/\!/g, "%21").
+      replace(/\'/g, "%27").
+      replace(/\(/g, "%28").
+      replace(/\)/g, "%29").
+      replace(/\*/g, "%2A")
+}
 
 /*
 onedrive.getToken = function(callback) {
@@ -174,7 +182,7 @@ exports.app = function(access_token) {
           });
 
           response.on('end', function() {
-            callback(200, );
+            callback(200, JSON.parse(body));
           });
         } else {
           callback(response.statusCode);
@@ -285,7 +293,7 @@ exports.app = function(access_token) {
     search : function(search_term, callback) {
       var options = {  
         host: onedrive_host,
-        path: onedrive_base_path + 'me/skydrive/search?q=' + helper.encode(search_term) + '&access_token=' + access_token,
+        path: onedrive_base_path + 'me/skydrive/search?q=' + encode(search_term) + '&access_token=' + access_token,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

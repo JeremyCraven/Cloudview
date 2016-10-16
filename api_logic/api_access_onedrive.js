@@ -43,7 +43,7 @@ access.download_link = function(access_token, file_path, res) {
 access.delete = function(access_token, file_path, res) {
   var app = oned.app(access_token); 
 
-  app.delete(ffile_path, unction(status, reply){
+  app.delete(file_path, function(status, reply){
       if(status == 200)
         res.send(reply);
       else
@@ -102,7 +102,7 @@ access.search = function(access_token, search_term, res) {
   });
 }
 
-var get_error : function(status_number) {
+var get_error = function(status_number) {
   switch (status_number) {
             case 200: 
               return "OK";
