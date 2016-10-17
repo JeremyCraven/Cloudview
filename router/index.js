@@ -526,7 +526,6 @@ router.route('/delete_file').post((req, res) => {
     getCredentials(req, (creds) => {
         var callback = function(obj) {
             // if obj doesn't have obj.error, it will be the object you have to return to the user
-            console.log(JSON.stringify(obj));
             res.send(obj);
         };
         api_access.delete_file(creds, file, callback);

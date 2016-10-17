@@ -34,13 +34,17 @@ define([
                 currentState = newState;
             }
 
-            $scope.ui.file.open = function(id, url) {
+            $scope.ui.file.open = function(url, viewUrl) {
                 //console.log(url);
                 //var data = {
                 //    fileId: id,
                 //    token: AccountServices.userAccount.cloudViewToken
                 //}
-                $window.location.href = url;
+                if (url) {
+                    $window.location.href = url;
+                } else {
+                    $window.location.href = viewUrl;
+                }
                 //FileServices.downloadFile(data, url);
             }
 
