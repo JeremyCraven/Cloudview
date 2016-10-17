@@ -43,7 +43,7 @@ define([
 					service.userAccount.accounts.push(data.user.dropbox_accounts);
 				}
 				if (data.user.onedrive_accounts != '') {
-					data.user.onedrive_accounts.type = 'OneDrive';
+					data.user.onedrive_accounts.type = 'One Drive';
 					data.user.onedrive_accounts.active = true;
 					service.userAccount.accounts.push(data.user.onedrive_accounts);
 				}

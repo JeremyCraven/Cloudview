@@ -79,12 +79,54 @@ define([
                 if (angular.isDefined(files)) {
                     files.forEach(function(file) {
                         if (file.isDir) {
-                            $scope.folder.subfolders.push(file);
+                            $scope.folder.subfolders.push(mapFolder(file));
                         } else {
-                            $scope.folder.files.push(file);
+                            $scope.folder.files.push(mapFile(file));
                         }
                     })
                 }
+            }
+
+            var setProperties = function(fileFolder) {
+                console.log(fileFolder);
+                //fileFolder.type = fileFolder.mimeType;
+                switch (fileFolder.root) {
+                    case 'google':
+                        fileFolder.account = 0;
+                        break;
+                    case 'onedrive':
+                        fileFolder.account = 0;
+                        break;
+                    case 'dropbox':
+                        fileFolder.account = 0;
+                        break;
+                    default:
+                        fileFolder.account = 0;
+                }
+            }
+
+            var mapFolder = function(folder) {
+                console.log(folder);
+                folder.type = folder.mimeType;
+                if (folder.root == 'google')
+                    folder.account = 0;
+                else if (folder.root == 'dropbox')
+                    folder.account = 1;
+                else
+                    folder.account = 2;
+                return folder;
+            }
+
+            var mapFile = function(file) {
+                console.log(file);
+                file.type = file.mimeType;
+                if (file.root == 'google')
+                    file.account = 0;
+                else if (file.root == 'dropbox')
+                    file.account = 1;
+                else
+                    file.account = 2;
+                return file;
             }
         }
     ]);
