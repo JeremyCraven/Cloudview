@@ -60,6 +60,12 @@ define([
                 };
                 $window.location.href = ('http://localhost:8081/api/v1/users/auth_dropbox?state=' + credentials.token);
             }
+            $scope.login_onedrive = function() {
+                ar credentials = {
+                    token: AccountServices.userAccount.cloudViewToken
+                };
+                $window.location.href = ('http://localhost:8081/api/v1/users/auth_onedrive?state=' + credentials.token);
+            }
         }
     ]);
 });
