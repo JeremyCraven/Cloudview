@@ -227,6 +227,7 @@ router.use((req, res, next) => {
     if (!token) {
         token = req.query.state;
     }
+    req.token = token;
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
             if (err) {
@@ -470,7 +471,7 @@ getCredentials = function(req, callback) {
                         credentials.onedrive.refresh_token = account.refreshToken;
                     }
                 }
-
+                credentials.cloudview = req.token;
                 callback(credentials);
             }
     });
@@ -500,6 +501,15 @@ router.route('/get_files').post((req, res) => {
         };
         api_access.get_files(creds, folder, pageToken, callback);
     });   
+});
+
+router.route('/download_dropbox_file').post((req, res) => {
+    var file = req.body.fileId;
+    getCredentials(req, (creds) => {
+        api_access.download_dropbox(creds, file, (obj) => {
+            res.send(obj);
+        });
+    });
 });
 
 router.route('/delete_file').post((req, res) => {

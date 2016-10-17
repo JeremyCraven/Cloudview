@@ -53,7 +53,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					f.name = sp[sp.length-1];
 					f.isDir = file.is_dir;
 					f.mimeType = 'mime_type' in file ? file.mime_type : 'dropbox/folder';
-					f.webViewLink = 'http://www.google.com';
+					f.webContentLink = 'http://localhost:8081/api/v1/download_dropbox_file?state=' + creds.cloudview;
 					f.date = file.modified;
 					ret.files.push(f);
 				});
@@ -113,6 +113,18 @@ api.get_files = function(creds, folder, pageToken, res) {
 					});
 			}
 			res(ret);
+	}
+}
+api.download_dropbox = function(creds, fileId, callback) {
+	var sp = fileId.split('|');
+	var id = sp[1];
+	var service = sp[0];
+	if (service === 'dropbox') {
+		api_access_dropbox.download_file(creds.dropbox, id, (err, res) => {
+			callback(res);
+		});
+	} else {
+		callback({success: false});
 	}
 }
 api.move_file = function(creds, fileId, folderId, callback) {

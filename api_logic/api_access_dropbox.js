@@ -3,6 +3,7 @@ var readline = require('readline');
 var Promise = require('es6-promise').Promise;
 var dbox  = require("dbox");
 var app   = dbox.app({ "app_key": "mbvg6drwcnt8ijt", "app_secret": "o5dd4i6tp2ku5l9" });
+var https = require('https')
 const util = require('util')
 
 var access = new Object();
@@ -129,8 +130,11 @@ access.download_file = function(access_token, file_path, res) {
   }
 
   client.media(file_path, options, function(status, reply){
-    var request = http.get(reply, function(response) {
-    response.pipe(file);
+    console.log(file_path)
+    console.log(reply)
+    var request = https.get(reply.url, function(response) {
+      response.pipe(file_path);
+      res(null, {success: true});
     });
   });
 }

@@ -33,8 +33,13 @@ define([
                 currentState = newState;
             }
 
-            $scope.ui.file.open = function() {
-
+            $scope.ui.file.open = function(id, url) {
+                console.log(url);
+                var data = {
+                    fileId: id,
+                    token: AccountServices.userAccount.cloudViewToken
+                }
+                FileServices.downloadFile(data, url);
             }
 
             var getFiles = function(path) {

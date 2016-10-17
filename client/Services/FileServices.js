@@ -16,6 +16,14 @@ define([
 				});
 			};
 
+			service.downloadFile = function(data, url) {
+				return $http({
+					method: 'POST',
+					url: url,
+					data: data
+				});
+			};
+
 			service.authorizeGoogle = function() {
 				return $http({
 					method: 'GET',
