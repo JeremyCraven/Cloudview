@@ -24,9 +24,6 @@
 						<md-button class="md-icon-button md-primary md-mini" aria-label="New Account" ng-click="ui.new_account($event)">
 							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
 						</md-button>
-						<md-button class="md-icon-button md-primary md-mini" aria-label="Back" ng-click="ui.back()">
-							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
-						</md-button>
 					</div>
 				</md-subheader>
 				<md-list md-theme="grey" style="padding-top: 0px;">
@@ -86,7 +83,7 @@
 				<div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
 					<h1 style="white-space: nowrap;">My files &nbsp;&#8250;</h1>
 					<h1 ng-repeat="f in folder.path | parentFolder: 3" style="white-space: nowrap;">
-                        <a ng-click="ui.folder.go(f.id)">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#8250;</span>
+                        <a ng-click="ui.folder.go({id: f.id, name: f.name})">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#8250;</span>
                         </a>
                     </h1>
 				</div>

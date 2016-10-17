@@ -33,14 +33,18 @@ define([
 				service.userAccount.cloudViewToken = data.user.token;
 				if (data.user.google_accounts != '') {
 					data.user.google_accounts.type = 'Google Drive';
+					data.user.google_accounts.active = true;
 					service.userAccount.accounts.push(data.user.google_accounts);
+
 				}
 				if (data.user.dropbox_accounts != '') {
 					data.user.dropbox_accounts.type = 'Dropbox';
+					data.user.dropbox_accounts.active = true;
 					service.userAccount.accounts.push(data.user.dropbox_accounts);
 				}
 				if (data.user.onedrive_accounts != '') {
 					data.user.onedrive_accounts.type = 'OneDrive';
+					data.user.onedrive_accounts.active = true;
 					service.userAccount.accounts.push(data.user.onedrive_accounts);
 				}
 			}

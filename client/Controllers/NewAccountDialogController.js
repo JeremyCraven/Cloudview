@@ -35,24 +35,10 @@ define([
                 $mdDialog.cancel();
             }
             $scope.login_google = function() {
-                //$scope.loading = true;
                 var credentials = {
                     token: AccountServices.userAccount.cloudViewToken
                 };
-                $window.location.href = ('http://localhost:8081/api/v1/users/auth_google?state=' + credentials.token);
-                /*AccountServices.addGoogleDriveAccount(credentials)
-                    .then(
-                        function(result) {
-                            var data = result.data;
-                            //console.log(data);
-                            //AccountServices.userAccount.accounts.push(data);
-                            $scope.loading = false;
-                            $scope.close();
-                        },
-                        function(result) {
-                            console.log(result.data);
-                        }
-                    );*/
+                $window.open('http://localhost:8081/api/v1/users/auth_google?state=' + credentials.token);
             }
             $scope.login_dropbox = function() {
                 var credentials = {
@@ -64,7 +50,7 @@ define([
                 var credentials = {
                     token: AccountServices.userAccount.cloudViewToken
                 };
-                $window.location.href = ('http://localhost:8081/api/v1/users/auth_onedrive?state=' + credentials.token);
+                $window.open('http://localhost:8081/api/v1/users/auth_onedrive?state=' + credentials.token);
             }
         }
     ]);

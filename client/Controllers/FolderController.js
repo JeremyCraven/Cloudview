@@ -13,37 +13,41 @@ define([
         function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
 
-            var currentState = '';
-            var stack = [];
+            var currentFolder = '';
 			
             $scope.ui.folder.go = function(folder) {
-                stack.push(currentState);
-                currentState = folder.id;
-                $scope.folder.path.push(folder);
+                console.log(folder);
+                if (folder.id === currentFolder.id) {
+                    return;
+                }
                 $scope.folder.subfolders = [];
                 $scope.folder.files = [];
+                var index = search($scope.folder.path, folder.id);
+                console.log(index);
+                if (index == -1) {
+                    $scope.folder.path.push(folder);
+                }
+                else {
+                    $scope.folder.path.splice(index + 1);
+                }
+                currentFolder = folder;
                 getFiles(folder.id);
             };
 
-            $scope.ui.back = function() {
-                $scope.folder.path.pop();
-                $scope.folder.subfolders = [];
-                $scope.folder.files = [];
-                var newState = stack.pop();
-                getFiles(newState);
-                currentState = newState;
+            var search = function(array, key) {
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i].id == key) {
+                        return i;
+                    }
+                }
+                return -1;
             }
 
             $scope.ui.file.open = function(url, viewUrl) {
-                //console.log(url);
-                //var data = {
-                //    fileId: id,
-                //    token: AccountServices.userAccount.cloudViewToken
-                //}
                 if (url) {
-                    $window.location.href = url;
+                    $window.open(url);
                 } else {
-                    $window.location.href = viewUrl;
+                    $window.open(viewUrl);
                 }
                 //FileServices.downloadFile(data, url);
             }
@@ -65,33 +69,22 @@ define([
             };
 
             var activate = function() {
-                getFiles('');
-                $scope.user = AccountServices.userAccount;    
+                $scope.user = AccountServices.userAccount;   
+                $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
             }
 
             activate();
 
             var sort = function(files) {
-                files.forEach(function(file) {
-                    if (file.isDir) {
-                        $scope.folder.subfolders.push(mapFolder(file));
-                    } else {
-                        $scope.folder.files.push(mapFile(file));
-                    }
-                })
-            }
-
-            var mapFolder = function(folder) {
-                folder.type = folder.mimeType;
-                folder.account = 0;
-                return folder;
-            }
-
-            var mapFile = function(file) {
-                console.log(file);
-                file.type = file.mimeType;
-                file.account = 0;
-                return file;
+                if (angular.isDefined(files)) {
+                    files.forEach(function(file) {
+                        if (file.isDir) {
+                            $scope.folder.subfolders.push(file);
+                        } else {
+                            $scope.folder.files.push(file);
+                        }
+                    })
+                }
             }
         }
     ]);

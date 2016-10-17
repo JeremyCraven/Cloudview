@@ -7,7 +7,6 @@ define([
         '$mdDialog',
         function FolderController($scope, $mdSidenav, $mdDialog) {
             $scope.ui = {
-                back: function() {},
                 fab: {
                     isOpen: false
                 },
