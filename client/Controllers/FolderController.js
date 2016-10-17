@@ -3,13 +3,14 @@ define([
 ], function(module) {
     return module.controller('CloudView.Controllers.Folder', [
         '$scope',
+        '$window',
 		'$controller',
         '$state',
         '$mdSidenav',
 		'$mdDialog',
         'CloudView.Services.FileServices',
         'CloudView.Services.AccountServices',
-        function FolderController($scope, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
+        function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
 
             var currentState = '';
@@ -34,12 +35,13 @@ define([
             }
 
             $scope.ui.file.open = function(id, url) {
-                console.log(url);
-                var data = {
-                    fileId: id,
-                    token: AccountServices.userAccount.cloudViewToken
-                }
-                FileServices.downloadFile(data, url);
+                //console.log(url);
+                //var data = {
+                //    fileId: id,
+                //    token: AccountServices.userAccount.cloudViewToken
+                //}
+                $window.location.href = url;
+                //FileServices.downloadFile(data, url);
             }
 
             var getFiles = function(path) {

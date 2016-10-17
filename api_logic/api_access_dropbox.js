@@ -130,12 +130,13 @@ access.download_file = function(access_token, file_path, res) {
   }
 
   client.media(file_path, options, function(status, reply){
-    console.log(file_path)
-    console.log(reply)
-    var request = https.get(reply.url, function(response) {
-      response.pipe(file_path);
-      res(null, {success: true});
-    });
+    //console.log(file_path)
+    //console.log(reply)
+    res(null, {url: reply.url})
+    //var request = https.get(reply.url, function(response) {
+    //  response.pipe(file_path);
+    //  res(null, {success: true});
+    //});
   });
 }
 

@@ -5,6 +5,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var DropboxOAuth2Strategy = require('passport-dropbox-oauth2').Strategy;
 var OneDriveStrategy = require('passport-onedrive').Strategy;
 var jwt = require('jsonwebtoken');
+var https = require('https');
 
 // Config
 var conf = require('../config.js');
@@ -503,11 +504,19 @@ router.route('/get_files').post((req, res) => {
     });   
 });
 
-router.route('/download_dropbox_file').post((req, res) => {
-    var file = req.body.fileId;
+router.route('/download_dropbox_file').get((req, res) => {
+    var file = req.query.fileId;
     getCredentials(req, (creds) => {
         api_access.download_dropbox(creds, file, (obj) => {
-            res.send(obj);
+            obj.url
+            res.writeHead(200, {
+                "Content-Type": "application/octet-stream",
+                "Content-Disposition": "attachment; filename=" + file
+            });
+            //https.get(obj.url).pipe(res)
+            https.get(obj.url, function(response) {
+              response.pipe(res);
+            });
         });
     });
 });

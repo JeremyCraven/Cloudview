@@ -53,7 +53,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					f.name = sp[sp.length-1];
 					f.isDir = file.is_dir;
 					f.mimeType = 'mime_type' in file ? file.mime_type : 'dropbox/folder';
-					f.webContentLink = 'http://localhost:8081/api/v1/download_dropbox_file?state=' + creds.cloudview;
+					f.webContentLink = 'http://localhost:8081/api/v1/download_dropbox_file?state=' + creds.cloudview + '&fileId='+f.id;
 					f.date = file.modified;
 					ret.files.push(f);
 				});
