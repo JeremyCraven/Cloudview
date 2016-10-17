@@ -24,19 +24,13 @@ define([
 				});
 			};
 
-			service.authorizeGoogle = function() {
-				return $http({
-					method: 'GET',
-					url: url + 'authorize_google',
-				});
-			};
+			service.addFile = function() {
+				
+			}
 
-			service.authorizeDropbox = function() {
-				return $http({
-					method: 'GET',
-					url: url + 'authorize_dropbox'
-				})
-			};
+			service.addFolder = function() {
+				
+			}
 
 			return service;
 		}
