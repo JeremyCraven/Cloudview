@@ -371,10 +371,12 @@ router.route('/users/auth_google_callback').get(
     }
 );
 
-router.route('/users/auth_onedrive').get(
-    passport.authenticate('onedrive',
-     { scope: ["wl.basic", "wl.offline_access", "wl.skydrive_update"] 
- }));
+router.route('/users/auth_onedrive').get((req, res, next) => {
+    passport.authenticate('onedrive', {
+        scope: ["wl.basic", "wl.offline_access", "wl.skydrive_update"],
+        state: req.query.state
+    })(req, res, next);
+});
 
 router.route('/users/auth_onedrive_callback').get( 
     passport.authenticate('onedrive',
@@ -386,7 +388,7 @@ router.route('/users/auth_onedrive_callback').get(
     (req, res) => {
         var userInfo = req.user;
 
-        User.findOne({ email: req.decoded.email }, function(err, user) {
+        User.findOne({ _id: req.decoded.id }, function(err, user) {
             if (err) {
                 res.status(500).json({
                     Error: err
@@ -406,6 +408,7 @@ router.route('/users/auth_onedrive_callback').get(
                         });
                     }
                     else {
+                        if (!user.onedrive_accounts) { user.onedrive_accounts = []; }
                         user.onedrive_accounts.push(newOneDriveAccount);
                         user.save(function(err) {
                             if (err) {
