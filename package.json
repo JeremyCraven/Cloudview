@@ -19,11 +19,8 @@
     "passport": "^0.3.2",
     "passport-dropbox": "^2.0.0",
     "passport-google-oauth": "^1.0.0",
-<<<<<<< HEAD
     "passport-dropbox-oauth2": "^1.1.0",
-=======
     "passport-onedrive": "^0.0.4",
->>>>>>> rdalal-oned
     "requirejs": "^2.3.2"
   },
   "devDependencies": {
