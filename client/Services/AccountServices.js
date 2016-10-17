@@ -25,6 +25,14 @@ define([
 				});
 			};
 
+			service.get_account_info = function(credentials) {
+				return $http({
+					method: 'POST',
+					url: url + 'users/get_info',
+					data: credentials
+				});
+			}
+
 			service.login_success = function(result) {
 				var data = result.data;
 				service.userAccount.hasName = true;

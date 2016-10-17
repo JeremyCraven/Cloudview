@@ -140,6 +140,19 @@ access.download_file = function(access_token, file_path, res) {
   });
 }
 
+access.get_dropbox_account_info = function(access_token, res) {
+  var client = app.client(access_token);
+
+  client.account((status, reply) => {
+    var obj = {}
+    obj.email = reply.email
+    obj.storage = {}
+    obj.storage.used = reply.quota_info.normal
+    obj.storage.limit = reply.quota_info.quota
+    res(obj)
+  });
+}
+
 access.get_streamable = function(access_token, file_path, res) {
   var client = app.client(access_token);
   var options = {

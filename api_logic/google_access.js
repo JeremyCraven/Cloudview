@@ -59,7 +59,11 @@ access.get_google_files = function(auth, folder, pageToken, res) {
   });
 }
 access.move_google_file = function(auth, fileId, folderId, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
   this.service.files.get({
+    auth: oauth2Client,
     fileId: fileId,
     fields: 'parents'
   }, function(err, file) {
@@ -85,7 +89,11 @@ access.move_google_file = function(auth, fileId, folderId, res) {
   });
 }
 access.delete_google_file = function(auth, fileId, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
   var req = {
+    auth: oauth2Client,
     fileId: fileId,
     trashed: true
   }
@@ -111,6 +119,27 @@ access.get_google_file = function(auth, fileId, res) {
     res(response);
   });
 }
+access.get_google_account_info = function(auth, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
+  var req = {
+    auth: oauth2Client,
+    fields: 'storageQuota,user'
+  }
+  this.service.about.get(req, (err, response) => {
+    if (err) {
+      res('The API returned an error: ' + JSON.stringify(err));
+      return;
+    }
+    var obj = {};
+    obj.email = response.user.emailAddress
+    obj.storage = {};
+    obj.storage.used = response.storageQuota.usage;
+    obj.storage.limit = response.storageQuota.limit;
+    res(obj);
+  });
+}
 /*
   examples of acceptable file objects:
   {
@@ -124,13 +153,16 @@ access.get_google_file = function(auth, fileId, res) {
   }
 */
 access.put_google_file = function(auth, fileName, file, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
   this.service.files.create({
     resource: {
       name: fileName,
       mimeType: file.mimeType
     },
     media: file,
-    auth: auth,
+    auth: oauth2Client
   }, function(err, response) {
     if (err) {
       res('The API returned an error: ' + JSON.stringify(err));
@@ -141,12 +173,15 @@ access.put_google_file = function(auth, fileName, file, res) {
 }
 
 access.put_google_folder = function(auth, folderName, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
   var fileMetadata = {
     'name' : folderName,
     'mimeType' : 'application/vnd.google-apps.folder'
   };
   drive.files.create({
-    auth: auth,
+    auth: oauth2Client,
     resource: fileMetadata,
     fields: 'id,mimeType,name,parents'
   }, function(err, file) {

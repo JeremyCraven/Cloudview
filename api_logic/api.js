@@ -115,6 +115,30 @@ api.get_files = function(creds, folder, pageToken, res) {
 			res(ret);
 	}
 }
+api.get_account_info = function(creds, callback) {
+	var count = 0;
+	var obj = {};
+	console.log("HEY")
+	api_access_dropbox.get_dropbox_account_info(creds.dropbox, (reply) => {
+		console.log("dropbox")
+		console.log(reply)
+		obj.dropbox = reply
+		// TODO: fix race condition
+		count = count + 1
+		if (count >= 2) {
+			callback(obj);
+		}
+	});
+	api_access_google.get_google_account_info(creds.google, (reply) => {
+		console.log("google")
+		console.log(reply)
+		obj.google = reply
+		count = count + 1
+		if (count >= 2) {
+			callback(obj);
+		}
+	});
+}
 api.download_dropbox = function(creds, fileId, callback) {
 	var sp = fileId.split('|');
 	var id = sp[1];

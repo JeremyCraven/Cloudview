@@ -531,6 +531,13 @@ router.route('/delete_file').post((req, res) => {
         api_access.delete_file(creds, file, callback);
     });  
 });
+router.route('/users/get_info').post((req, res) => {
+    getCredentials(req, (creds) => {
+        api_access.get_account_info(creds, (obj) => {
+            res.send(obj);
+        });
+    });
+});
 
 /*
 router.route('/authorize_google').get((req, res) => {
