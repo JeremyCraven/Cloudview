@@ -252,7 +252,7 @@ exports.app = function(access_token) {
       } else {
         callback(response.statusCode);
       }
-      }).on('error', null);
+      });
 
       get_files.end();  
     },

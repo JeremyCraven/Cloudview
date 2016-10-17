@@ -71,22 +71,22 @@ access.create_folder = function(access_token, folder_name, res, folder_path) {
   }
 }
 
-access.list_files = function(access_token, res, folder_id) {
+access.list_files = function(access_token, callback, folder_id) {
   var app = oned.app(access_token); 
 
   if(folder_id === null) {
     app.list_files(function(status, reply){
         if(status == 200)
-          res.send(reply);
+          callback(reply);
         else
-          res.send(get_error(status));
+          callback(get_error(status));
     });
   } else {
     app.list_files(function(status, reply){
         if(status == 200)
-          res.send(reply);
+          callback(reply);
         else
-          res.send(get_error(status));
+          callback(get_error(status));
     }, folder_id);
   }
 }

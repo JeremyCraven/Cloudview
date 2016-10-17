@@ -462,6 +462,15 @@ getCredentials = function(req, callback) {
                     }
                 }
 
+                if (user && 'onedrive_accounts' in user && user.onedrive_accounts.length > 0) {
+                    credentials.onedrive = {};
+                    for (account of user.onedrive_accounts) {
+                        // TODO: make it so it doesn't only get the last one
+                        credentials.onedrive.access_token = account.accessToken;
+                        credentials.onedrive.refresh_token = account.refreshToken;
+                    }
+                }
+
                 callback(credentials);
             }
     });

@@ -1,5 +1,6 @@
 var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
+var api_access_onedrive = require('../api_logic/api_access_onedrive')
 
 var api = new Object();
 
@@ -63,7 +64,24 @@ api.get_files = function(creds, folder, pageToken, res) {
 				callback); 
 			break;
 		case 'onedrive':
-			res({ files: [{id:'onedrive',root:'onedrive',mimeType:'cloudview/folder',isDir:true,name:'onedrive'}] });
+		    var callback = function(obj) {
+				var ret = new Object();
+				ret.files = [];
+				obj.contents.forEach((file) => {
+					var f = new Object();
+					f.id = 'onedrive|' + file.path.substring(1); // get path minus first '/'
+					f.root = 'onedrive';
+					var sp = file.path.split('/');
+					f.name = sp[sp.length-1];
+					f.isDir = file.is_dir;
+					f.mimeType = 'mime_type' in file ? file.mime_type : 'onedrive/folder';
+					f.webViewLink = 'http://www.google.com';
+					f.date = file.modified;
+					ret.files.push(f);
+				});
+				res(ret);
+			}
+			api_access_onedrive.list_files(creds.onedrive.access_token, callback); 
 			break;
 		default:
 			var ret = {files:[]};

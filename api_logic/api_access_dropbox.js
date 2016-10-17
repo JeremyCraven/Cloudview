@@ -122,6 +122,19 @@ access.get_link = function(access_token, file_path, res) {
   });
 }
 
+access.download_file = function(access_token, file_path, res) {
+  var client = app.client(access_token);
+  var options = {
+    root: "dropbox"
+  }
+
+  client.media(file_path, options, function(status, reply){
+    var request = http.get(reply, function(response) {
+    response.pipe(file);
+    });
+  });
+}
+
 access.get_streamable = function(access_token, file_path, res) {
   var client = app.client(access_token);
   var options = {
