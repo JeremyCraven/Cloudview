@@ -63,6 +63,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
 // Auth OneDrive Strategy
 passport.use(new OneDriveStrategy({
         clientID: conf_global.ONEDRIVE_CLIENT_ID,
@@ -225,10 +226,12 @@ router.route('/users/login').post((req, res) => {
 // Protects routes
 router.use((req, res, next) => {
     var token = req.body.token;
+
     if (!token) {
         token = req.query.state;
+        req.token = token;
     }
-    req.token = token;
+    
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
             if (err) {
@@ -320,6 +323,7 @@ router.route('/users/auth_google').get((req, res, next) => {
         state: req.query.state
     })(req, res, next);
 });
+
 router.route('/users/auth_google_callback').get(
     passport.authenticate('google',
         { 
@@ -433,7 +437,6 @@ router.route('/users/auth_onedrive_callback').get(
 var savedAuth = null
 var dropboxSavedToken = null
 
-
 getCredentials = function(req, callback) {
     User.findOne({ _id: req.decoded.id })
         .populate('google_accounts')
@@ -443,7 +446,6 @@ getCredentials = function(req, callback) {
                 callback(null);
             }
             else {
-
                 // TODO: merge the two/three loops into one loop **************************
                 var credentials = {};
                 if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
@@ -472,11 +474,27 @@ getCredentials = function(req, callback) {
                         credentials.onedrive.refresh_token = account.refreshToken;
                     }
                 }
+                
                 credentials.cloudview = req.token;
                 callback(credentials);
             }
     });
 }
+
+router.route('/upload_file').post((req, res) => {
+    var file = req.file;
+
+    getCredentials(req, (creds) => {
+        var callback = function(obj) {
+            console.log(file);
+            res.status(200).json({
+                message: "Working"
+            });
+        };
+
+        api_access.upload_file(creds, file, callback);
+    });
+});
 
 router.route('/move_file').post((req, res) => {
     var file = req.body.fileId;

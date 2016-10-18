@@ -3,7 +3,7 @@ var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var session = require('express-session');
+var multer = require('multer');
 
 // MODELS
 var Directory = require('./models/directory');
@@ -20,6 +20,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+// Multipart data
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './tmp/uploads');
+    },
+    filename: function(req, file, cb) {
+        var split = file.originalname.split('.');
+        var name = split[0];
+        var extension = split[1];
+        
+        cb(null, 'upload-' + Date.now() + '.' + extension);
+    }
+});
+
+app.use(multer({ storage: storage }).single('upload'));
 
 app.use(express.static(__dirname + '/client'));
 app.use(passport.initialize())

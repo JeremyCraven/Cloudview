@@ -16,10 +16,11 @@
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.0",
     "mongoose-deep-populate": "^3.0.0",
+    "multer": "^1.2.0",
     "passport": "^0.3.2",
     "passport-dropbox": "^2.0.0",
-    "passport-google-oauth": "^1.0.0",
     "passport-dropbox-oauth2": "^1.1.0",
+    "passport-google-oauth": "^1.0.0",
     "passport-onedrive": "^0.0.4",
     "requirejs": "^2.3.2"
   },

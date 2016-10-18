@@ -213,4 +213,4 @@ function listFiles(auth) {
   });
 }
 
-module.exports = access
+module.exports = access;

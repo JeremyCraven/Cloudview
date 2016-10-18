@@ -87,7 +87,35 @@ access.move_google_file = function(auth, fileId, folderId, res) {
       });
     }
   });
-}
+};
+
+access.upload_google_file = function(auth, file, res) {
+  var auth_obj = new googleAuth();
+  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  oauth2Client.credentials = auth;
+
+  var drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  drive.files.create({
+    resource: {
+      name: file.originalname,
+      mimeType: file.mimetype
+    },
+    media: {
+      mimeType: file.mimetype,
+      body: fs.createReadStream('./tmp/uploads/' + file.filename)
+    }
+  }, (err, response) => {
+    if (err) {
+      console.log(err);
+      res(null, { success: false });
+    }
+    else {
+      res(null, { success: true });
+    }
+  });
+};
+
 access.delete_google_file = function(auth, fileId, res) {
   var auth_obj = new googleAuth();
   var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
@@ -96,7 +124,7 @@ access.delete_google_file = function(auth, fileId, res) {
     auth: oauth2Client,
     fileId: fileId,
     trashed: true
-  }
+  };
   this.service.files.update(req, (err, response) => {
     if (err) {
       console.log(err)
@@ -328,4 +356,4 @@ function listFiles(auth) {
   });
 }
 
-module.exports = access
+module.exports = access;

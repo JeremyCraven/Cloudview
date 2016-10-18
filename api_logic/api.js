@@ -213,6 +213,27 @@ api.put_file = function(creds, is_folder, name, file, callback) {
 	callback({success:true});
 }
 
+api.upload_file = function(creds, file, callback) {
+	var service = 'google';
+
+	switch (service) {
+		case 'google':
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			api_access_google.upload_google_file(creds.google, file, cb);
+			break;
+		case 'dropbox':
+			callback({ success: false });
+			break;
+		case 'onedrive':
+			callback({ success: false });
+			break;
+		default:
+			callback({ success: false });
+	}
+}
 
 
 
