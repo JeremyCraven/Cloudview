@@ -81,7 +81,6 @@
 				</div>
 				<span flex></span>
 				<div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
-					<h1 style="white-space: nowrap;">My files &nbsp;&#8250;</h1>
 					<h1 ng-repeat="f in folder.path | parentFolder: 3" style="white-space: nowrap;">
                         <a ng-click="ui.folder.go({id: f.id, name: f.name})">&emsp;{{f.name}}&nbsp;&nbsp;<span ng-if="!$last">&#8250;</span>
                         </a>

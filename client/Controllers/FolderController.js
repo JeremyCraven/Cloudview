@@ -8,9 +8,10 @@ define([
         '$state',
         '$mdSidenav',
 		'$mdDialog',
+        '$cookies',
         'CloudView.Services.FileServices',
         'CloudView.Services.AccountServices',
-        function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, FileServices, AccountServices) {
+        function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, $cookies, FileServices, AccountServices) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
 
             var currentFolder = '';
@@ -95,14 +96,13 @@ define([
             };
 
             var activate = function() {
-                console.log(AccountServices.userAccount.cloudViewToken);
-                AccountServices.get_account_info({token: AccountServices.userAccount.cloudViewToken})
+                AccountServices.get_user_info({token: $cookies.get(AccountServices.cookie_token_key)})
                     .then(
                         function(result) {
                             console.log(result.data);
-                            AccountServices.store_account_info(result);
+                            AccountServices.store_user_info(result);
                             $scope.user = AccountServices.userAccount;   
-                            $scope.ui.folder.go({name: 'My files', id: 'Root'}); 
+                            $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
                         },
                         function(result) {
                             console.log(result);

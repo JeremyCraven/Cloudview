@@ -37,6 +37,14 @@ define([
 				});
 			}
 
+			service.get_user_info = function(credentials) {
+				return $http({
+					method: 'POST',
+					url: url + 'users/get_user',
+					data: credentials
+				});
+			}
+
 			service.verify_token = function(token) {
 				return $http({
 					method: 'POST',
@@ -45,27 +53,45 @@ define([
 				});
 			}
 
-			service.store_account_info = function(result) {
+			service.store_user_info = function(result) {
 				var data = result.data;
 				service.userAccount.hasName = true;
-				service.userAccount.name = data.user.name;
-				service.userAccount.email = data.user.email;
-				if (data.user.google_accounts != '') {
-					data.user.google_accounts.type = 'Google Drive';
-					data.user.google_accounts.active = true;
-					service.userAccount.accounts.push(data.user.google_accounts);
+				service.userAccount.name = data.name;
+				service.userAccount.email = data.email;
+				service.userAccount.accounts = [];
+				if (angular.isDefined(data.google_accounts)) {
+					if (!search_accounts('Google Drive'))
+						var gAccount = {
+							type: 'Google Drive',
+							active: true
+						}
+						service.userAccount.accounts.push(gAccount);
+				}
+				if (angular.isDefined(data.dropbox_accounts)) {
+					if (!search_accounts('Dropbox'))
+						var dAccount = {
+							type: 'Dropbox',
+							active: true
+						}
+						service.userAccount.accounts.push(dAccount);
+				}
+				if (angular.isDefined(data.onedrive_accounts)) {
+					if (!search_accounts('One Drive'))
+						var oAccount = {
+							type: 'One Drive',
+							active: true
+						}
+						service.userAccount.accounts.push(oAccount);
+				}
+			}
 
-				}
-				if (data.user.dropbox_accounts != '') {
-					data.user.dropbox_accounts.type = 'Dropbox';
-					data.user.dropbox_accounts.active = true;
-					service.userAccount.accounts.push(data.user.dropbox_accounts);
-				}
-				if (data.user.onedrive_accounts != '') {
-					data.user.onedrive_accounts.type = 'One Drive';
-					data.user.onedrive_accounts.active = true;
-					service.userAccount.accounts.push(data.user.onedrive_accounts);
-				}
+			var search_accounts = function(key) {
+				var accounts = service.userAccount.accounts;
+				for (var i = 0; i < accounts.length; i++) {
+					if (accounts[i].type === key)
+						return true;
+				} 
+				return false;
 			}
 
 			service.login_failure = function(result) {
