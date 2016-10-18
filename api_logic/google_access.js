@@ -106,6 +106,8 @@ access.upload_google_file = function(auth, file, res) {
       body: fs.createReadStream('./tmp/uploads/' + file.filename)
     }
   }, (err, response) => {
+    fs.unlink('./tmp/uploads/' + file.filename);
+
     if (err) {
       console.log(err);
       res(null, { success: false });
