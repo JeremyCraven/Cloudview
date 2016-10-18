@@ -89,7 +89,7 @@ define([
                         },
                         function(result) {
                             if (result.status === 403) {
-                                $state.go('login');
+                                $state.go('home');
                             }
                         }
                     );
