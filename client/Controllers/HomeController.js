@@ -24,7 +24,7 @@ define([
 						function(result) {
 							console.log('failure');					
 							if (result.status === 403) {
-                                $state.go('login');
+                                $state.go('home');
                             }
 						}
 					);
