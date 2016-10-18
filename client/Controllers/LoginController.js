@@ -25,8 +25,8 @@ define([
                     .then(
                         function(result) {
                             $scope.loading = false;
-                            AccountServices.login_success(result);
-                            console.log(AccountServices.userAccount);
+                            AccountServices.store_token(result.data.user.token);
+                            $cookies.put(AccountServices.cookie_token_key, result.data.user.token);
                             $state.go('folder');
                         },
                         function(result) {

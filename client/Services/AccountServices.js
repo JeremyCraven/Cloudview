@@ -17,6 +17,10 @@ define([
 
 			var url = 'http://localhost:8081/api/v1/';
 
+			service.store_token = function(token) {
+				service.userAccount.cloudViewToken = token;
+			}
+
 			service.login = function(credentials) {
 				return $http({
 					method: 'POST',
@@ -33,12 +37,19 @@ define([
 				});
 			}
 
-			service.login_success = function(result) {
+			service.verify_token = function(token) {
+				return $http({
+					method: 'POST',
+					url: url + 'users/verify_token',
+					data: token
+				});
+			}
+
+			service.store_account_info = function(result) {
 				var data = result.data;
 				service.userAccount.hasName = true;
 				service.userAccount.name = data.user.name;
 				service.userAccount.email = data.user.email;
-				service.userAccount.cloudViewToken = data.user.token;
 				if (data.user.google_accounts != '') {
 					data.user.google_accounts.type = 'Google Drive';
 					data.user.google_accounts.active = true;

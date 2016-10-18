@@ -223,6 +223,36 @@ router.route('/users/login').post((req, res) => {
     });
 });
 
+// verify token for login skipping
+router.route('/users/verify_token').post((req, res) => {
+    var token = req.body.token;
+
+    if (!token) {
+        token = req.query.state;
+        req.token = token;
+    }
+    
+    if (token) {
+        jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
+            if (err) {
+                res.status(403).json({
+                    message: 'Error: Invalid token'
+                });
+            }
+            else {
+                res.status(200).json({
+                    message: 'success'
+                })
+            }
+        });
+    }
+    else {
+        res.status(403).json({
+            message: 'Error: Invalid token'
+        });
+    }
+});
+
 // Protects routes
 router.use((req, res, next) => {
     var token = req.body.token;

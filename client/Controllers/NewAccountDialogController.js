@@ -38,7 +38,7 @@ define([
                 var credentials = {
                     token: AccountServices.userAccount.cloudViewToken
                 };
-                $window.open('http://localhost:8081/api/v1/users/auth_google?state=' + credentials.token);
+                $window.location.href = ('http://localhost:8081/api/v1/users/auth_google?state=' + credentials.token);
             }
             $scope.login_dropbox = function() {
                 var credentials = {
@@ -50,7 +50,7 @@ define([
                 var credentials = {
                     token: AccountServices.userAccount.cloudViewToken
                 };
-                $window.open('http://localhost:8081/api/v1/users/auth_onedrive?state=' + credentials.token);
+                $window.location.href = ('http://localhost:8081/api/v1/users/auth_onedrive?state=' + credentials.token);
             }
         }
     ]);

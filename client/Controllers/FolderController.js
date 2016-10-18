@@ -87,14 +87,29 @@ define([
                             sort(result.data.files);
                         },
                         function(result) {
-                            console.log(result.data);
+                            if (result.status === 403) {
+                                $state.go('login');
+                            }
                         }
                     );
             };
 
             var activate = function() {
-                $scope.user = AccountServices.userAccount;   
-                $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
+                console.log(AccountServices.userAccount.cloudViewToken);
+                AccountServices.get_account_info({token: AccountServices.userAccount.cloudViewToken})
+                    .then(
+                        function(result) {
+                            console.log(result.data);
+                            AccountServices.store_account_info(result);
+                            $scope.user = AccountServices.userAccount;   
+                            $scope.ui.folder.go({name: 'My files', id: 'Root'}); 
+                        },
+                        function(result) {
+                            console.log(result);
+                        }
+                    );
+
+                
             }
 
             activate();
