@@ -17,16 +17,10 @@ define([
 				AccountServices.verify_token(tokenObject)
 					.then(
 						function(result) {
-							console.log('success');
 							AccountServices.store_token(token);
 							$state.go('folder');
 						},
-						function(result) {
-							console.log('failure');					
-							if (result.status === 403) {
-                                $state.go('home');
-                            }
-						}
+						function(result) {}
 					);
 			}
 		}
