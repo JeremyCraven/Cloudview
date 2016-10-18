@@ -252,6 +252,33 @@ router.use((req, res, next) => {
     }
 });
 
+// TODO: Get user info from token, if no token send to login page
+router.route('/users/get_user').post((req, res) => {
+    var token = req.body.token;
+
+    if (!token) {
+        // 403 message go to login page
+        res.status(403).json({
+            message: 'Error: Invalid token'
+        });
+    }
+    else {
+        User.findOne({ _id: req.decoded.id })
+            .populate('google_accounts')
+            .populate('dropbox_accounts')
+            .exec(function(err, user) {
+                if (err) {
+                    res.status(403).json({
+                        message: 'Error: Database access'
+                    });
+                }
+                else {
+                    res.status(200).json(user);
+                }
+        });
+    }
+});
+
 router.route('/users/auth_dropbox').get((req, res, next) => {
     passport.authenticate('dropbox-oauth2', {
         accessType: 'offline',
