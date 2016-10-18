@@ -52,6 +52,30 @@ define([
                 //FileServices.downloadFile(data, url);
             }
 
+            $scope.ui.folder.new_folder = function(ev) {
+                console.log('folder');
+                $mdDialog.show({
+                    controller: 'CloudView.Controllers.Dialog.AddFolder',
+                    templateUrl: './Views/_new_folder_dialog.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+            }
+
+            $scope.ui.file.new_file = function(ev) {
+                console.log('file');
+                $mdDialog.show({
+                    controller: 'CloudView.Controllers.Dialog.AddFile',
+                    templateUrl: './Views/_new_file_dialog.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true
+                })
+            }
+
             var getFiles = function(path) {
                 var data = {
                     folderId: path,
@@ -79,9 +103,9 @@ define([
                 if (angular.isDefined(files)) {
                     files.forEach(function(file) {
                         if (file.isDir) {
-                            $scope.folder.subfolders.push(mapFolder(file));
+                            $scope.folder.subfolders.push(setProperties(file));
                         } else {
-                            $scope.folder.files.push(mapFile(file));
+                            $scope.folder.files.push(setProperties(file));
                         }
                     })
                 }
@@ -89,20 +113,21 @@ define([
 
             var setProperties = function(fileFolder) {
                 console.log(fileFolder);
-                //fileFolder.type = fileFolder.mimeType;
+                fileFolder.type = fileFolder.mimeType;
                 switch (fileFolder.root) {
                     case 'google':
                         fileFolder.account = 0;
                         break;
                     case 'onedrive':
-                        fileFolder.account = 0;
+                        fileFolder.account = 2;
                         break;
                     case 'dropbox':
-                        fileFolder.account = 0;
+                        fileFolder.account = 1;
                         break;
                     default:
                         fileFolder.account = 0;
                 }
+                return fileFolder;
             }
 
             var mapFolder = function(folder) {

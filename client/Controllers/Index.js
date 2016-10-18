@@ -3,5 +3,7 @@ define([
 	'./FolderController',
 	'./LoginController',
 	'./SignupController',
-	'./NewAccountDialogController'
+	'./NewAccountDialogController',
+	'./AddFolderDialogController',
+	'./AddFileDialogController',
 ], function () {});

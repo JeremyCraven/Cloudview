@@ -1,10 +1,10 @@
 define([
     './Module'
 ], function(module) {
-    return module.controller('CloudView.Controllers.Common.Dialog.NewFolder', [
+    return module.controller('CloudView.Controllers.Common.Dialog.AddFolder', [
         '$scope',
         '$mdDialog',
-        function NewAccountFolderController($scope, $mdDialog) {
+        function AddFolderDialogController($scope, $mdDialog) {
             //TODO: handle google auto signin
             $scope.name = '';
 			$scope.account = 0;
