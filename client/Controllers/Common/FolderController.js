@@ -59,7 +59,6 @@ define([
                         .then($scope.ui.new_account_response, function() {});
                 },
                 new_account_response: function(response) {
-                    // refreshing accounts
                 }
             };
             $scope.user = {

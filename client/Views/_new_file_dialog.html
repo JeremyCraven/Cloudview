@@ -10,7 +10,7 @@
 			</div>
 		</md-toolbar>
 
-		<script type="text/ng-template" id="new_folder_content.html">
+		<script type="text/ng-template" id="new_file_content.html">
 			<md-input-container>
 				<label>Folder Name</label>
 				<input ng-model="name" type="text" name="name" required></input>
@@ -29,10 +29,10 @@
 		</script>
 
 		<md-dialog-content hide-gt-sm layout="column" layout-align="center start">
-			<ng-include src="'new_folder_content.html'"></ng-include>
+			<ng-include src="'new_file_content.html'"></ng-include>
 		</md-dialog-content>
 		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;" layout="column" layout-align="center center">
-			<ng-include src="'new_folder_content.html'"></ng-include>
+			<ng-include src="'new_file_content.html'"></ng-include>
 		</md-dialog-content>
 
 		<md-dialog-actions layout="row">

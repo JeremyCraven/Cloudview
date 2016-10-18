@@ -17,7 +17,7 @@ require.config({
         'xregexp': './bower_components/xregexp/xregexp-all',
 		'viewport-units-buggyfill':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill',
 		'viewport-units-buggyfill-hacks':	'./bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks',
-        'angularFileUpload': './bower_components/angular-file-upload/dist/angular-file-upload',
+        'angular-file-upload': './bower_components/angular-file-upload/dist/angular-file-upload',
         //our code
 		'Controllers-Common': './Controllers/Common',
         'Controllers': './Controllers',
@@ -34,7 +34,7 @@ require.config({
 		'underscore': {
 			exports: '_'
 		},
-        'angularFileUpload': {
+        'angular-file-upload': {
             deps: ['angular']
         },
         'ngAnimate': {
