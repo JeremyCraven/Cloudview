@@ -49,6 +49,9 @@ Icon
 *.sublime-project
 *.sublime-workspace
 
+# Temporary upload files
+uploads
+
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
