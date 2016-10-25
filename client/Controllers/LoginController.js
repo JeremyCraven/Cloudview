@@ -35,6 +35,7 @@ define([
                                 ErrorDialog.showError('LOGIN.ERRORS.403.TITLE', 'LOGIN.ERRORS.403.CONTENT', '', '#login-button');
                                 break;
                             }
+							$scope.loading = false;
                         }
                     );
             };

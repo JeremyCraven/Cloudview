@@ -10,7 +10,7 @@ define([
     'ui.router',
     'ui.tree',
     'validation.match',
-    //'angular-file-upload',
+    'angular-file-upload',
     //our components
     'Controllers/Index',
     'Directives/Index',
@@ -32,7 +32,7 @@ define([
         'ui.router',
         'ui.tree',
         'validation.match',
-        //'angular-file-upload',
+        'angularFileUpload',
         //our modules
         'CloudView.Controllers',
         'CloudView.Directives',

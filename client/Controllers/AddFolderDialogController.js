@@ -4,7 +4,8 @@ define([
     return module.controller('CloudView.Controllers.Dialog.AddFolder', [
         '$scope',
         '$mdDialog',
-        function AddFolderDialogController($scope, $mdDialog) {
+		'$controller',
+        function AddFolderDialogController($scope, $mdDialog, $controller) {
             angular.extend(this, $controller('CloudView.Controllers.Common.Dialog.AddFolder', {$scope: $scope, $mdDialog: $mdDialog}));
 
         }

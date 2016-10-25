@@ -29,8 +29,9 @@ define([
 							switch (result.status) {
 								case 403:
 									ErrorDialog.showError('SIGNUP.ERRORS.409.TITLE', 'SIGNUP.ERRORS.409.CONTENT', '', '#signup-button');
-									break;		
+									break;
 							}
+							$scope.loading = false;
 						}
 					);
 
