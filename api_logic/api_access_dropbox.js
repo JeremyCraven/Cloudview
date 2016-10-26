@@ -123,6 +123,17 @@ access.get_link = function(access_token, file_path, res) {
   });
 }
 
+access.upload_file = function(access_token, file_path, file, res) {
+  var client = app.client(access_token);
+  var options = {
+    root: "dropbox"
+  }
+
+  client.put(file_path, file, function(status, reply) {
+    res.send(reply);
+  });
+}
+
 access.download_file = function(access_token, file_path, res) {
   var client = app.client(access_token);
   var options = {

@@ -225,10 +225,18 @@ api.upload_file = function(creds, file, callback) {
 			api_access_google.upload_google_file(creds.google, file, cb);
 			break;
 		case 'dropbox':
-			callback({ success: false });
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			api_access_dropbox.upload_dropbox_file(creds.google, file, cb);
 			break;
 		case 'onedrive':
-			callback({ success: false });
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			api_access_onedrive.upload_onedrive_file(creds.google, file, cb);
 			break;
 		default:
 			callback({ success: false });
