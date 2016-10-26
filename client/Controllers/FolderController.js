@@ -54,7 +54,6 @@ define([
             }
 
             $scope.ui.folder.new_folder = function(ev) {
-                console.log('folder');
                 $mdDialog.show({
                     controller: 'CloudView.Controllers.Dialog.AddFolder',
                     templateUrl: './Views/_new_folder_dialog.html',
@@ -66,7 +65,6 @@ define([
             }
 
             $scope.ui.file.new_file = function(ev) {
-                console.log('file');
                 $mdDialog.show({
                     controller: 'CloudView.Controllers.Dialog.AddFile',
                     templateUrl: './Views/_new_file_dialog.html',
