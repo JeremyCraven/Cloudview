@@ -1,5 +1,6 @@
 define([
 	'./AccountServices',
 	'./FileServices',
-	'./ErrorDialogService'
+	'./ErrorDialogService',
+	'./ClipboardService',
 ], function () {});
