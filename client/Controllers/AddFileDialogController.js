@@ -13,6 +13,8 @@ define([
             angular.extend(this, $controller('CloudView.Controllers.Common.Dialog.AddFile', {$scope: $scope, $mdDialog: $mdDialog}));
 
             $scope.accounts = AccountServices.userAccount.accounts;
+
+            var uploader = new FileUploader();
             
             $scope.submit = function() {
             	$mdDialog.cancel();
