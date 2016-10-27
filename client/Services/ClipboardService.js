@@ -5,14 +5,20 @@ define([
 		function() {
 			var service = {};
 
-			service.storedObject = {
-				isFolder: false,
-				Id: '',
-				name: ''
-			}
+			service.storedFiles = [];
 
-			service.copy = function(object) {
-				service.storedObject.Id = object.Id;
+			service.paste = function(object) {
+				var fileFolderObject = {};
+				if (object.isDir) {
+					fileFolderObject.isFolder = true;
+				}
+				else {
+					fileFolderObject.isFolder = false;
+				}
+				fileFolderObject.name = object.name;
+				fileFolderObject.fileId = object.id; 
+				service.storedFiles.push(fileFolderObject);
+				console.log(service.storedFiles)
 			}
 
 			return service;
