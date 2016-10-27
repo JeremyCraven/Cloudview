@@ -25,12 +25,15 @@ access.login_google = function(storeAuth) {
   });
 }
 
-var get_google_creds = function(auth, callback) {
+var get_google_creds = function(auth, refresh, callback) {
   var auth_obj = new googleAuth();
   var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
   oauth2Client.credentials = auth;
 
-  if (auth.expiry < new Date().getTime()) {
+  // TODO: We only actually pass back the token in the get_google_files case. That means if we have an
+  // expired token in any other case, we just ignore the refresh and call refresh every time from here
+  // on out. Hopefully that won't cause issues. It's a bit of an edge case.
+  if (refresh && auth.expiry < new Date().getTime()) {
     oauth2Client.refreshAccessToken(function(err, tokens) {
       //console.log(auth);
       //console.log(err);
@@ -53,7 +56,7 @@ access.get_google_files = function(auth, folder, pageToken, res) {
     query = "'"+folder+"'" + " in parents and trashed = false"
   }
 
-  get_google_creds(auth, (oauth2Client, new_token) => {
+  get_google_creds(auth, true, (oauth2Client, new_token) => {
     var req = {
       auth: oauth2Client,
       q: query,
@@ -79,7 +82,7 @@ access.get_google_files = function(auth, folder, pageToken, res) {
 }
 access.move_google_file = function(auth, fileId, folderId, res) {
 
-  get_google_creds(auth, (oauth2Client) => {
+  get_google_creds(auth, false, (oauth2Client) => {
     this.service.files.get({
       auth: oauth2Client,
       fileId: fileId,
@@ -141,7 +144,7 @@ access.upload_google_file = function(auth, file, res) {
 
 access.delete_google_file = function(auth, fileId, res) {
 
-  get_google_creds(auth, (oauth2Client) => {
+  get_google_creds(auth, false, (oauth2Client) => {
     var req = {
       auth: oauth2Client,
       fileId: fileId,
@@ -172,7 +175,7 @@ access.get_google_file = function(auth, fileId, res) {
 }
 access.get_google_account_info = function(auth, res) {
 
-  get_google_creds(auth, (oauth2Client) => {
+  get_google_creds(auth, false, (oauth2Client) => {
     var req = {
       auth: oauth2Client,
       fields: 'storageQuota,user'
@@ -205,7 +208,7 @@ access.get_google_account_info = function(auth, res) {
 */
 access.put_google_file = function(auth, fileName, file, res) {
 
-  get_google_creds(auth, (oauth2Client) => {
+  get_google_creds(auth, false, (oauth2Client) => {
     this.service.files.create({
       resource: {
         name: fileName,
@@ -225,7 +228,7 @@ access.put_google_file = function(auth, fileName, file, res) {
 
 access.put_google_folder = function(auth, folderName, res) {
 
-  get_google_creds(auth, (oauth2Client) => {
+  get_google_creds(auth, false, (oauth2Client) => {
     var fileMetadata = {
       'name' : folderName,
       'mimeType' : 'application/vnd.google-apps.folder'
