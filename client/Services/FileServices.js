@@ -33,6 +33,7 @@ define([
 			}
 
 			service.deleteFile = function(data) {
+				console.log(data);
 				return $http({
 					method: 'POST',
 					url: url + 'delete_file',
