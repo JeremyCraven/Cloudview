@@ -6,7 +6,9 @@ define([
 			var service = {};
 
 			service.storedObject = {
-				Id: ''
+				isFolder: false,
+				Id: '',
+				name: ''
 			}
 
 			service.copy = function(object) {
