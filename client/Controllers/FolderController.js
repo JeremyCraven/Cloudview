@@ -11,20 +11,76 @@ define([
         '$cookies',
         'CloudView.Services.FileServices',
         'CloudView.Services.AccountServices',
-        function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, $cookies, FileServices, AccountServices) {
+        'CloudView.Services.ClipboardService',
+        function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, $cookies, FileServices, AccountServices, ClipboardService) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
 
-            var currentFolder = '';
-			
+            var currentFolder = {};
+            $scope.clipboard = {
+                files: ClipboardService.files,
+                paste: function(file) {
+                    var data = {
+                        folderId: path,
+                        token: AccountServices.userAccount.cloudViewToken
+                    }
+                    console.log(file.id);
+                    console.log(currentFolder.id);
+                    FileServices.moveFile(data);
+                }
+            };
+
+            $scope.ui.folder.move_file = function(file) {
+                    console.log('move file');
+                    var data = {
+                        folderId: path,
+                        token: AccountServices.userAccount.cloudViewToken
+                    }
+                    ClipboardService.copy(file);
+            }
+            $scope.ui.folder.move_folder = function(folder) {   
+                    console.log('move folder');
+                    var data = {
+                        folderId: path,
+                        token: AccountServices.userAccount.cloudViewToken
+                    }
+                    ClipboardService.copy(folder);
+            }
+            $scope.ui.folder.delete_file = function(file) {
+                    console.log('delete file');
+                    var data = {
+                        folderId: path,
+                        token: AccountServices.userAccount.cloudViewToken
+                    }
+                    FileServices.deleteFile(file)
+                        .then(function() {
+                            $scope.ui.folder.go(currentFolder); 
+                        }, 
+                        function() {
+
+                        });
+            }
+            $scope.ui.folder.delete_folder = function(folder) {
+                    console.log('delete folder');
+                    var data = {
+                        folderId: folder.id,
+                        token: AccountServices.userAccount.cloudViewToken
+                    }
+                    FileServices.deleteFile(data)
+                        .then(function() {
+                            $scope.ui.folder.go(currentFolder); 
+                        }, 
+                        function() {
+
+                        });
+            }
+
             $scope.ui.folder.go = function(folder) {
-                console.log(folder);
                 if (folder.id === currentFolder.id) {
                     return;
                 }
                 $scope.folder.subfolders = [];
                 $scope.folder.files = [];
                 var index = search($scope.folder.path, folder.id);
-                console.log(index);
                 if (index == -1) {
                     $scope.folder.path.push(folder);
                 }
@@ -125,7 +181,6 @@ define([
             }
 
             var setProperties = function(fileFolder) {
-                console.log(fileFolder);
                 fileFolder.type = fileFolder.mimeType;
                 switch (fileFolder.root) {
                     case 'google':
@@ -144,7 +199,6 @@ define([
             }
 
             var mapFolder = function(folder) {
-                console.log(folder);
                 folder.type = folder.mimeType;
                 if (folder.root == 'google')
                     folder.account = 0;
@@ -156,7 +210,6 @@ define([
             }
 
             var mapFile = function(file) {
-                console.log(file);
                 file.type = file.mimeType;
                 if (file.root == 'google')
                     file.account = 0;
