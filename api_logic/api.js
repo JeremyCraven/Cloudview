@@ -204,7 +204,7 @@ api.delete_file = function(creds, fileId, callback) {
 			var cb = function(err, obj) {
 				callback(obj)
 			}
-			api_access_dropbox.move(creds.dropbox,
+			api_access_dropbox.delete(creds.dropbox,
 				id,
 				cb);
 			break;

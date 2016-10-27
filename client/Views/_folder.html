@@ -51,7 +51,14 @@
 					<md-button class="md-icon-button" aria-label="Navigation" ng-click="ui.sideNav.toggleSidenav()" hide-gt-md>
 						<md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
 					</md-button>
-					<h1>CloudView</h1>
+					<span flex></span>
+					<md-input-container style="margin: 0px">
+						<label>Search</label>
+						<input ng-model="username" type="text" name="username" required></input>
+						<div ng-messages="loginForm.username.$error" role="alert">
+							<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+						</div>
+					</md-input-container>
 					<span flex></span>
 					<md-menu md-position-mode="target-right target">
 						<md-button aria-label="Open sort interactions menu" class="md-icon-button md-toolbar-button" ng-click="$mdOpenMenu($event)">
@@ -78,6 +85,24 @@
 							</div>
 						</md-menu-content>
 					</md-menu>
+					<md-menu md-position-mode="target-right target">
+						<md-button aria-label="Open sort interactions menu" class="md-icon-button md-toolbar-button" ng-click="$mdOpenMenu($event)">
+							<md-icon md-menu-origin md-svg-icon="./Views/img/icons/ic_content_paste_48px.svg"></md-icon>
+						</md-button>
+						<md-menu-content width="4">
+							<md-menu-item ng-repeat="file in clipboard.files">
+								<md-button ng-click="clipboard.paste(file)">
+									<div layout="row" flex>
+										<md-icon ng-if="!file.isFolder" md-svg-icon="./Views/img/icons/ic_description_48px.svg" md-menu-align-target style="margin: auto 3px auto 0;"></md-icon>
+										<md-icon ng-if="file.isFolder" md-svg-icon="./Views/img/icons/folder.svg" md-menu-align-target style="margin: auto 3px auto 0;"></md-icon>
+										<span flex="">{{file.name}}</span>
+									</div>
+								</md-button>
+							</md-menu-item>
+							<div ng-if="!clipboard.files.length" layout-align="center center" layout="column" style ="min-height: 200px;">
+								<p>Your clipboard is empty!</p>
+							</div>
+						</md-menu-content>
 				</div>
 				<span flex></span>
 				<div layout="row" style="overflow-x: auto;" class="md-toolbar-tools">
@@ -107,6 +132,24 @@
 									<p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
 										{{sub.name}}
 									</p>
+									<span flex=""></span>
+									<md-menu md-position-mode="target-right target" class="md-mini">
+										<md-button aria-label="Open file actions" class="md-icon-button md-mini" ng-click="$mdOpenMenu($event)">
+											<md-icon md-menu-origin md-svg-icon="./Views/img/icons/more_vert.svg"></md-icon>
+										</md-button>
+										<md-menu-content width="3">
+											<md-menu-item>
+												<md-button ng-click="folder.move_folder(sub)">
+													Move
+												</md-button>
+											</md-menu-item>
+											<md-menu-item>
+												<md-button ng-click="folder.delete_folder(sub)">
+													Delete
+												</md-button>
+											</md-menu-item>
+										</md-menu-content>
+									</md-menu>
 								</md-card-content>
 							</md-card>
 						</div>
@@ -123,8 +166,30 @@
 									<md-tooltip md-delay="1000">
 										{{file.name}}
 									</md-tooltip>
-									<h3 style="margin: 16px;" class="folder_item">{{file.name}}</h3>
+									<h3 style="margin: 16px;" class="folder_item" flex="">{{file.name}}</h3>
 								</md-grid-tile-footer>
+								<md-menu md-position-mode="target-right target" style="position: absolute; top: 0px; right: 0px;">
+									<md-button aria-label="Open file actions" class="md-icon-button md-toolbar-button" ng-click="$mdOpenMenu($event)" style="padding: 0px; margin: 0px;">
+										<md-icon md-menu-origin md-svg-icon="./Views/img/icons/more_vert.svg"></md-icon>
+									</md-button>
+									<md-menu-content width="3">
+										<md-menu-item>
+											<md-button ng-click="folder.download_file(file)">
+												Download
+											</md-button>
+										</md-menu-item>
+										<md-menu-item>
+											<md-button ng-click="folder.move_file(file)">
+												Move
+											</md-button>
+										</md-menu-item>
+										<md-menu-item>
+											<md-button ng-click="folder.delete_file(file)">
+												Delete
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
 							</md-grid-tile>
 						</md-grid-list>
 					</div>

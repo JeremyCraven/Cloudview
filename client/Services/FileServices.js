@@ -48,7 +48,11 @@ define([
 			}
 
 			service.addFolder = function() {
-				
+				return $http({
+					method: 'POST',
+					url: url + 'upload_file',
+					data: file
+				});
 			}
 
 			return service;
