@@ -92,7 +92,7 @@ access.move = function(access_token, file, folder, res) {
   var client = app.client(access_token)
   var options = {
     root: "dropbox"
-  }
+  };
   client.mv(file, folder, options, (status, reply) => {
     console.log(status)
     console.log(reply)
