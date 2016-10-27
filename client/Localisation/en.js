@@ -125,6 +125,7 @@ define([], function() {
 		},
 		FILE: {
 			MOVE:		"Move",
+			COPY:       "Copy", 
 			DELETE:		"Delete",
 			DOWNLOAD:	"Download",
 			NEW:		"New File",

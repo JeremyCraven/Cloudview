@@ -36,7 +36,7 @@ define([
                 }
             };
 
-            $scope.ui.folder.move_file = function(file) {
+            $scope.ui.folder.copy_file = function(file) {
                     console.log('move file');
                     var data = {
                         folderId: file.id,
@@ -45,7 +45,7 @@ define([
                     }
                     ClipboardService.copy(file);
             }
-            $scope.ui.folder.move_folder = function(folder) {   
+            $scope.ui.folder.copy_folder = function(folder) {   
                     console.log('move folder');
                     var data = {
                         fileId: folder.id,
