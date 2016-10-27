@@ -259,8 +259,9 @@ router.use((req, res, next) => {
 
     if (!token) {
         token = req.query.state;
-        req.token = token;
     }
+
+    req.token = token;
     
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
