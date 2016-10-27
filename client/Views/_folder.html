@@ -19,7 +19,7 @@
 			<section>
 				<md-subheader class="md-primary subhead-no-padding">
 					<div layout="row" layout-align="center center" style="padding-left: 16px;">
-						<h3 class="md-subhead">Accounts</h3>
+						<h3 class="md-subhead">{{ "GENERAL.ACCOUNTS" | translate }}</h3>
 						<span flex=""></span>
 						<md-button class="md-icon-button md-primary md-mini" aria-label="New Account" ng-click="ui.new_account($event)">
 							<md-icon md-svg-icon="./Views/img/icons/ic_add_48px.svg"></md-icon>
@@ -137,12 +137,12 @@
 										<md-menu-content width="3">
 											<md-menu-item>
 												<md-button ng-click="folder.move_folder(sub)">
-													Move
+													{{ "FILE.MOVE" | translate }}
 												</md-button>
 											</md-menu-item>
 											<md-menu-item>
 												<md-button ng-click="folder.delete_folder(sub)">
-													Delete
+													{{ "FILE.DELETE" | translate }}
 												</md-button>
 											</md-menu-item>
 										</md-menu-content>
@@ -172,17 +172,17 @@
 									<md-menu-content width="3">
 										<md-menu-item>
 											<md-button ng-click="folder.download_file(file)">
-												Download
+												{{ "FILE.DOWNLOAD" | translate }}
 											</md-button>
 										</md-menu-item>
 										<md-menu-item>
 											<md-button ng-click="folder.move_file(file)">
-												Move
+												{{ "FILE.MOVE" | translate }}
 											</md-button>
 										</md-menu-item>
 										<md-menu-item>
 											<md-button ng-click="folder.delete_file(file)">
-												Delete
+												{{ "FILE.DELETE" | translate }}
 											</md-button>
 										</md-menu-item>
 									</md-menu-content>
@@ -193,8 +193,7 @@
 				</section>
 			</div>
 			<div ng-hide="(filteredFiles | searchFiles: search.text).length || (folder.subfolders | searchFiles: search.text).length" layout="column" layout-align="center center" flex>
-				<h1 class="md-body-1">This folder is empty.
-                    </h1>
+				<h1 class="md-body-1">{{ "FILE.EMPTY_FOLDER" | translate }}</h1>
 			</div>
 			<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" style="position: fixed; right: 32px; bottom: 32px;">
 				<md-fab-trigger>

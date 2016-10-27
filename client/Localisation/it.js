@@ -31,6 +31,11 @@ define([], function() {
 					TITLE:		"Utente Già Esiste",
 					CONTENT:	"Nome utente o indirizzo email è già usato."
 				}
+			},
+			PASSWORD:	{
+				SHORT:	"Troppo corto",
+				LOWER:	"Tutti sono minuscoli",
+				UPPER:	"Tutti sono maiuscoli"
 			}
 		},
 		USER: {
@@ -68,9 +73,11 @@ define([], function() {
 		GENERAL: {
 			USERNAME_EMAIL:	"Nome utente o email",
 			USERNAME:		"Nome utente",
+			ACCOUNTS:		"Account",
 			EMAIL:			"Email",
 			PASSWORD:		"Password",
 			CAPTCHA:		"CAPTCHA",
+			SEARCH:			"Cerca",
 			FORM: {
 				ERROR: {
 					REQUIRED_FIELD:	"Questo campo è obbligatorio."
@@ -95,6 +102,17 @@ define([], function() {
 				CONTACT_ADMIN:	_it.CONTACT_ADMIN
 			},
 			SIGNOUT:		"Esci"
+		},
+		FILE: {
+			MOVE:		"Sposta",
+			DELETE:		"Elimina",
+			DOWNLOAD:	"Scarica",
+			NEW:		"Nuova file",
+			NEW_FOLDER:	"Nuova Cartela",
+			EMPTY_FOLDER: "Questa cartella è vuoto",
+			CLIPBOARD: {
+				EMPTY: "Non ci sono appunti"
+			}
 		}
 	};
 });

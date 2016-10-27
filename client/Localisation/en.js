@@ -31,6 +31,11 @@ define([], function() {
 					TITLE:		"User Already Exists",
 					CONTENT:	"Username or Email already in use."
 				}
+			},
+			PASSWORD:	{
+				SHORT: "This password is too short",
+				LOWER: "Passwords must contain uppercase letters",
+				UPPER:	"Passwrods must contain lowercase letters"
 			}
 		},
 		USER: {
@@ -68,9 +73,11 @@ define([], function() {
 		GENERAL: {
 			USERNAME_EMAIL:	"Username or Email",
 			USERNAME:		"Username",
+			ACCOUNTS:		"Accounts",
 			EMAIL:			"Email",
 			PASSWORD:		"Password",
 			CAPTCHA:		"CAPTCHA",
+			SEARCH:			"Search",
 			FORM: {
 				ERROR: {
 					REQUIRED_FIELD:	"This field is required."
@@ -95,6 +102,17 @@ define([], function() {
 				CONTACT_ADMIN:	_en.CONTACT_ADMIN
 			},
 			SIGNOUT:		"Sign out"
+		},
+		FILE: {
+			MOVE:		"Move",
+			DELETE:		"Delete",
+			DOWNLOAD:	"Download",
+			NEW:		"New File",
+			NEW_FOLDER:	"New Folder",
+			EMPTY_FOLDER: "This folder is empty",
+			CLIPBOARD: {
+				EMPTY: "Your clipboard is empty"
+			}
 		}
 	};
 });

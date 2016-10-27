@@ -34,7 +34,7 @@
 						<input ng-model="username" type="text" name="username" ng-disabled="loading.is" required xreg-pattern="^[0-9_\-\pL]+$"></input>
 						<div ng-messages="signupForm.username.$error" role="alert">
 							<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-							<div ng-message="xregPattern">{{  }}</div><!-- TODO: add error msg -->
+							<div ng-message="xregPattern">{{ "SIGNUP.USERNAME_INVALID" | translate }}</div>
 						</div>
 					</md-input-container>
 					<div layout-gt-xs="row" layout="column">
@@ -43,7 +43,7 @@
 							<input ng-model="email" name="email" type="email" ng-change="signupForm.confirmEmail.$validate();" ng-disabled="loading.is" xreg-pattern="^.+@.+\..+$" required></input>
 							<div ng-messages="signupForm.email.$error" role="alert">
 								<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-								<div ng-message="xregPattern">That is not a valid email address.</div><!-- TODO: Localise string -->
+								<div ng-message="xregPattern">{{ "SIGNUP.EMAIL_INVALID"  | translate }}</div><!-- TODO: Localise string -->
 							</div>
 						</md-input-container>
 						<md-input-container>
@@ -51,7 +51,7 @@
 							<input ng-model="confirmEmail" name="confirm_email" type="email" data-match="signupForm.email" ng-disabled="loading.is" xreg-pattern="^.+@.+\..+$" required autocomplete="off"></input>
 							<div ng-messages="signupForm.confirm_email.$error" role="alert">
 								<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-								<div ng-message="xregPattern">That is not a valid email address.</div><!-- TODO: Localise string -->
+								<div ng-message="xregPattern">{{ "SIGNUP.EMAIL_INVALID"  | translate }}</div><!-- TODO: Localise string -->
 								<div ng-message="match">{{ "SIGNUP.CONFIRM_EMAIL_NO_MATCH" | translate }}</div>
 							</div>
 						</md-input-container>
@@ -62,9 +62,9 @@
 							<input ng-model="password" type="password" name="password" ng-change="signupForm.confirmPassword.$validate();" ng-disabled="loading.is" ng-minlength="6" required only-lower-case only-upper-case ng-trim="false"></input>
 							<div ng-messages="signupForm.password.$error" role="alert">
 								<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-								<div ng-message="minlength">Too Short</div>
-								<div ng-message="onlyLowerCase">All Lower Case</div>
-								<div ng-message="onlyUpperCase">All Upper Case</div>
+								<div ng-message="minlength">{{ "SIGNUP.PASSWORD.SHORT"  | translate }}</div>
+								<div ng-message="onlyLowerCase">{{ "SIGNUP.PASSWORD.LOWER"  | translate }}</div>
+								<div ng-message="onlyUpperCase">{{ "SIGNUP.PASSWORD.UPPER"  | translate }}</div>
 							</div>
 						</md-input-container>
 						<md-input-container>
