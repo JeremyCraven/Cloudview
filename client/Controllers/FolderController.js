@@ -20,17 +20,27 @@ define([
                 files: ClipboardService.files,
                 paste: function(file) {
                     var data = {
-                        folderId: file.id,
+                        fileId: file.id,
+                        folderId: currentFolder.id,
+                        isFolder: file.isFolder,
                         token: AccountServices.userAccount.cloudViewToken
                     }
-                    FileServices.moveFile(data);
+                    console.log(data);
+                    FileServices.moveFile(data)
+                        .then(function(result) {
+                            refreshPage();
+                        },
+                        function(result) {
+                            console.log(result.data);
+                        })
                 }
             };
 
             $scope.ui.folder.move_file = function(file) {
                     console.log('move file');
                     var data = {
-                        folderId: fild.id,
+                        folderId: file.id,
+                        isFolder: false,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(file);
@@ -38,7 +48,8 @@ define([
             $scope.ui.folder.move_folder = function(folder) {   
                     console.log('move folder');
                     var data = {
-                        folderId: folder.id,
+                        fileId: folder.id,
+                        isFolder: true,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(folder);
@@ -47,16 +58,15 @@ define([
                     console.log('delete file');
                     var data = {
                         fileId: file.id,
+                        isFolder: false,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     console.log(data);
                     FileServices.deleteFile(data)
                         .then(function(result) {
-                            console.log('success');
                             refreshPage(); 
                         }, 
                         function(result) {
-                            console.log('fail');
                             console.log(result.data);
                         });
             }
@@ -64,15 +74,14 @@ define([
                     console.log('delete folder');
                     var data = {
                         fileId: folder.id,
+                        isFolder: true,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     FileServices.deleteFile(data)
                         .then(function(result) {
-                            console.log('success');
                             refreshPage();
                         }, 
                         function(result) {
-                            console.log('fail');
                             console.log(result.data);
                         });
             }
@@ -116,7 +125,6 @@ define([
                 } else {
                     $window.open(viewUrl);
                 }
-                //FileServices.downloadFile(data, url);
             }
 
             $scope.ui.folder.new_folder = function(ev) {
@@ -150,13 +158,10 @@ define([
                 FileServices.getFiles(data)
                     .then(
                         function(result) {
-                            console.log('get Files');
                             sort(result.data.files);
                         },
                         function(result) {
-                            console.log('getFiles fail');
                             if (result.status === 403) {
-                                console.log('going to home screen');
                                 $state.go('home');
                             }
                         }

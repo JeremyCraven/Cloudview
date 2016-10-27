@@ -17,9 +17,8 @@ define([
 					fileFolderObject.isFolder = false;
 				}
 				fileFolderObject.name = object.name;
-				fileFolderObject.fileId = object.id; 
+				fileFolderObject.id = object.id; 
 				service.files.push(fileFolderObject);
-				console.log(service.files);
 			}
 
 			return service;
