@@ -13,8 +13,8 @@ api.get_files = function(creds, folder, pageToken, res) {
 	var service = sp[0];
 	switch (service) {
 		case 'google':
-			var callback = function(err, obj) {
-				if (err) { res({error:err}); }
+			var callback = function(err, obj, new_creds) {
+				if (err) { res({error:err}, null); }
 				else { 
 					var ret = new Object();
 					if ('nextPageToken' in obj) { ret.nextPageToken = obj.nextPageToken; }
@@ -34,7 +34,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						ret.files.push(f);
 					});
 
-					res(ret); 
+					res(ret, new_creds); 
 				}
 			}
 			if (!creds.google) { res({files:[]}); return;}

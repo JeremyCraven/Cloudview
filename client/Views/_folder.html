@@ -52,12 +52,9 @@
 						<md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
 					</md-button>
 					<span flex></span>
-					<md-input-container style="margin: 0px">
+					<md-input-container class="md-accent" style="top: 16px; width: 100%; max-width: 600px;">
 						<label>Search</label>
-						<input ng-model="username" type="text" name="username" required></input>
-						<div ng-messages="loginForm.username.$error" role="alert">
-							<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-						</div>
+						<input ng-model="search.text" type="text" name="search"></input>
 					</md-input-container>
 					<span flex></span>
 					<md-menu md-position-mode="target-right target">
@@ -115,26 +112,26 @@
 		</md-toolbar>
 		<md-content layout="column" flex>
 			<!-- TODO: stuff goes here -->
-			<!--<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length"> -->
-			<div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || folder.subfolders.length">
-				<section ng-show="folder.subfolders.length">
+			<!--<div ng-show="(activeAccounts=(user.accounts | filter: {active: true })).length"> --><!-- (filteredFolders=(folder.subfolders | searchFiles: search.text)).length -->
+			<div ng-show="(filteredFiles=(folder.files | selectedAccounts: user.accounts)).length || (folder.subfolders | searchFiles: search.text).length">
+				<section ng-show="(folder.subfolders | searchFiles: search.text).length">
 					<md-subheader class="md-primary">
 						<span style="padding-left: 8px;">Folders</span>
 					</md-subheader>
 					<div layout="row" layout-wrap class="md-padding" style="padding-top: 0px;">
-						<div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders | sortFiles: ui.sort.field : ui.sort.reverse">
+						<div flex-xs="100" flex-sm="50" flex-md="25" flex-lg="20" flex-xl="10" ng-repeat="sub in folder.subfolders | searchFiles: search.text | sortFiles: ui.sort.field : ui.sort.reverse">
 							<md-card ng-click="ui.folder.go(sub)">
 								<md-tooltip md-delay="1000">
 									{{sub.name}}
 								</md-tooltip>
-								<md-card-content layout="row" layout-align="start center" style="padding: .5rem; overflow: hidden;">
+								<md-card-content layout="row" layout-align="start center" style="padding: .5rem; padding-right: 0px; overflow: hidden;">
 									<img src="Views/img/icons/folder.svg" style="height: 2rem; padding-right: .5rem;" />
 									<p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
 										{{sub.name}}
 									</p>
 									<span flex=""></span>
 									<md-menu md-position-mode="target-right target" class="md-mini">
-										<md-button aria-label="Open file actions" class="md-icon-button md-mini" ng-click="$mdOpenMenu($event)">
+										<md-button aria-label="Open file actions" class="md-icon-button md-mini" ng-click="$mdOpenMenu($event)" style="padding: 0px;">
 											<md-icon md-menu-origin md-svg-icon="./Views/img/icons/more_vert.svg"></md-icon>
 										</md-button>
 										<md-menu-content width="3">
@@ -155,13 +152,13 @@
 						</div>
 					</div>
 				</section>
-				<section ng-show="filteredFiles.length">
+				<section ng-show="(filteredFiles | searchFiles: search.text).length">
 					<md-subheader class="md-primary">
 						<span style="padding-left: 8px;">Files</span>
 					</md-subheader>
 					<div class="md-padding" style="padding-top: 0px;">
 						<md-grid-list id="files" md-cols-xs="2" md-cols-sm="4" md-cols-md="8" md-cols-lg="10" md-cols-xl="20" md-row-height="1:1" md-gutter="12px" md-gutter-gt-sm="8px">
-							<md-grid-tile ng-repeat="file in filteredFiles | sortFiles: ui.sort.field : ui.sort.reverse" class="account-{{file.account}}" ng-click="ui.file.open(file.webContentLink, file.webViewLink)">
+							<md-grid-tile ng-repeat="file in filteredFiles | searchFiles: search.text | sortFiles: ui.sort.field : ui.sort.reverse" class="account-{{file.account}}" ng-click="ui.file.open(file.webContentLink, file.webViewLink)">
 								<md-grid-tile-footer class="folder_file">
 									<md-tooltip md-delay="1000">
 										{{file.name}}
@@ -195,7 +192,7 @@
 					</div>
 				</section>
 			</div>
-			<div ng-hide="filteredFiles.length || folder.subfolders.length" layout="column" layout-align="center center" flex>
+			<div ng-hide="(filteredFiles | searchFiles: search.text).length || (folder.subfolders | searchFiles: search.text).length" layout="column" layout-align="center center" flex>
 				<h1 class="md-body-1">This folder is empty.
                     </h1>
 			</div>
