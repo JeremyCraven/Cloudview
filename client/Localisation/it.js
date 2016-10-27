@@ -41,6 +41,7 @@ define([], function() {
         },
         USER: {
             INFO: {
+				ACCOUNT: "Account",
                 USER: "Utente",
                 EMAIL_CHANGE: "Cambia",
                 EMAIL_DELETE: "Elimina",
@@ -75,7 +76,11 @@ define([], function() {
                 GOOGLE: _it.LOGIN_WITH + "Google",
                 DROPBOX: _it.LOGIN_WITH + "Dropbox",
                 ONEDRIVE: _it.LOGIN_WITH + "OneDrive"
-            }
+            },
+			NEW: {
+				FILE:	"Nuovo File",
+				FOLDER: "Nuova Cartella"
+			}
         },
         GENERAL: {
             USERNAME_EMAIL: "Nome utente o email",

@@ -128,7 +128,7 @@ exports.app = function(access_token) {
         }).on('error', null);
 
         edit_link.end(); 
-    },
+    },  
 
     get_edit_link : function(file_path, callback) {
       

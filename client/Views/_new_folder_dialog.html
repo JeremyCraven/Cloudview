@@ -11,21 +11,23 @@
 		</md-toolbar>
 
 		<script type="text/ng-template" id="new_folder_content.html">
-			<md-input-container>
-				<label>Folder Name</label>
-				<input ng-model="name" type="text" name="name" required></input>
-				<div ng-messages="newFolderForm.name.$error" role="alert">
-					<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-				</div>
-			</md-input-container>
-			<md-input-container>
-				<label>Account</label>
-				<md-select ng-model="account">
-					<md-option ng-repeat="ac in accounts" ng-value="ac.index">
-						{{ac.type}} - {{ac.email}}
-					</md-option>
-				</md-select>
-			</md-input-container>
+			<div layout="column">
+				<md-input-container>
+					<label>Folder Name</label>
+					<input ng-model="name" type="text" name="name" required></input>
+					<div ng-messages="newFolderForm.name.$error" role="alert">
+						<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+					</div>
+				</md-input-container>
+				<md-input-container>
+					<label>Account</label>
+					<md-select ng-model="account">
+						<md-option ng-repeat="ac in accounts" ng-value="ac.index">
+							{{ac.type}} - {{ac.email}}
+						</md-option>
+					</md-select>
+				</md-input-container>
+			</div>
 		</script>
 
 		<md-dialog-content hide-gt-sm layout="column" layout-align="center start">
