@@ -12,7 +12,10 @@ var CloudAccountSchema = new mongoose.Schema({
     accessToken: { type: String, required: true },
 
     // Optional Refresh Token
-    refreshToken: String
+    refreshToken: String,
+
+    // Optional expiry time of token
+    expiry: Number
 });
 
 module.exports = mongoose.model('CloudAccount', CloudAccountSchema);

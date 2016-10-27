@@ -34,7 +34,8 @@ passport.use(new GoogleStrategy({
             accountType: 'google',
             accountId: 'google-' + profile.id,
             accessToken: accessToken,
-            refreshToken: refreshToken
+            refreshToken: refreshToken,
+            expiry: params.expires_in + new Date().getTime()
         };
         return done(null, userInfo);
     }
@@ -46,7 +47,7 @@ passport.use(new DropboxOAuth2Strategy({
     clientSecret: conf.DROPBOX_SECRET,
     callbackURL: conf.DROPBOX_CALLBACK
   },
-  function(accessToken, refreshToken, profile, done) {
+  function(accessToken, refreshToken, params, profile, done) {
     var userInfo = {
             accountType: 'dropbox',
             accountId: 'dropbox-' + profile.id,
@@ -404,6 +405,7 @@ router.route('/users/auth_google_callback').get(
                 newGoogleAccount.accountId = userInfo.accountId;
                 newGoogleAccount.accessToken = userInfo.accessToken;
                 newGoogleAccount.refreshToken = userInfo.refreshToken;
+                newGoogleAccount.expiry = userInfo.expiry;
 
                 newGoogleAccount.save(function(err) {
                     if (err) {
@@ -512,6 +514,8 @@ getCredentials = function(req, callback) {
                         // TODO: make it so it doesn't only get the last one
                         credentials.google.access_token = account.accessToken;
                         credentials.google.refresh_token = account.refreshToken;
+                        credentials.google.expiry = account.expiry;
+                        credentials.google.id = account._id;
                     }
                 }
 
@@ -572,9 +576,24 @@ router.route('/get_files').post((req, res) => {
 	var pageToken = req.body.pageToken;
 
     getCredentials(req, (creds) => {
-        var callback = function(obj) {
-            // if obj doesn't have obj.error, it will be the object you have to return to the user
-            res.send(obj);
+        var callback = function(obj, new_creds) {
+            if (new_creds) {
+                console.log("hello world");
+                console.log(new_creds);
+                CloudAccount.findOne({_id: creds.google.id}, (err, account) => {
+                    account.accessToken = new_creds.access_token;
+                    account.refreshToken = new_creds.refresh_token;
+                    account.expiry = new_creds.expiry_date;
+                    account.save((err) => {
+                        res.send(obj);
+                    });
+                });
+                
+            } else {
+                // if obj doesn't have obj.error, it will be the object you have to return to the user
+                res.send(obj);
+            }
+            
         };
         api_access.get_files(creds, folder, pageToken, callback);
     });   
