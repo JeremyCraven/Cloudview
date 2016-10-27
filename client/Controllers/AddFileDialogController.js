@@ -14,7 +14,7 @@ define([
 
             $scope.accounts = AccountServices.userAccount.accounts;
 
-            var uploader = new FileUploader();
+            $scope.uploader = new FileUploader();
             
             $scope.submit = function() {
             	$mdDialog.cancel();
