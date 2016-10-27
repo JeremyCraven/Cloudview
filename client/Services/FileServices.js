@@ -16,14 +16,6 @@ define([
 				});
 			};
 
-			service.downloadFile = function(data, url) {
-				return $http({
-					method: 'POST',
-					url: url + '',
-					data: data
-				});
-			};
-
 			service.addFile = function(file) {
 				return $http({
 					method: 'POST',
@@ -56,7 +48,11 @@ define([
 			}
 
 			service.addFolder = function() {
-				
+				return $http({
+					method: 'POST',
+					url: url + 'upload_file',
+					data: file
+				});
 			}
 
 			return service;

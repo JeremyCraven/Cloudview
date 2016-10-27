@@ -36,6 +36,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					res(ret); 
 				}
 			}
+			if (!creds.google) { res({files:[]}); return;}
 			api_access_google.get_google_files(creds.google,
 				id === undefined ? null : id,
 				pageToken,
@@ -59,6 +60,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 				});
 				res(ret);
 			}
+			if (!creds.dropbox) { res({files:[]}); return;}
 			api_access_dropbox.metadata(creds.dropbox,
 				id === undefined ? '' : id,
 				callback); 
@@ -81,11 +83,12 @@ api.get_files = function(creds, folder, pageToken, res) {
 				});
 				res(ret);
 			}
+			if (!creds.onedrive) { res({files:[]}); return;}
 			api_access_onedrive.list_files(creds.onedrive.access_token, callback); 
 			break;
 		default:
 			var ret = {files:[]};
-			if (true || 'google' in creds) {
+			if ('google' in creds) {
 				ret.files.push({
 						id: 'google',
 						root: 'google',
@@ -94,7 +97,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						name: 'Google Drive'
 					});
 			}
-			if (true || 'dropbox' in creds) {
+			if ('dropbox' in creds) {
 				ret.files.push({
 						id: 'dropbox',
 						root: 'dropbox',
@@ -103,7 +106,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						name: 'Dropbox'
 					});
 			}
-			if (true || 'onedrive' in creds) {
+			if ('onedrive' in creds) {
 				ret.files.push({
 						id: 'onedrive',
 						root: 'onedrive',

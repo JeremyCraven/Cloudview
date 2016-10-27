@@ -259,8 +259,9 @@ router.use((req, res, next) => {
 
     if (!token) {
         token = req.query.state;
-        req.token = token;
     }
+
+    req.token = token;
     
     if (token) {
         jwt.verify(token, conf.TOKEN_SECRET, function(err, decoded) {
@@ -478,15 +479,14 @@ router.route('/users/auth_onedrive_callback').get(
                                 res.status(500).json({
                                     Error: err
                                 });
+                            } else {
+                                // success!
+                                res.status(200).redirect('/');
                             }
                         });
                     }
                 });
             }
-        });
-
-        res.json({
-            message: 'Successfully authenticated with OneDrive'
         });
     }
 );
