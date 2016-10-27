@@ -18,6 +18,17 @@ access.user_info = function(access_token, res) {
   });
 }
 
+access.move_stuff = function(access_token, item_id, dest_id, res) {
+  var app = oned.app(access_token); 
+
+  app.move(item_id, dest_id, function(status, reply){
+      if(status == 200)
+        res.send(reply);
+      else
+        res.send(get_error(status));
+  });
+} 
+
 access.edit_link = function(access_token, file_path, res) {
   var app = oned.app(access_token); 
 
@@ -40,10 +51,10 @@ access.download_link = function(access_token, file_path, res) {
   });
 }
 
-access.delete = function(access_token, file_path, res) {
+access.delete = function(access_token, file_id, res) {
   var app = oned.app(access_token); 
 
-  app.delete(file_path, function(status, reply){
+  app.delete(file_id, function(status, reply){
       if(status == 200)
         res.send(reply);
       else
