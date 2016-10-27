@@ -5,9 +5,10 @@ define([
 		function() {
 			var service = {};
 
-			service.storedFiles = [];
+			service.files = [];
 
-			service.paste = function(object) {
+			service.copy = function(object) {
+				console.log(object);
 				var fileFolderObject = {};
 				if (object.isDir) {
 					fileFolderObject.isFolder = true;
@@ -17,8 +18,8 @@ define([
 				}
 				fileFolderObject.name = object.name;
 				fileFolderObject.fileId = object.id; 
-				service.storedFiles.push(fileFolderObject);
-				console.log(service.storedFiles)
+				service.files.push(fileFolderObject);
+				console.log(service.files);
 			}
 
 			return service;

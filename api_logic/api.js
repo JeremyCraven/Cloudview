@@ -1,6 +1,7 @@
 var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
-var api_access_onedrive = require('../api_logic/api_access_onedrive')
+var api_access_onedrive = require('../api_logic/api_access_onedrive');
+var Promise = require('es6-promise').Promise;
 
 var api = new Object();
 
@@ -12,8 +13,8 @@ api.get_files = function(creds, folder, pageToken, res) {
 	var service = sp[0];
 	switch (service) {
 		case 'google':
-			var callback = function(err, obj) {
-				if (err) { res({error:err}); }
+			var callback = function(err, obj, new_creds) {
+				if (err) { res({error:err}, null); }
 				else { 
 					var ret = new Object();
 					if ('nextPageToken' in obj) { ret.nextPageToken = obj.nextPageToken; }
@@ -33,7 +34,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 						ret.files.push(f);
 					});
 
-					res(ret); 
+					res(ret, new_creds); 
 				}
 			}
 			if (!creds.google) { res({files:[]}); return;}
@@ -122,28 +123,25 @@ api.get_files = function(creds, folder, pageToken, res) {
 	}
 }
 api.get_account_info = function(creds, callback) {
-	var count = 0;
 	var obj = {};
-	console.log("HEY")
-	api_access_dropbox.get_dropbox_account_info(creds.dropbox, (reply) => {
-		console.log("dropbox")
-		console.log(reply)
+	var promise = new Promise(function(resolve, reject) {   
+    	api_access_dropbox.get_dropbox_account_info(creds.dropbox, (reply) => {
 		obj.dropbox = reply
-		// TODO: fix race condition
-		count = count + 1
-		if (count >= 2) {
-			callback(obj);
-		}
+		resolve(obj);
 	});
-	api_access_google.get_google_account_info(creds.google, (reply) => {
-		console.log("google")
-		console.log(reply)
+  });
+
+  promise.then(function(object) {
+		api_access_google.get_google_account_info(creds.google, (reply) => {
 		obj.google = reply
-		count = count + 1
-		if (count >= 2) {
-			callback(obj);
-		}
+		return obj;
 	});
+  }, null).then(function(object) {
+  		api_access_onedrive.user_info(creds.onedrive.access_token, (reply) => {
+		obj.onedrive = reply
+		callback(obj);
+	});
+  }, null);
 }
 api.download_dropbox = function(creds, fileId, callback) {
 	var sp = fileId.split('|');
@@ -209,14 +207,17 @@ api.delete_file = function(creds, fileId, callback) {
 				cb);
 			break;
 		case 'onedrive':
-			callback({success: false})
+			var cb = function(err, obj) {
+				callback(obj)
+			}
+			api_access_onedrive.delete(creds.onedrive.access_token,
+				id,
+				cb);
+
 			break;
 		default:
 			callback({success: false});
 	}
-}
-api.put_file = function(creds, is_folder, name, file, callback) {
-	callback({success:true});
 }
 
 api.upload_file = function(creds, file, callback) {

@@ -94,7 +94,43 @@ exports.app = function(access_token) {
   var onedrive_base_path = "/v5.0/";
 
 	return {
-		get_edit_link : function(file_path, callback) {
+		move: function(item_id, dest_id, callback) {
+        var options = {  
+        host: onedrive_host,
+        path: onedrive_base_path + item_id,
+        method: 'MOVE',
+        headers: {
+          'Authorization': 'Bearer ' + access_token,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          "destination": dest_id
+        }
+        };
+
+        var edit_link = https.request(options, function(response) {
+
+        if (response.statusCode == 200) {
+
+          var body = '';
+
+          response.setEncoding('utf8');
+          response.on('data', function(txt) {
+            body += txt;
+          });
+
+          response.on('end', function() {
+            callback(200, JSON.parse(body));
+          });
+        } else {
+          callback(response.statusCode);
+        }
+        }).on('error', null);
+
+        edit_link.end(); 
+    }
+
+    get_edit_link : function(file_path, callback) {
       
       var options = {  
       host: onedrive_host,
@@ -117,7 +153,7 @@ exports.app = function(access_token) {
         });
 
         response.on('end', function() {
-          callback(200, JSON.parse(body).link);
+          callback(200, JSON.parse(body));
         });
       } else {
         callback(response.statusCode);
@@ -159,15 +195,15 @@ exports.app = function(access_token) {
       download_link.end();
     },
 
-    delete : function(file_path, callback) {
+    delete : function(file_id, callback) {
       var options = {
         host: onedrive_host,
-        path: onedrive_base_path + file_path + '?access_token=' + access_token,
+        path: onedrive_base_path + file_id + '?access_token=' + access_token,
 
         // who knew there was more than GET and POST?
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': ''
         }
       };
 
@@ -261,7 +297,7 @@ exports.app = function(access_token) {
         path: onedrive_base_path + 'me?access_token=' + access_token,
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': ''
         }
       };
 
@@ -277,7 +313,7 @@ exports.app = function(access_token) {
         });
 
         response.on('end', function() {
-          callback(200, JSON.parse(body).link);
+          callback(200, JSON.parse(body));
         });
       } else {
         callback(response.statusCode);
@@ -310,7 +346,7 @@ exports.app = function(access_token) {
         });
 
         response.on('end', function() {
-          callback(200, JSON.parse(body).link);
+          callback(200, JSON.parse(body));
         });
       } else {
         callback(response.statusCode);
