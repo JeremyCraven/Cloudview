@@ -1,7 +1,8 @@
 define([], function() {
 	'use strict';
 	var _en = {
-		CONTACT_ADMIN:	"Please contact an administrator."
+		CONTACT_ADMIN:	"Please contact an administrator.",
+		LOGIN_WITH: "Login"
 	};
 	return {
 		LOGIN: {
@@ -68,7 +69,13 @@ define([], function() {
 				NEW_PASSWORD:	"New Password",
 				CONFIRM:		"Confirm Password"
 			},
-			REDIR:	"You will be redirected back to your user once you log in. "
+			REDIR:	"You will be redirected back to your user once you log in. ",
+			ACCOUNT: {
+				NEW:	"Add Account",
+				GOOGLE: _en.LOGIN_WITH + "Google",
+				DROPBOX: _en.LOGIN_WITH + "Dropbox",
+				ONEDRIVE: _en.LOGIN_WITH + "OneDrive"
+			}
 		},
 		GENERAL: {
 			USERNAME_EMAIL:	"Username or Email",
