@@ -107,6 +107,19 @@
 									<p style="margin-top: 8px; margin-bottom: 8px; display: block; width: 100%" class="folder_item md-body-1">
 										{{sub.name}}
 									</p>
+									<span flex=""></span>
+									<md-menu md-position-mode="target-right target" class="md-mini">
+										<md-button aria-label="Open file actions" class="md-icon-button md-mini" ng-click="$mdOpenMenu($event)">
+											<md-icon md-menu-origin md-svg-icon="./Views/img/icons/more_vert.svg"></md-icon>
+										</md-button>
+										<md-menu-content width="3">
+											<md-menu-item>
+												<md-button ng-click="folder.delete_folder(file.id)">
+													Delete
+												</md-button>
+											</md-menu-item>
+										</md-menu-content>
+									</md-menu>
 								</md-card-content>
 							</md-card>
 						</div>
@@ -123,8 +136,30 @@
 									<md-tooltip md-delay="1000">
 										{{file.name}}
 									</md-tooltip>
-									<h3 style="margin: 16px;" class="folder_item">{{file.name}}</h3>
+									<h3 style="margin: 16px;" class="folder_item" flex="">{{file.name}}</h3>
 								</md-grid-tile-footer>
+								<md-menu md-position-mode="target-right target" style="position: absolute; top: 0px; right: 0px;">
+									<md-button aria-label="Open file actions" class="md-icon-button md-toolbar-button" ng-click="$mdOpenMenu($event)" style="padding: 0px; margin: 0px;">
+										<md-icon md-menu-origin md-svg-icon="./Views/img/icons/more_vert.svg"></md-icon>
+									</md-button>
+									<md-menu-content width="3">
+										<md-menu-item>
+											<md-button ng-click="folder.download_file(file.id)">
+												Download
+											</md-button>
+										</md-menu-item>
+										<md-menu-item>
+											<md-button ng-click="folder.move_file(file.id)">
+												Move
+											</md-button>
+										</md-menu-item>
+										<md-menu-item>
+											<md-button ng-click="folder.delete_file(file.id)">
+												Delete
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
 							</md-grid-tile>
 						</md-grid-list>
 					</div>
