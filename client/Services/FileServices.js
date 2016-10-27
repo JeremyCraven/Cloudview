@@ -8,6 +8,8 @@ define([
 
 			var url = 'http://localhost:8081/api/v1/';
 
+			service.currentFolder = '';
+
 			service.getFiles = function(data) {
 				return $http({
 					method: 'POST',
@@ -20,7 +22,15 @@ define([
 				return $http({
 					method: 'POST',
 					url: url + 'upload_file',
-					data: file
+					data: data
+				});
+			}
+
+			service.addFolder = function(data) {
+				return $http({
+					method: 'POST',
+					url: url + 'add_folder',
+					data: data
 				});
 			}
 

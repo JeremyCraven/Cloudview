@@ -12,18 +12,12 @@
 
 		<script type="text/ng-template" id="new_file_content.html">
 			<div layout="column">
-				<md-input-container>
-					<label>File Name</label>
-					<input ng-model="name" type="text" name="name" required></input>
-					<div ng-messages="newFileForm.name.$error" role="alert">
-						<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
-					</div>
-				</md-input-container>
+				<input type="file" nv-file-select="" uploader="uploader" />
 				<md-input-container>
 					<label>Account</label>
 					<md-select ng-model="account">
 						<md-option ng-repeat="ac in accounts" ng-value="ac.index">
-							{{ac.type}} - {{ac.email}}
+							{{ac.type}}
 						</md-option>
 					</md-select>
 				</md-input-container>
@@ -42,7 +36,7 @@
 			<md-button type="button" ng-click="close()">
 				Cancel
 			</md-button>
-			<md-button type="submit" style="margin-right:20px;">
+			<md-button type="submit" ng-click="submit()" style="margin-right:20px;">
 				Add
 			</md-button>
 		</md-dialog-actions>

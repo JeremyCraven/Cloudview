@@ -576,8 +576,6 @@ router.route('/create_folder').post((req, res) => {
 router.route('/move_file').post((req, res) => {
     var file = req.body.fileId;
     var folder = req.body.folderId;
-    console.log(file);
-    console.log(folder);
 
     getCredentials(req, (creds) => {
         var callback = function(obj) {

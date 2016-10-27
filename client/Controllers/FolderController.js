@@ -99,6 +99,7 @@ define([
                 else {
                     $scope.folder.path.splice(index + 1);
                 }
+                FileServices.currentFolder = folder;
                 currentFolder = folder;
                 getFiles(folder.id);
             };
@@ -134,7 +135,8 @@ define([
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
-                    fullscreen: true
+                    fullscreen: true,
+                    locals: { refresh: refreshPage }
                 })
             }
 
@@ -145,7 +147,8 @@ define([
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
-                    fullscreen: true
+                    fullscreen: true,
+                    locals: { refresh: refreshPage }
                 })
             }
 
