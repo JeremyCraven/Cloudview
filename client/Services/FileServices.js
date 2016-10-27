@@ -16,7 +16,7 @@ define([
 				});
 			};
 
-			service.addFile = function(file) {
+			service.addFile = function(data) {
 				return $http({
 					method: 'POST',
 					url: url + 'upload_file',
@@ -24,11 +24,7 @@ define([
 				});
 			}
 
-			service.moveFile = function(fileId, folder) {
-				var data = {
-					fileId: fileId,
-					folder: folder
-				}
+			service.moveFile = function(data) {
 				return $http({
 					method: 'POST',
 					url: url + 'move_file',
@@ -36,22 +32,11 @@ define([
 				});
 			}
 
-			service.deleteFile = function(fileId) {
-				var data = {
-					fileId: fileId
-				}
+			service.deleteFile = function(data) {
 				return $http({
 					method: 'POST',
 					url: url + 'delete_file',
 					data: data
-				});
-			}
-
-			service.addFolder = function() {
-				return $http({
-					method: 'POST',
-					url: url + 'upload_file',
-					data: file
 				});
 			}
 

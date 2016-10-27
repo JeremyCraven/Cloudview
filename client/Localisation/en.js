@@ -1,7 +1,8 @@
 define([], function() {
 	'use strict';
 	var _en = {
-		CONTACT_ADMIN:	"Please contact an administrator."
+		CONTACT_ADMIN:	"Please contact an administrator.",
+		LOGIN_WITH: "Login"
 	};
 	return {
 		LOGIN: {
@@ -31,6 +32,11 @@ define([], function() {
 					TITLE:		"User Already Exists",
 					CONTENT:	"Username or Email already in use."
 				}
+			},
+			PASSWORD:	{
+				SHORT: "This password is too short",
+				LOWER: "Passwords must contain uppercase letters",
+				UPPER:	"Passwrods must contain lowercase letters"
 			}
 		},
 		USER: {
@@ -63,14 +69,22 @@ define([], function() {
 				NEW_PASSWORD:	"New Password",
 				CONFIRM:		"Confirm Password"
 			},
-			REDIR:	"You will be redirected back to your user once you log in. "
+			REDIR:	"You will be redirected back to your user once you log in. ",
+			ACCOUNT: {
+				NEW:	"Add Account",
+				GOOGLE: _en.LOGIN_WITH + "Google",
+				DROPBOX: _en.LOGIN_WITH + "Dropbox",
+				ONEDRIVE: _en.LOGIN_WITH + "OneDrive"
+			}
 		},
 		GENERAL: {
 			USERNAME_EMAIL:	"Username or Email",
 			USERNAME:		"Username",
+			ACCOUNTS:		"Accounts",
 			EMAIL:			"Email",
 			PASSWORD:		"Password",
 			CAPTCHA:		"CAPTCHA",
+			SEARCH:			"Search",
 			FORM: {
 				ERROR: {
 					REQUIRED_FIELD:	"This field is required."
@@ -95,6 +109,17 @@ define([], function() {
 				CONTACT_ADMIN:	_en.CONTACT_ADMIN
 			},
 			SIGNOUT:		"Sign out"
+		},
+		FILE: {
+			MOVE:		"Move",
+			DELETE:		"Delete",
+			DOWNLOAD:	"Download",
+			NEW:		"New File",
+			NEW_FOLDER:	"New Folder",
+			EMPTY_FOLDER: "This folder is empty",
+			CLIPBOARD: {
+				EMPTY: "Your clipboard is empty"
+			}
 		}
 	};
 });
