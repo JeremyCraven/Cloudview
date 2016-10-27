@@ -69,22 +69,25 @@ api.get_files = function(creds, folder, pageToken, res) {
 		    var callback = function(obj) {
 				var ret = new Object();
 				ret.files = [];
-				obj.contents.forEach((file) => {
+				obj.data.forEach((file) => {
 					var f = new Object();
-					f.id = 'onedrive|' + file.path.substring(1); // get path minus first '/'
+					f.id = 'onedrive|' + file.id;
 					f.root = 'onedrive';
-					var sp = file.path.split('/');
-					f.name = sp[sp.length-1];
-					f.isDir = file.is_dir;
-					f.mimeType = 'mime_type' in file ? file.mime_type : 'onedrive/folder';
-					f.webViewLink = 'http://www.google.com';
-					f.date = file.modified;
+					f.name = file.name;
+					f.isDir = file.id[1] == 'o';
+					f.mimeType = 'mime-type';
+					f.webContentLink = file.source;
+					f.date = file.updated_time;
 					ret.files.push(f);
 				});
 				res(ret);
 			}
 			if (!creds.onedrive) { res({files:[]}); return;}
-			api_access_onedrive.list_files(creds.onedrive.access_token, callback); 
+			if( id === undefined) {
+				api_access_onedrive.list_files(creds.onedrive.access_token, callback); 
+			} else {				
+				api_access_onedrive.list_files(creds.onedrive.access_token, callback, id); 
+			}
 			break;
 		default:
 			var ret = {files:[]};

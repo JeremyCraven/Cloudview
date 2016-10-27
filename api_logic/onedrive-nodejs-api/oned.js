@@ -231,12 +231,11 @@ exports.app = function(access_token) {
         path: onedrive_base_path + ( folder_id || 'me/skydrive' ) + '/files?access_token=' + access_token,
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': ''
         }
       };
 
       var get_files = https.request(options, function(response) {
-
       if (response.statusCode == 200) {
 
         var body = '';
@@ -245,9 +244,8 @@ exports.app = function(access_token) {
         response.on('data', function(txt) {
           body += txt;
         });
-
         response.on('end', function() {
-          callback(200, JSON.parse(body).link);
+          callback(200, JSON.parse(body));
         });
       } else {
         callback(response.statusCode);

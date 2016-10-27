@@ -76,10 +76,12 @@ access.list_files = function(access_token, callback, folder_id) {
 
   if(folder_id === null) {
     app.list_files(function(status, reply){
-        if(status == 200)
+        if(status == 200) {
           callback(reply);
-        else
+        }
+        else {
           callback(get_error(status));
+        }
     });
   } else {
     app.list_files(function(status, reply){

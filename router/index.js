@@ -498,6 +498,7 @@ getCredentials = function(req, callback) {
     User.findOne({ _id: req.decoded.id })
         .populate('google_accounts')
         .populate('dropbox_accounts')
+        .populate('onedrive_accounts')
         .exec(function(err, user) {
             if (err) {
                 callback(null);
