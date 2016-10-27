@@ -95,13 +95,14 @@ access.move_google_file = function(auth, fileId, folderId, res) {
         // Move the file to the new folder
         var previousParents = file.parents.join(',');
         this.service.files.update({
+          auth: oauth2Client,
           fileId: fileId,
           addParents: folderId,
           removeParents: previousParents,
           fields: 'id, parents'
         }, function(err, file) {
           if(err) {
-            // Handle error
+            console.log(err)
           } else {
             res(null, {success: true});
           }
