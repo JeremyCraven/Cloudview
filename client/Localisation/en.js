@@ -41,6 +41,7 @@ define([], function() {
 		},
 		USER: {
 			INFO: {
+				ACCOUNT: 					"Account",
 				USER:						"User",
 				EMAIL_CHANGE:				"Change",
 				EMAIL_DELETE:				"Delete",
@@ -75,6 +76,17 @@ define([], function() {
 				GOOGLE: _en.LOGIN_WITH + "Google",
 				DROPBOX: _en.LOGIN_WITH + "Dropbox",
 				ONEDRIVE: _en.LOGIN_WITH + "OneDrive"
+			},
+			NEW: {
+				FILE:	"New File",
+				FOLDER: "New Folder"
+			},
+			FILE: {
+				NEW: "New File",
+
+			},
+			FOLDER: {
+				NEW: "New Folder"
 			}
 		},
 		GENERAL: {
@@ -85,6 +97,7 @@ define([], function() {
 			PASSWORD:		"Password",
 			CAPTCHA:		"CAPTCHA",
 			SEARCH:			"Search",
+			FILE_NAME:		"File name",
 			FORM: {
 				ERROR: {
 					REQUIRED_FIELD:	"This field is required."
