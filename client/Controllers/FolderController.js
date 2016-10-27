@@ -20,11 +20,9 @@ define([
                 files: ClipboardService.files,
                 paste: function(file) {
                     var data = {
-                        folderId: path,
+                        folderId: file.id,
                         token: AccountServices.userAccount.cloudViewToken
                     }
-                    console.log(file.id);
-                    console.log(currentFolder.id);
                     FileServices.moveFile(data);
                 }
             };
@@ -32,7 +30,7 @@ define([
             $scope.ui.folder.move_file = function(file) {
                     console.log('move file');
                     var data = {
-                        folderId: path,
+                        folderId: fild.id,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(file);
@@ -40,7 +38,7 @@ define([
             $scope.ui.folder.move_folder = function(folder) {   
                     console.log('move folder');
                     var data = {
-                        folderId: path,
+                        folderId: folder.id,
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(folder);
@@ -48,15 +46,16 @@ define([
             $scope.ui.folder.delete_file = function(file) {
                     console.log('delete file');
                     var data = {
-                        folderId: path,
+                        folderId: file.id,
                         token: AccountServices.userAccount.cloudViewToken
                     }
-                    FileServices.deleteFile(file)
-                        .then(function() {
-                            $scope.ui.folder.go(currentFolder); 
+                    FileServices.deleteFile(data)
+                        .then(function(result) {
+                            console.log('here');
+                            $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
                         }, 
-                        function() {
-
+                        function(result) {
+                            console.log(result.data);
                         });
             }
             $scope.ui.folder.delete_folder = function(folder) {
@@ -67,7 +66,7 @@ define([
                     }
                     FileServices.deleteFile(data)
                         .then(function() {
-                            $scope.ui.folder.go(currentFolder); 
+                            $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
                         }, 
                         function() {
 
