@@ -141,9 +141,7 @@ define([
                             sort(result.data.files);
                         },
                         function(result) {
-                            if (result.status === 403) {
-                                $state.go('home');
-                            }
+                            $state.go('home');
                         }
                     );
             };
