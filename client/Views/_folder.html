@@ -51,7 +51,14 @@
 					<md-button class="md-icon-button" aria-label="Navigation" ng-click="ui.sideNav.toggleSidenav()" hide-gt-md>
 						<md-icon md-svg-icon="Views/img/icons/menu.svg"></md-icon>
 					</md-button>
-					<h1>CloudView</h1>
+					<span flex></span>
+					<md-input-container style="margin: 0px">
+						<label>Search</label>
+						<input ng-model="username" type="text" name="username" required></input>
+						<div ng-messages="loginForm.username.$error" role="alert">
+							<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+						</div>
+					</md-input-container>
 					<span flex></span>
 					<md-menu md-position-mode="target-right target">
 						<md-button aria-label="Open sort interactions menu" class="md-icon-button md-toolbar-button" ng-click="$mdOpenMenu($event)">
@@ -84,7 +91,7 @@
 						</md-button>
 						<md-menu-content width="4">
 							<md-menu-item ng-repeat="file in clipboard.files">
-								<md-button ng-click="clipboard.paste(file.id)">
+								<md-button ng-click="clipboard.paste(file)">
 									<div layout="row" flex>
 										<md-icon ng-if="!file.isFolder" md-svg-icon="./Views/img/icons/ic_description_48px.svg" md-menu-align-target style="margin: auto 3px auto 0;"></md-icon>
 										<md-icon ng-if="file.isFolder" md-svg-icon="./Views/img/icons/folder.svg" md-menu-align-target style="margin: auto 3px auto 0;"></md-icon>
