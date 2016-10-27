@@ -87,14 +87,14 @@ access.move_google_file = function(auth, fileId, folderId, res) {
       auth: oauth2Client,
       fileId: fileId,
       fields: 'parents'
-    }, function(err, file) {
+    }, (err, file) => {
       if (err) {
         // Handle error
         console.log(err);
       } else {
         // Move the file to the new folder
         var previousParents = file.parents.join(',');
-        drive.files.update({
+        this.service.files.update({
           fileId: fileId,
           addParents: folderId,
           removeParents: previousParents,

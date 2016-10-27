@@ -93,9 +93,7 @@ access.move = function(access_token, file, folder, res) {
   var options = {
     root: "dropbox"
   };
-  client.mv(file, folder, options, (status, reply) => {
-    console.log(status)
-    console.log(reply)
+  client.mv(file, folder + "/" + file, options, (status, reply) => {
     res(status, reply);
   });
 }
@@ -106,8 +104,6 @@ access.delete = function(access_token, file, res) {
     root: "dropbox"
   }
   client.rm(file, options, (status, reply) => {
-    console.log(status)
-    console.log(reply)
     res(status, reply);
   });
 }
