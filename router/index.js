@@ -165,7 +165,7 @@ router.route('/users/login').post((req, res) => {
                         }
                         else if (isMatch) {
                             var token = jwt.sign({ id: user._id }, conf.TOKEN_SECRET, {
-                                expiresIn: '1h'
+                                expiresIn: '3h'
                             });
                             res.status(200).json({
                                 user: {
