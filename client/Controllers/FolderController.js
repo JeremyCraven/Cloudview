@@ -142,7 +142,7 @@ define([
                         },
                         function(result) {
                             if (result.status === 403) {
-                                $state.go('login');
+                                $state.go('home');
                             }
                         }
                     );
@@ -158,7 +158,9 @@ define([
                             $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
                         },
                         function(result) {
-                            console.log(result);
+                            if (result.status === 403) {
+                                $state.go('home');
+                            }
                         }
                     );
 
