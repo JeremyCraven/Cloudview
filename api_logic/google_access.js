@@ -194,40 +194,8 @@ access.get_google_account_info = function(auth, res) {
     });
   });
 }
-/*
-  examples of acceptable file objects:
-  {
-    mimeType: 'image/png',
-    body: fs.createReadStream('awesome.png') // read streams are awesome!
-  }
-  orrrr
-  {
-    mimeType: 'text/plain',
-    body: 'Hello World'
-  }
-*/
-access.put_google_file = function(auth, fileName, file, res) {
 
-  get_google_creds(auth, false, (oauth2Client) => {
-    this.service.files.create({
-      resource: {
-        name: fileName,
-        mimeType: file.mimeType
-      },
-      media: file,
-      auth: oauth2Client
-    }, function(err, response) {
-      if (err) {
-        res('The API returned an error: ' + JSON.stringify(err));
-        return;
-      }
-      res(response);
-    });
-  });
-}
-
-access.put_google_folder = function(auth, folderName, res) {
-
+access.create_google_folder = function(auth, folderName, res) {
   get_google_creds(auth, false, (oauth2Client) => {
     var fileMetadata = {
       'name' : folderName,

@@ -2,7 +2,7 @@ var fs = require('fs');
 var readline = require('readline');
 var Promise = require('es6-promise').Promise;
 var dbox  = require("dbox");
-var app   = dbox.app({ "app_key": "mbvg6drwcnt8ijt", "app_secret": "o5dd4i6tp2ku5l9" });
+var app   = dbox.app({ "app_key": "mbvg6drwcnt8ijt", "app_secret": "o5dd4i6tp2ku5l9", "root": "dropbox" });
 var https = require('https')
 const util = require('util')
 
@@ -148,6 +148,17 @@ access.download_file = function(access_token, file_path, res) {
     //  response.pipe(file_path);
     //  res(null, {success: true});
     //});
+  });
+}
+
+access.create_folder = function(access_token, folder_name, res) {
+  var client = app.client(access_token);
+  var options = {
+    root: "dropbox"
+  };
+  client.mkdir("foo", options, function(status, reply){
+    console.log(reply);
+    res(status, reply);
   });
 }
 

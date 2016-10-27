@@ -221,7 +221,9 @@ api.delete_file = function(creds, fileId, callback) {
 }
 
 api.upload_file = function(creds, file, callback) {
-	var service = 'google';
+	var sp = fileId.split('|');
+	var id = sp[1];
+	var service = sp[0];
 
 	switch (service) {
 		case 'google':
@@ -244,6 +246,37 @@ api.upload_file = function(creds, file, callback) {
 			};
 
 			api_access_onedrive.upload_onedrive_file(creds.google, file, cb);
+			break;
+		default:
+			callback({ success: false });
+	}
+}
+
+api.create_folder = function(creds, folderName, destination, callback) {
+	var service = destination;
+
+	switch (service) {
+		case 'google':
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			api_access_google.create_google_folder(creds.google, folderName, cb);
+			break;
+		case 'dropbox':
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			api_access_dropbox.create_folder(creds.google, folderName, cb);
+			break;
+		case 'onedrive':
+			var cb = function(err, obj) {
+				callback(obj);
+			};
+
+			// TODO
+			api_access_onedrive.create_onedrive_folder(creds.google, folderName, cb);
 			break;
 		default:
 			callback({ success: false });

@@ -558,6 +558,21 @@ router.route('/upload_file').post((req, res) => {
     });
 });
 
+router.route('/create_folder').post((req, res) => {
+    var folder = req.body.folder;
+    var destination = req.body.destination;
+
+    getCredentials(req, (creds) => {
+        var callback = function(obj) {
+            res.status(200).json({
+                message: "Working"
+            });
+        };
+        
+        api_access.create_folder(creds, folder, destination, callback);
+    });
+});
+
 router.route('/move_file').post((req, res) => {
     var file = req.body.fileId;
     var folder = req.body.folderId;
