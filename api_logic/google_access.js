@@ -147,10 +147,9 @@ access.delete_google_file = function(auth, fileId, res) {
   get_google_creds(auth, false, (oauth2Client) => {
     var req = {
       auth: oauth2Client,
-      fileId: fileId,
-      trashed: true
+      fileId: fileId
     };
-    this.service.files.update(req, (err, response) => {
+    this.service.files.delete(req, (err, response) => {
       if (err) {
         console.log(err)
       } else {
