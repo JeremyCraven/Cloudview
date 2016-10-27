@@ -152,7 +152,6 @@ define([
                 AccountServices.get_user_info({token: $cookies.get(AccountServices.cookie_token_key)})
                     .then(
                         function(result) {
-                            console.log(result.data);
                             AccountServices.store_user_info(result);
                             $scope.user = AccountServices.userAccount;   
                             $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
