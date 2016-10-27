@@ -36,6 +36,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 					res(ret); 
 				}
 			}
+			if (!creds.google) { res({files:[]}); return;}
 			api_access_google.get_google_files(creds.google,
 				id === undefined ? null : id,
 				pageToken,
@@ -59,6 +60,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 				});
 				res(ret);
 			}
+			if (!creds.dropbox) { res({files:[]}); return;}
 			api_access_dropbox.metadata(creds.dropbox,
 				id === undefined ? '' : id,
 				callback); 
@@ -81,6 +83,7 @@ api.get_files = function(creds, folder, pageToken, res) {
 				});
 				res(ret);
 			}
+			if (!creds.onedrive) { res({files:[]}); return;}
 			api_access_onedrive.list_files(creds.onedrive.access_token, callback); 
 			break;
 		default:
