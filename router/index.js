@@ -478,15 +478,14 @@ router.route('/users/auth_onedrive_callback').get(
                                 res.status(500).json({
                                     Error: err
                                 });
+                            } else {
+                                // success!
+                                res.status(200).redirect('/');
                             }
                         });
                     }
                 });
             }
-        });
-
-        res.json({
-            message: 'Successfully authenticated with OneDrive'
         });
     }
 );
