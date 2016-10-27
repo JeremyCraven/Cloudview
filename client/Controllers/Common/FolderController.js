@@ -74,6 +74,9 @@ define([
                 subfolders: [],
                 files: []
             };
+			$scope.search = {
+				text: ''
+			};
         }
     ]);
 });
