@@ -264,14 +264,14 @@ api.create_folder = function(creds, folderName, destination, callback) {
 				callback(obj);
 			};
 
-			api_access_google.create_google_folder(creds.google, folderName, cb);
+			api_access_google.create_google_folder(creds.google, folderName, id, cb);
 			break;
 		case 'dropbox':
 			var cb = function(err, obj) {
 				callback(obj);
 			};
 
-			api_access_dropbox.create_folder(creds.dropbox, folderName, cb);
+			api_access_dropbox.create_folder(creds.dropbox, folderName, id, cb);
 			break;
 		case 'onedrive':
 			var cb = function(err, obj) {

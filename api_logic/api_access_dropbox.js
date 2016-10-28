@@ -147,12 +147,15 @@ access.download_file = function(access_token, file_path, res) {
   });
 }
 
-access.create_folder = function(access_token, folder_name, res) {
+access.create_folder = function(access_token, folder_name, parent_folder, res) {
   var client = app.client(access_token);
+  var path = parent_folder;
+  if (path === 'root') { path = ''; }
+  else { path = path + '/'; }
   var options = {
     root: "dropbox"
   };
-  client.mkdir(folder_name, options, function(status, reply){
+  client.mkdir(path + folder_name, options, function(status, reply){
     res(status, reply);
   });
 }

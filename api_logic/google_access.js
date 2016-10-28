@@ -195,12 +195,16 @@ access.get_google_account_info = function(auth, res) {
   });
 }
 
-access.create_google_folder = function(auth, folderName, res) {
+access.create_google_folder = function(auth, folderName, parentFolder, res) {
   get_google_creds(auth, false, (oauth2Client) => {
     var fileMetadata = {
       name : folderName,
       mimeType : 'application/vnd.google-apps.folder'
     };
+    if (parentFolder !== 'root') {
+      fileMetadata.parents = [parentFolder];
+    }
+
     this.service.files.create({
       auth: oauth2Client,
       resource: fileMetadata,
