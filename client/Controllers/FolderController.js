@@ -14,7 +14,7 @@ define([
         'CloudView.Services.ClipboardService',
         function FolderController($scope, $window, $controller, $state, $mdSidenav, $mdDialog, $cookies, FileServices, AccountServices, ClipboardService) {
 			angular.extend(this, $controller('CloudView.Controllers.Common.Folder', {$scope: $scope, $mdSidenav: $mdSidenav, $mdDialog: $mdDialog}));
-
+			var scope = $scope;
             var currentFolder = '';
             $scope.clipboard = {
                 files: ClipboardService.files,
@@ -242,8 +242,6 @@ define([
                     file.account = 2;
                 return file;
             }
-
-			debugger;
         }
     ]);
 });
