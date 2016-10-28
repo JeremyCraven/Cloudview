@@ -198,10 +198,10 @@ access.get_google_account_info = function(auth, res) {
 access.create_google_folder = function(auth, folderName, res) {
   get_google_creds(auth, false, (oauth2Client) => {
     var fileMetadata = {
-      'name' : folderName,
-      'mimeType' : 'application/vnd.google-apps.folder'
+      name : folderName,
+      mimeType : 'application/vnd.google-apps.folder'
     };
-    drive.files.create({
+    this.service.files.create({
       auth: oauth2Client,
       resource: fileMetadata,
       fields: 'id,mimeType,name,parents'

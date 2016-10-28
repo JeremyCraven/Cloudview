@@ -16,7 +16,7 @@ define([
 
             $scope.submit = function() {
             	var data = {
-            		name: $scope.name,
+            		folder: $scope.name,
             		parentDirectory: FileServices.currentFolder,
             		token: AccountServices.userAccount.cloudViewToken
             	}

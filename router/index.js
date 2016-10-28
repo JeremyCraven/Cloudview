@@ -560,7 +560,7 @@ router.route('/upload_file').post((req, res) => {
 
 router.route('/create_folder').post((req, res) => {
     var folder = req.body.folder;
-    var destination = req.body.destination;
+    var destination = req.body.parentDirectory.id;
 
     getCredentials(req, (creds) => {
         var callback = function(obj) {

@@ -152,8 +152,7 @@ access.create_folder = function(access_token, folder_name, res) {
   var options = {
     root: "dropbox"
   };
-  client.mkdir("foo", options, function(status, reply){
-    console.log(reply);
+  client.mkdir(folder_name, options, function(status, reply){
     res(status, reply);
   });
 }

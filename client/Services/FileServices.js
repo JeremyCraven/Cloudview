@@ -29,7 +29,7 @@ define([
 			service.addFolder = function(data) {
 				return $http({
 					method: 'POST',
-					url: url + 'add_folder',
+					url: url + 'create_folder',
 					data: data
 				});
 			}

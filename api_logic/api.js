@@ -253,7 +253,10 @@ api.upload_file = function(creds, file, callback) {
 }
 
 api.create_folder = function(creds, folderName, destination, callback) {
-	var service = destination;
+	var sp = destination.split('|');
+	var id = 'root';
+	if (sp.length > 1) id = sp[1];
+	var service = sp[0];
 
 	switch (service) {
 		case 'google':
@@ -268,7 +271,7 @@ api.create_folder = function(creds, folderName, destination, callback) {
 				callback(obj);
 			};
 
-			api_access_dropbox.create_folder(creds.google, folderName, cb);
+			api_access_dropbox.create_folder(creds.dropbox, folderName, cb);
 			break;
 		case 'onedrive':
 			var cb = function(err, obj) {
@@ -276,7 +279,7 @@ api.create_folder = function(creds, folderName, destination, callback) {
 			};
 
 			// TODO
-			api_access_onedrive.create_onedrive_folder(creds.google, folderName, cb);
+			api_access_onedrive.create_onedrive_folder(creds.onedrive, folderName, cb);
 			break;
 		default:
 			callback({ success: false });
