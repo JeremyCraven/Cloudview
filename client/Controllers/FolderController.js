@@ -45,7 +45,7 @@ define([
                     }
                     ClipboardService.copy(file);
             }
-            $scope.ui.folder.copy_folder = function(folder) {   
+            $scope.ui.folder.copy_folder = function(folder) {
                     console.log('move folder');
                     var data = {
                         fileId: folder.id,
@@ -64,8 +64,8 @@ define([
                     console.log(data);
                     FileServices.deleteFile(data)
                         .then(function(result) {
-                            refreshPage(); 
-                        }, 
+                            refreshPage();
+                        },
                         function(result) {
                             console.log(result.data);
                         });
@@ -80,7 +80,7 @@ define([
                     FileServices.deleteFile(data)
                         .then(function(result) {
                             refreshPage();
-                        }, 
+                        },
                         function(result) {
                             console.log(result.data);
                         });
@@ -176,8 +176,8 @@ define([
                     .then(
                         function(result) {
                             AccountServices.store_user_info(result);
-                            $scope.user = AccountServices.userAccount;   
-                            $scope.ui.folder.go({name: 'Root', id: 'Root'}); 
+                            $scope.user = AccountServices.userAccount;
+                            $scope.ui.folder.go({name: 'Root', id: 'Root'});
                         },
                         function(result) {
                             if (result.status === 403) {
@@ -186,7 +186,7 @@ define([
                         }
                     );
 
-                
+
             }
 
             activate();
@@ -242,6 +242,8 @@ define([
                     file.account = 2;
                 return file;
             }
+
+			debugger;
         }
     ]);
 });

@@ -190,7 +190,7 @@
 			<div ng-hide="(filteredFiles | searchFiles: search.text).length || (folder.subfolders | searchFiles: search.text).length" layout="column" layout-align="center center" flex>
 				<h1 class="md-body-1">{{ "FILE.EMPTY_FOLDER" | translate }}</h1>
 			</div>
-			<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" style="position: fixed; right: 32px; bottom: 32px;">
+			<md-fab-speed-dial md-open="ui.fab.isOpen" md-direction="left" ng-class="'md-scale'" ng-if=" folder.path && folder.path.length < 1" style="position: fixed; right: 32px; bottom: 32px;">
 				<md-fab-trigger>
 					<md-button aria-label="Add" class="md-fab">
 						<md-icon md-svg-src="./Views/img/icons/ic_add_48px.svg"></md-icon>

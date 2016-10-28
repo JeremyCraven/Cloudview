@@ -13,10 +13,10 @@ define([
 				//id
 				//type - {Google, Dropbox, etc}
 				//email - a.b@c.com
-			]
+			];
             $scope.close = function() {
                 $mdDialog.cancel();
-            }
+            };
             $scope.submit = function() {};
         }
     ]);

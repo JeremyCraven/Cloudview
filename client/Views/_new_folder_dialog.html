@@ -10,7 +10,24 @@
 			</div>
 		</md-toolbar>
 
-		<div layout="column">
+		<md-dialog-content hide-gt-sm layout="column" layout-align="center start">
+			<md-input-container>
+				<label>Folder Name</label>
+				<input ng-model="name" type="text" name="sname" required></input>
+				<div ng-messages="newFolderForm.sname.$error" role="alert">
+					<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
+				</div>
+			</md-input-container>
+			<md-input-container>
+				<label>Account</label>
+				<md-select ng-model="account">
+					<md-option ng-repeat="ac in accounts" ng-value="ac.index">
+						{{ac.type}}
+					</md-option>
+				</md-select>
+			</md-input-container>
+		</md-dialog-content>
+		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;" layout="column" layout-align="center center">
 			<md-input-container>
 				<label>Folder Name</label>
 				<input ng-model="name" type="text" name="name" required></input>
@@ -26,13 +43,6 @@
 					</md-option>
 				</md-select>
 			</md-input-container>
-		</div>
-
-		<md-dialog-content hide-gt-sm layout="column" layout-align="center start">
-			<ng-include src="'new_folder_content.html'"></ng-include>
-		</md-dialog-content>
-		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;" layout="column" layout-align="center center">
-			<ng-include src="'new_folder_content.html'"></ng-include>
 		</md-dialog-content>
 
 		<md-dialog-actions layout="row">
