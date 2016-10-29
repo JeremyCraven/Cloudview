@@ -225,19 +225,19 @@ exports.app = function(access_token) {
       delete_file.end();
     },
 
-    create_folder : function(folder_name, callback, folder_path) {
+    create_folder : function(folder_name, callback, folder_id) {
       var options = {
         host: onedrive_host,
-        path: onedrive_base_path + 'me/skydrive/' + folder_path || '',
+        path: onedrive_base_path + 'me/skydrive' || folder_id,
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + access_token,
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json'
         }
       };
 
       var new_folder = https.request(options, function(response) {
-        if (response.statusCode == 201) {
+        if (response.statusCode == 201 || response.statusCode == 200) {
           var body = '';
 
           response.on('data', function(txt) {
@@ -252,9 +252,8 @@ exports.app = function(access_token) {
         } else {
           callback(response.statusCode);
         }
-      }).on('error', null);
-
-      //new_folder.write('{"name" : "' + folderName + '"}');
+      });
+      new_folder.write('{"name" : "' + folder_name + '"}');
       new_folder.end();
     },
 

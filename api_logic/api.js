@@ -278,8 +278,7 @@ api.create_folder = function(creds, folderName, destination, callback) {
 				callback(obj);
 			};
 
-			// TODO
-			api_access_onedrive.create_onedrive_folder(creds.onedrive, folderName, cb);
+			api_access_onedrive.create_folder(creds.onedrive.access_token, folderName, cb);
 			break;
 		default:
 			callback({ success: false });

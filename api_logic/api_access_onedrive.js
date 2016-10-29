@@ -62,22 +62,22 @@ access.delete = function(access_token, file_id, callback) {
   });
 }
 
-access.create_folder = function(access_token, folder_name, res, folder_path) {
+access.create_folder = function(access_token, folder_name, callback, folder_id) {
   var app = oned.app(access_token); 
 
-  if(folder_path === null) {
+  if(folder_id === undefined) {
     app.create_folder(folder_name, function(status, reply){
         if(status == 200)
-          res.send(reply);
+          callback(reply);
         else
-          res.send(get_error(status));
+          callback(get_error(status));
     });
   } else {
     app.create_folder(folder_name, function(status, reply){
         if(status == 200)
-          res.send(reply);
-        else
-          res.send(get_error(status));
+          callback(reply);
+        else  
+          callback(get_error(status));
     }, folder_path);
   }
 }
