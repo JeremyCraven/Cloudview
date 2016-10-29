@@ -18,6 +18,26 @@ access.user_info = function(access_token, res) {
   });
 }
 
+access.upload_file = function(access_token, file, dest, callback) {
+  var app = oned.app(access_token);
+
+  var loc = file.originalname;
+  if (dest == 'root') {
+   loc = "me/skydrive/files/" + loc;
+  }
+  else {
+    loc = dest + "/files/" + loc;
+  }
+
+  fs.readFile(file.destination + '/' + file.filename, (err, data) => {
+    app.upload(loc, data, 
+    function(status, reply) {
+      callback(null, {success: true});
+    });
+  })
+}
+
+
 access.move_stuff = function(access_token, item_id, dest_id, callback) {
   var app = oned.app(access_token); 
 

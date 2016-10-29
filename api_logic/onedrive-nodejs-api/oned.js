@@ -60,6 +60,7 @@ var https = require('https');
 
 var encode = function(data){
   return encodeURIComponent(data || "").
+      replace(/ /g, "%20").
       replace(/\!/g, "%21").
       replace(/\'/g, "%27").
       replace(/\(/g, "%28").
@@ -94,6 +95,37 @@ exports.app = function(access_token) {
   var onedrive_base_path = "/v5.0/";
 
 	return {
+    upload: function(path, body, callback) {
+      var options = {  
+        host: onedrive_host,
+        path: onedrive_base_path + path.replace(/ /g, "") + "?access_token=" + access_token,
+        method: 'PUT',
+        headers: {
+          'Content-Type': ''
+        }
+        };
+
+        var upload_file = https.request(options, function(response) {
+        if (response.statusCode == 200) {
+
+          var body = '';
+
+          response.setEncoding('utf8');
+          response.on('data', function(txt) {
+            body += txt;
+          });
+
+          response.on('end', function() {
+            callback(200, JSON.parse(body));
+          });
+        } else {
+          callback(response.statusCode);
+        }
+        });
+        upload_file.write(body);
+        upload_file.end(); 
+    },
+
 		move: function(item_id, dest_id, callback) {
         var options = {  
         host: onedrive_host,

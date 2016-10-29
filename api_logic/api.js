@@ -266,7 +266,7 @@ api.upload_file = function(creds, file, folder, callback) {
 				callback(obj);
 			};
 
-			api_access_onedrive.upload_onedrive_file(creds.google, file, cb);
+			api_access_onedrive.upload_file(creds.onedrive.access_token, file, id, cb);
 			break;
 		default:
 			callback({ success: false });
