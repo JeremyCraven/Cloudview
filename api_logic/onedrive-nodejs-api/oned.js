@@ -105,8 +105,9 @@ exports.app = function(access_token) {
         }
         };
 
+        console.log(options);
         var move_file = https.request(options, function(response) {
-
+        console.log(response.statusCode);  
         if (response.statusCode == 200) {
 
           var body = '';
@@ -123,7 +124,7 @@ exports.app = function(access_token) {
           callback(response.statusCode);
         }
         });
-        move_file.write('{ "destination":' +  dest_id + '}');
+        move_file.write('{"destination" : "' +  dest_id + '"}');
         move_file.end(); 
     },  
 

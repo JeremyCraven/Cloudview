@@ -18,14 +18,14 @@ access.user_info = function(access_token, res) {
   });
 }
 
-access.move_stuff = function(access_token, item_id, dest_id, res) {
+access.move_stuff = function(access_token, item_id, dest_id, callback) {
   var app = oned.app(access_token); 
 
   app.move(item_id, dest_id, function(status, reply){
       if(status == 200)
-        res.send(reply);
+        callback(reply);
       else
-        res.send(get_error(status));
+        callback(get_error(status));
   });
 } 
 
