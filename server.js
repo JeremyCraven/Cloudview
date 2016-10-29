@@ -35,7 +35,7 @@ var storage = multer.diskStorage({
     }
 });
 
-app.use(multer({ storage: storage }).single('upload'));
+app.use(multer({ storage: storage }).single('file'));
 
 app.use(express.static(__dirname + '/client'));
 app.use(passport.initialize())

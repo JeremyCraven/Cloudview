@@ -22,7 +22,7 @@ define([
 				return $http({
 					method: 'POST',
 					url: url + 'upload_file',
-					data: data
+					data: data,
 				});
 			}
 

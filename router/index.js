@@ -254,6 +254,22 @@ router.route('/users/verify_token').post((req, res) => {
     }
 });
 
+router.route('/upload_file').post((req, res) => {
+    var file = req.body.file;
+    console.log(req.body);
+
+    getCredentials(req, (creds) => {
+        var callback = function(obj) {
+            console.log(file);
+            res.status(200).json({
+                message: "Working"
+            });
+        };
+
+        api_access.upload_file(creds, file, callback);
+    });
+});
+
 // Protects routes
 router.use((req, res, next) => {
     var token = req.body.token;
@@ -542,21 +558,6 @@ getCredentials = function(req, callback) {
             }
     });
 }
-
-router.route('/upload_file').post((req, res) => {
-    var file = req.file;
-
-    getCredentials(req, (creds) => {
-        var callback = function(obj) {
-            console.log(file);
-            res.status(200).json({
-                message: "Working"
-            });
-        };
-
-        api_access.upload_file(creds, file, callback);
-    });
-});
 
 router.route('/create_folder').post((req, res) => {
     var folder = req.body.folder;

@@ -14,24 +14,16 @@ define([
 
             $scope.accounts = AccountServices.userAccount.accounts;
 
-            $scope.uploader = new FileUploader();
+            $scope.uploader = new FileUploader({
+            	url: 'api/v1/upload_file',
+            	queueLimit: 1,
+            	formData:[{token: AccountServices.userAccount.cloudViewToken}]
+            });
+
             
             $scope.submit = function() {
+            	$scope.uploader.uploadItem(0);
             	$mdDialog.cancel();
-            	refresh();
-            	/*var data = {
-            		name: $scope.name,
-            		parentDirectory: FileServices.currentFolder,
-            		token: AccountServices.userAccount.cloudViewToken
-            	}
-            	FileServices.addFile(data)
-            		.then(
-            			function(result) {
-            				$state.go('folder');
-            		},
-            			function(result) {
-
-            		})*/
             }
         }
     ]);
