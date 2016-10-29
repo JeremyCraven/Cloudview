@@ -51,14 +51,14 @@ access.download_link = function(access_token, file_path, res) {
   });
 }
 
-access.delete = function(access_token, file_id, res) {
+access.delete = function(access_token, file_id, callback) {
   var app = oned.app(access_token); 
 
   app.delete(file_id, function(status, reply){
       if(status == 200)
-        res.send(reply);
+        callback(reply);
       else
-        res.send(get_error(status));
+        callback(get_error(status));
   });
 }
 

@@ -196,17 +196,15 @@ exports.app = function(access_token) {
     },
 
     delete : function(file_id, callback) {
+      // who knew there was more than GET and POST?
       var options = {
         host: onedrive_host,
         path: onedrive_base_path + file_id + '?access_token=' + access_token,
-
-        // who knew there was more than GET and POST?
         method: 'DELETE',
         headers: {
           'Content-Type': ''
         }
       };
-
       var delete_file = https.request(options, function(response) {
 
         if (response.statusCode == 204 || response.statusCode == 200) {
@@ -216,14 +214,13 @@ exports.app = function(access_token) {
           response.on('data', function(txt) {
             body += txt;
           });
-
           response.on('end', function() {
-            callback(200, JSON.parse(body));
+            callback(200, '');
           });
         } else {
           callback(response.statusCode);
         }
-      }).on('error', null);
+      });
 
       delete_file.end();
     },
