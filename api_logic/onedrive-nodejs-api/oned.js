@@ -102,13 +102,10 @@ exports.app = function(access_token) {
         headers: {
           'Authorization': 'Bearer ' + access_token,
           'Content-Type': 'application/json'
-        },
-        body: {
-          "destination": dest_id
         }
         };
 
-        var edit_link = https.request(options, function(response) {
+        var move_file = https.request(options, function(response) {
 
         if (response.statusCode == 200) {
 
@@ -125,9 +122,9 @@ exports.app = function(access_token) {
         } else {
           callback(response.statusCode);
         }
-        }).on('error', null);
-
-        edit_link.end(); 
+        });
+        move_file.write('{ "destination":' +  dest_id + '}');
+        move_file.end(); 
     },  
 
     get_edit_link : function(file_path, callback) {

@@ -179,7 +179,13 @@ api.move_file = function(creds, fileId, folderId, callback) {
 				cb);
 			break;
 		case 'onedrive':
-			callback({success: false})
+			var cb = function(err, obj) {
+				callback(obj)
+			}
+			api_access_onedrive.move_stuff(creds.onedrive.access_token,
+				id,
+				folderId.split('|')[1],
+				cb);
 			break;
 		default:
 			callback({success: false});

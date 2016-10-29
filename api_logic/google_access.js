@@ -136,7 +136,6 @@ access.upload_google_file = function(auth, file, destFolder, res) {
       fs.unlink(file.destination + '/' + file.filename);
 
       if (err) {
-        console.log("well poop")
         console.log(err);
         res(null, { success: false });
       }
