@@ -9,7 +9,6 @@ var https = require('https');
 
 // Config
 var conf = require('../config.js');
-var conf_global = require('../config_global.js');
 
 // Models
 var User = require('../models/user');
@@ -25,8 +24,8 @@ const util = require('util');
 
 // Auth Google Strategy
 passport.use(new GoogleStrategy({
-        clientID: conf.CLIENT_ID,
-        clientSecret: conf.CLIENT_SECRET,
+        clientID: conf.GOOGLE_ID,
+        clientSecret: conf.GOOGLE_SECRET,
         callbackURL: conf.GOOGLE_CALLBACK
     },
     function(accessToken, refreshToken, params, profile, done) {
@@ -67,9 +66,9 @@ passport.deserializeUser(function(user, done) {
 
 // Auth OneDrive Strategy
 passport.use(new OneDriveStrategy({
-        clientID: conf_global.ONEDRIVE_CLIENT_ID,
-        clientSecret: conf_global.ONEDRIVE_CLIENT_SECRET,
-        callbackURL: conf_global.ONEDRIVE_CALLBACK
+        clientID: conf.ONEDRIVE_CLIENT_ID,
+        clientSecret: conf.ONEDRIVE_CLIENT_SECRET,
+        callbackURL: conf.ONEDRIVE_CALLBACK
       },
       function(accessToken, refreshToken, profile, done) {
         var userInfo = {
