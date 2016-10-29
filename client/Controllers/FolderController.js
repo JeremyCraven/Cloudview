@@ -136,7 +136,9 @@ define([
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
-                    locals: { refresh: refreshPage }
+                    onRemoving: function(element, removePromise) {
+                        refreshPage();
+                    }
                 })
             }
 
@@ -148,7 +150,9 @@ define([
                     targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true,
-                    locals: { refresh: refreshPage }
+                    onRemoving: function(element, removePromise) {
+                        refreshPage();
+                    }
                 })
             }
 

@@ -27,7 +27,7 @@ define([
             				$mdDialog.cancel();
             		},
             			function(result) {
-            				console.log(result.data)
+            				console.log(result.data);
             		})
             }
 
