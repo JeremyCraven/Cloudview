@@ -113,33 +113,40 @@ access.move_google_file = function(auth, fileId, folderId, res) {
 
 };
 
-access.upload_google_file = function(auth, file, res) {
-  var auth_obj = new googleAuth();
-  var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
-  oauth2Client.credentials = auth;
+access.upload_google_file = function(auth, file, destFolder, res) {
 
-  var drive = google.drive({ version: 'v3', auth: oauth2Client });
+  get_google_creds(auth, false, (oauth2Client) => {
 
-  drive.files.create({
-    resource: {
+    var metadata = {
       name: file.originalname,
       mimeType: file.mimetype
-    },
-    media: {
-      mimeType: file.mimetype,
-      body: fs.createReadStream('./tmp/uploads/' + file.filename)
     }
-  }, (err, response) => {
-    fs.unlink('./tmp/uploads/' + file.filename);
+    if (destFolder !== 'root') {
+      metadata.parents = [destFolder];
+    }
 
-    if (err) {
-      console.log(err);
-      res(null, { success: false });
-    }
-    else {
-      res(null, { success: true });
-    }
+    this.service.files.create({
+      auth: oauth2Client,
+      resource: metadata,
+      media: {
+        mimeType: file.mimetype,
+        body: fs.createReadStream(file.destination + '/' + file.filename)
+      }
+    }, (err, response) => {
+      fs.unlink(file.destination + '/' + file.filename);
+
+      if (err) {
+        console.log("well poop")
+        console.log(err);
+        res(null, { success: false });
+      }
+      else {
+        res(null, { success: true });
+      }
+    });
   });
+
+  
 
 };
 

@@ -17,7 +17,7 @@ define([
             $scope.uploader = new FileUploader({
             	url: 'api/v1/upload_file',
             	queueLimit: 1,
-            	formData:[{token: AccountServices.userAccount.cloudViewToken}]
+            	formData:[{token: AccountServices.userAccount.cloudViewToken, destination: FileServices.currentFolder.id}]
             });
 
             

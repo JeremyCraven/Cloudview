@@ -255,19 +255,36 @@ router.route('/users/verify_token').post((req, res) => {
 });
 
 router.route('/upload_file').post((req, res) => {
-    var file = req.body.file;
-    console.log(req.body);
 
-    getCredentials(req, (creds) => {
-        var callback = function(obj) {
-            console.log(file);
-            res.status(200).json({
-                message: "Working"
-            });
-        };
+    // TODO: fix this duplicate code
+    if (req.body.token) {
+        jwt.verify(req.body.token, conf.TOKEN_SECRET, (err, decoded) => {
+            if (err) {
+                res.status(403).json({
+                    message: 'Error: Invalid token'
+                });
+            }
+            else {
+                req.decoded = decoded;
+                getCredentials(req, (creds) => {
+                    var callback = function(obj) {
+                        res.status(200).json({
+                            message: "Working"
+                        });
+                    };
 
-        api_access.upload_file(creds, file, callback);
-    });
+                    api_access.upload_file(creds, req.file, req.body.destination, callback);
+                });
+            }
+        });
+    }
+    else {
+        res.status(403).json({
+            message: 'Error: Invalid token'
+        });
+    }
+
+    
 });
 
 // Protects routes
@@ -594,8 +611,6 @@ router.route('/get_files').post((req, res) => {
     getCredentials(req, (creds) => {
         var callback = function(obj, new_creds) {
             if (new_creds) {
-                console.log("hello world");
-                console.log(new_creds);
                 CloudAccount.findOne({_id: creds.google.id}, (err, account) => {
                     account.accessToken = new_creds.access_token;
                     account.refreshToken = new_creds.refresh_token;

@@ -220,9 +220,10 @@ api.delete_file = function(creds, fileId, callback) {
 	}
 }
 
-api.upload_file = function(creds, file, callback) {
-	var sp = fileId.split('|');
-	var id = sp[1];
+api.upload_file = function(creds, file, folder, callback) {
+	var sp = folder.split('|');
+	var id = 'root';
+	if (sp.length > 1) id = sp[1];
 	var service = sp[0];
 
 	switch (service) {
@@ -231,7 +232,7 @@ api.upload_file = function(creds, file, callback) {
 				callback(obj);
 			};
 
-			api_access_google.upload_google_file(creds.google, file, cb);
+			api_access_google.upload_google_file(creds.google, file, id, cb);
 			break;
 		case 'dropbox':
 			var cb = function(err, obj) {
