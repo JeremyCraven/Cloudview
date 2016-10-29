@@ -19,6 +19,12 @@ define([
             $scope.clipboard = {
                 files: ClipboardService.files,
                 paste: function(file) {
+                    for (var i = 0; i < ClipboardService.files.length; i++) {
+                        if (file.id === ClipboardService.files[i].id) {
+                            ClipboardService.files.splice(i, 1);
+                            break;
+                        }
+                    }
                     var data = {
                         fileId: file.id,
                         folderId: currentFolder.id,
