@@ -18,14 +18,6 @@
 					<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
 				</div>
 			</md-input-container>
-			<md-input-container>
-				<label>Account</label>
-				<md-select ng-model="account">
-					<md-option ng-repeat="ac in accounts" ng-value="ac.index">
-						{{ac.type}}
-					</md-option>
-				</md-select>
-			</md-input-container>
 		</md-dialog-content>
 		<md-dialog-content hide-xs hide-sm style="width: 600px; height: 400px;" layout="column" layout-align="center center">
 			<md-input-container>
@@ -34,14 +26,6 @@
 				<div ng-messages="newFolderForm.name.$error" role="alert">
 					<div ng-message="required">{{ "GENERAL.FORM.ERROR.REQUIRED_FIELD" | translate }}</div>
 				</div>
-			</md-input-container>
-			<md-input-container>
-				<label>Account</label>
-				<md-select ng-model="account">
-					<md-option ng-repeat="ac in accounts" ng-value="ac.index">
-						{{ac.type}}
-					</md-option>
-				</md-select>
 			</md-input-container>
 		</md-dialog-content>
 
