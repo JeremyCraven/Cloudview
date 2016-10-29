@@ -26,8 +26,10 @@ access.login_google = function(storeAuth) {
 }
 
 var get_google_creds = function(auth, refresh, callback) {
+  console.log(auth)
   var auth_obj = new googleAuth();
   var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
+  auth.expiry_date = auth.expiry
   oauth2Client.credentials = auth;
 
   // TODO: We only actually pass back the token in the get_google_files case. That means if we have an
@@ -38,8 +40,14 @@ var get_google_creds = function(auth, refresh, callback) {
       //console.log(auth);
       //console.log(err);
       //console.log(tokens);
-      oauth2Client.credentials = tokens;
-      callback(oauth2Client, tokens);
+      if (err) {
+        console.log(err)
+        callback(oauth2Client, null);
+      } else {
+        oauth2Client.credentials = tokens;
+        callback(oauth2Client, tokens);
+      }
+      
     });
   } else {
     callback(oauth2Client, null);
