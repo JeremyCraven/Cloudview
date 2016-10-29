@@ -98,7 +98,7 @@ exports.app = function(access_token) {
     upload: function(path, body, callback) {
       var options = {  
         host: onedrive_host,
-        path: onedrive_base_path + path.replace(/ /g, "") + "?access_token=" + access_token,
+        path: onedrive_base_path + path.replace(/ /g, "%20") + "?access_token=" + access_token,
         method: 'PUT',
         headers: {
           'Content-Type': ''
