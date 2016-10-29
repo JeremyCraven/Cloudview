@@ -119,15 +119,23 @@ access.get_link = function(access_token, file_path, res) {
   });
 }
 
-access.upload_file = function(access_token, file_path, file, res) {
+access.upload_file = function(access_token, file, dest, res) {
   var client = app.client(access_token);
   var options = {
     root: "dropbox"
   }
 
-  client.put(file_path, file, function(status, reply) {
-    res.send(reply);
-  });
+  var loc = file.originalname;
+  if (dest !== 'root') { loc = dest + '/' + loc; }
+
+  // TODO: make multipart instead of just sending the plain-text file
+  fs.readFile(file.destination + '/' + file.filename, (err, data) => {
+    client.put(loc, data, 
+    function(status, reply) {
+      res(null, {success: true});
+    });
+  })
+  
 }
 
 access.download_file = function(access_token, file_path, res) {

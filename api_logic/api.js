@@ -239,7 +239,7 @@ api.upload_file = function(creds, file, folder, callback) {
 				callback(obj);
 			};
 
-			api_access_dropbox.upload_dropbox_file(creds.google, file, cb);
+			api_access_dropbox.upload_file(creds.dropbox, file, id, cb);
 			break;
 		case 'onedrive':
 			var cb = function(err, obj) {
