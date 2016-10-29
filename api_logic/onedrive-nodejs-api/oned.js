@@ -105,9 +105,7 @@ exports.app = function(access_token) {
         }
         };
 
-        console.log(options);
         var move_file = https.request(options, function(response) {
-        console.log(response.statusCode);  
         if (response.statusCode == 200) {
 
           var body = '';
