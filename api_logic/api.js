@@ -2,6 +2,7 @@ var api_access_google = require('../api_logic/google_access');
 var api_access_dropbox = require('../api_logic/api_access_dropbox');
 var api_access_onedrive = require('../api_logic/api_access_onedrive');
 var Promise = require('es6-promise').Promise;
+var conf = require('../config.js');
 
 var api = new Object();
 
@@ -306,6 +307,10 @@ api.create_folder = function(creds, folderName, destination, callback) {
 	}
 }
 
-
+api.get_onedrive_token = function(client_id, client_secret, redirect_uri, refresh_token, callback) {
+	api_access_onedrive.get_new_token(client_id, client_secret, redirect_uri, refresh_token, function(status, access, refresh) {
+		callback(status, access, refresh);
+	});
+}
 
 module.exports = api;

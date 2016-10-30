@@ -55,8 +55,9 @@ exports.app = function(app_info){
 }*/
 
 'use strict';
-// var restler = require('restler');
 var https = require('https');
+var restler = require('restler')
+
 
 var encode = function(data){
   return encodeURIComponent(data || "").
@@ -221,6 +222,28 @@ exports.app = function(access_token) {
       }).on('error', null);
 
       download_link.end();
+    },
+
+    get_token: function(client_id, client_secret, redirect_uri, refresh_token, callback) {
+      var dataToSend =
+        'client_id=' + client_id +
+        '&redirect_uri=' + '' +
+        '&client_secret=' + client_secret +
+        '&refresh_token=' + refresh_token +
+        '&grant_type=refresh_token';
+
+    restler.post('https://login.live.com/oauth20_token.srf', {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'          
+        },
+        data: dataToSend
+    }).on('complete', function(data, response) {
+        if (response.statusCode == 200) {
+            callback(response.statusCode, data.access_token, data.refresh_token);
+        } else {
+            callback(response.statusCode);
+        }
+    });
     },
 
     delete : function(file_id, callback) {

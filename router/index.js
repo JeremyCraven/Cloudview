@@ -498,6 +498,8 @@ router.route('/users/auth_onedrive_callback').get(
                 newOneDriveAccount.accountId = userInfo.accountId;
                 newOneDriveAccount.accessToken = userInfo.accessToken;
                 newOneDriveAccount.refreshToken = userInfo.refreshToken;
+                // The actual expiry is 3600, but let us keep a safe measure.
+                newOneDriveAccount.expiry = Math.floor( Date.now() / 1000 ) + 3500;
 
                 newOneDriveAccount.save(function(err) {
                     if (err) {
@@ -538,6 +540,7 @@ getCredentials = function(req, callback) {
                 callback(null);
             }
             else {
+
                 // TODO: merge the two/three loops into one loop **************************
                 var credentials = {};
                 if (user && 'google_accounts' in user && user.google_accounts.length > 0) {
@@ -562,15 +565,37 @@ getCredentials = function(req, callback) {
 
                 if (user && 'onedrive_accounts' in user && user.onedrive_accounts.length > 0) {
                     credentials.onedrive = {};
-                    for (account of user.onedrive_accounts) {
-                        // TODO: make it so it doesn't only get the last one
-                        credentials.onedrive.access_token = account.accessToken;
-                        credentials.onedrive.refresh_token = account.refreshToken;
-                    }
+                    account = user.onedrive_accounts[user.onedrive_accounts.length - 1];
+                        if(Math.floor( Date.now() / 1000 ) >= account.expiry) {
+                            api_access.get_onedrive_token(
+                                conf.ONEDRIVE_CLIENT_ID, 
+                                conf.ONEDRIVE_CLIENT_SECRET, 
+                                conf.ONEDRIVE_CALLBACK, 
+                                account.refreshToken, 
+                                function(status, access, refresh) {
+                                    credentials.onedrive.access_token = access;
+                                    credentials.onedrive.refresh_token = refresh;
+                                    account.accessToken = access;
+                                    account.refreshToken = refresh;
+                                    account.expiry = (Math.floor( Date.now() / 1000 )) + 3500;
+                                    account.save(null);
+                                    credentials.cloudview = req.token;
+                                    callback(credentials);
+                            });
+
+                        } else {
+                            // TODO: make it so it doesn't only get the last one
+                            credentials.onedrive.access_token = account.accessToken;
+                            credentials.onedrive.refresh_token = account.refreshToken;
+                            credentials.cloudview = req.token;
+                            callback(credentials);
+                        }
+                } else {
+                    credentials.cloudview = req.token;
+                    callback(credentials);
                 }
                 
-                credentials.cloudview = req.token;
-                callback(credentials);
+
             }
     });
 }

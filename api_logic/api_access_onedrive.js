@@ -124,6 +124,16 @@ access.list_files = function(access_token, callback, folder_id) {
   }
 }
 
+access.get_new_token = function(client_id, client_secret, redirect_uri, refresh_token, callback) {
+  var app = oned.app(null); 
+  app.get_token(client_id, client_secret, redirect_uri, refresh_token, function(status, access, refresh){
+      if(status == 200)
+        callback(status, access, refresh);
+      else
+        callback(get_error(status));
+  });
+}
+
 access.search = function(access_token, search_term, res) {
   var app = oned.app(access_token); 
 
