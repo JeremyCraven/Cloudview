@@ -17,7 +17,7 @@ define([
 			var scope = $scope;
             var currentFolder = '';
             $scope.clipboard = {
-                files: ClipboardService.files,
+                files: [],
                 paste: function(file) {
                     for (var i = 0; i < ClipboardService.files.length; i++) {
                         if (file.id === ClipboardService.files[i].id) {
@@ -50,6 +50,7 @@ define([
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(file);
+                    $scope.clipboard.files = angular.copy(ClipboardService.files);
             }
             $scope.ui.folder.copy_folder = function(folder) {
                     console.log('move folder');
@@ -59,6 +60,7 @@ define([
                         token: AccountServices.userAccount.cloudViewToken
                     }
                     ClipboardService.copy(folder);
+                    $scope.clipboard.files = angular.copy(ClipboardService.files);
             }
             $scope.ui.folder.delete_file = function(file) {
                     console.log('delete file');
@@ -93,6 +95,11 @@ define([
             }
 
             $scope.ui.folder.go = function(folder) {
+                if (folder.id === 'Root') {
+                    console.log(folder.id);
+                    ClipboardService.clear();
+                    $scope.clipboard.files = angular.copy(ClipboardService.files);
+                }
                 if (folder.id === currentFolder.id) {
                     return;
                 }
@@ -195,8 +202,6 @@ define([
                             }
                         }
                     );
-
-
             }
 
             activate();

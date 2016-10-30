@@ -19,6 +19,11 @@ define([
 				fileFolderObject.name = object.name;
 				fileFolderObject.id = object.id; 
 				service.files.push(fileFolderObject);
+				console.log(service.files);
+			}
+
+			service.clear = function() {
+				service.files = [];
 			}
 
 			return service;

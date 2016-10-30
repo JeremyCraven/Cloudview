@@ -59,7 +59,7 @@ define([
 				service.userAccount.name = data.name;
 				service.userAccount.email = data.email;
 				service.userAccount.accounts = [];
-				if (angular.isDefined(data.google_accounts)) {
+				if (data.google_accounts != '') {
 					if (!search_accounts('Google Drive'))
 						var gAccount = {
 							type: 'Google Drive',
@@ -67,7 +67,7 @@ define([
 						}
 						service.userAccount.accounts.push(gAccount);
 				}
-				if (angular.isDefined(data.dropbox_accounts)) {
+				if (data.dropbox_accounts != '') {
 					if (!search_accounts('Dropbox'))
 						var dAccount = {
 							type: 'Dropbox',
@@ -75,7 +75,7 @@ define([
 						}
 						service.userAccount.accounts.push(dAccount);
 				}
-				if (angular.isDefined(data.onedrive_accounts)) {
+				if (data.onedrive_accounts != '') {
 					if (!search_accounts('One Drive'))
 						var oAccount = {
 							type: 'One Drive',
