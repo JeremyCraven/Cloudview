@@ -23,7 +23,7 @@ define([
 			}
 
 			service.clear = function() {
-				service.files = [];
+				service.files.splice(0);
 			}
 
 			return service;
