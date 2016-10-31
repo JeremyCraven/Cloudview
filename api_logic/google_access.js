@@ -26,7 +26,6 @@ access.login_google = function(storeAuth) {
 }
 
 var get_google_creds = function(auth, refresh, callback) {
-  console.log(auth)
   var auth_obj = new googleAuth();
   var oauth2Client = new auth_obj.OAuth2(conf.CLIENT_ID, conf.CLIENT_SECRET, conf.GOOGLE_AUTH_REDIRECT_URL);
   auth.expiry_date = auth.expiry

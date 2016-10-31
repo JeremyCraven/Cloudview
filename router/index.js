@@ -34,7 +34,7 @@ passport.use(new GoogleStrategy({
             accountId: 'google-' + profile.id,
             accessToken: accessToken,
             refreshToken: refreshToken,
-            expiry: params.expires_in + new Date().getTime()
+            expiry: params.expires_in*1000 + new Date().getTime()
         };
         return done(null, userInfo);
     }
