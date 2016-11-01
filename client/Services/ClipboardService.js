@@ -7,6 +7,18 @@ define([
 
 			service.files = [];
 
+			var search = function(key) {
+				var result = false;
+				service.files.forEach(function(file) {
+					console.log(file.id);
+					if (key == file.id) {
+						result = true;
+					}
+				})
+				console.log('return false');
+				return result;
+			}
+
 			service.copy = function(object) {
 				console.log(object);
 				var fileFolderObject = {};
@@ -18,8 +30,9 @@ define([
 				}
 				fileFolderObject.name = object.name;
 				fileFolderObject.id = object.id; 
-				service.files.push(fileFolderObject);
-				console.log(service.files);
+				if (!search(fileFolderObject.id)) {
+					service.files.push(fileFolderObject);
+				}
 			}
 
 			service.clear = function() {

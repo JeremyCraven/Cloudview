@@ -94,7 +94,6 @@ define([
 
             $scope.ui.folder.go = function(folder) {
                 if (folder.id === 'Root') {
-                    console.log(folder.id);
                     ClipboardService.clear();
                 }
                 if (folder.id === currentFolder.id) {
@@ -171,7 +170,6 @@ define([
                     folderId: path,
                     token: AccountServices.userAccount.cloudViewToken
                 }
-                console.log(data);
                 FileServices.getFiles(data)
                     .then(
                         function(result) {
